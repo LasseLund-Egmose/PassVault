@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/passwordView"
-        android:layout_width="247dp"
+        android:layout_width="340dp"
         android:layout_height="30dp"
         android:layout_marginTop="80dp"
         android:text="#TM%49!84_PM"
@@ -22,12 +22,12 @@
 
     <Button
         android:id="@+id/copyToClipboard"
-        android:layout_width="140dp"
+        android:layout_width="120dp"
         android:layout_height="45dp"
         android:layout_marginTop="8dp"
         android:text="Copy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.18"
+        app:layout_constraintHorizontal_bias="0.192"
         app:layout_constraintStart_toEndOf="@+id/generate"
         app:layout_constraintTop_toBottomOf="@+id/passwordView" />
 
@@ -35,7 +35,7 @@
         android:id="@+id/generate"
         android:layout_width="120dp"
         android:layout_height="45dp"
-        android:layout_marginStart="68dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="8dp"
         android:text="Generate"
         app:layout_constraintStart_toStartOf="parent"
