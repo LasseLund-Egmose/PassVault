@@ -10,4 +10,8 @@
 
 
     <string name="signInBtnString">Sign In</string>
+
+    <string name="generate_password">Generate Password</string>
+    <string name="edit_logo">Edit Logo</string>
+    <string name="create_profile">Create</string>
 </resources>

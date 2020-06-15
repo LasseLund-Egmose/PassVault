@@ -1,59 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="#FFFFFF">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="127dp"
-        android:layout_height="0dp"
-        android:text="@string/add_input_url"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="188dp" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:foregroundTint="#433B3B"
+    tools:layout_editor_absoluteX="-17dp"
+    tools:layout_editor_absoluteY="29dp">
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
-        android:layout_width="215dp"
-        android:layout_height="24dp"
+        android:id="@+id/editView3"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="30dp"
+        android:ems="10"
+        android:hint="@string/add_input_password"
+        android:inputType="textPassword"
+        android:textColorHint="@color/colorDTU"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editView" />
+
+    <EditText
+        android:id="@+id/editView2"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="30dp"
         android:ems="10"
         android:hint="@string/add_input_url"
-        android:text="Name"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="207dp" />
+        android:textColorHint="@color/colorDTU"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editView1" />
 
-    <TextView
-        android:id="@+id/textView3"
+    <EditText
+        android:id="@+id/editView"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="30dp"
+        android:ems="10"
+        android:hint="@string/add_input_username"
+        android:textColorHint="@color/colorDTU"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editView2" />
+
+    <EditText
+        android:id="@+id/editView1"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_margin="30sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:ems="10"
+        android:hint="@string/add_input_title"
+        android:textColorHint="@color/colorDTU"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+    <Button
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_head"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="98dp" />
+        android:backgroundTint="#FFFFFF"
+        android:text="@string/generate_password"
+        android:textColor="@color/colorDTU"
+        app:layout_constraintEnd_toEndOf="@+id/editView3"
+        app:layout_constraintTop_toBottomOf="@+id/editView3" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_input_password"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="374dp" />
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="107dp"
+        android:layout_height="93dp"
+        android:layout_marginTop="34dp"
+        android:background="@drawable/interrogation_point"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_input_username"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="419dp" />
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="107dp"
+        android:layout_height="33dp"
+        android:backgroundTint="#FFFFFF"
+        android:text="@string/edit_logo"
+        android:textAllCaps="false"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_input_title"
-        tools:layout_editor_absoluteX="21dp"
-        tools:layout_editor_absoluteY="454dp" />
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="53dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/back_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="136dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:backgroundTint="#EDA3A3"
+        android:text="@string/create_profile"
+        android:textAllCaps="true"
+        android:textColor="@color/colorDTU"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="71dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_lock" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

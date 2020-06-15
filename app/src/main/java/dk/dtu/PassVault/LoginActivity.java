@@ -16,15 +16,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_add);
 
-        Button signInButton = findViewById(R.id.signInButton);
-        signInButton.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(LoginActivity.this,MenuActivty.class);
-                startActivity(intent);
-            }
-        });
+       // Button signInButton = findViewById(R.id.signInButton);
+        //signInButton.setOnClickListener(new OnClickListener(){
+          //  @Override
+            //public void onClick(View v){
+                //Intent intent = new Intent(LoginActivity.this,MenuActivty.class);
+                //startActivity(intent);
+         //   }
+        //});
     }
 }
