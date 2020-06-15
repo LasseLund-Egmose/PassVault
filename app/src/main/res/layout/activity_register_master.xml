@@ -31,7 +31,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/unknown" />
+        app:srcCompat="@drawable/logo_passvault" />
 
     <EditText
         android:id="@+id/reg_master_username_editText"
@@ -75,10 +75,10 @@
     </EditText>
 
     <TextView
-        android:id="@+id/password_strength"
+        android:id="@+id/password_strength_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password Strength:"
+        android:text="@string/password_strength_indicator"
         android:textColor="@color/white"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
@@ -88,7 +88,7 @@
         ></TextView>
 
     <ProgressBar
-        android:id="@+id/progressbar"
+        android:id="@+id/strength_progressbar"
         style="@android:style/Widget.Holo.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="10dp"
@@ -98,13 +98,13 @@
         android:layout_marginRight="10dp"
         app:layout_constraintLeft_toLeftOf="@id/guideline_left"
         app:layout_constraintRight_toRightOf="@id/guideline_right"
-        app:layout_constraintTop_toBottomOf="@id/password_strength"
+        app:layout_constraintTop_toBottomOf="@id/password_strength_textView"
         />
 
  <LinearLayout
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
-     app:layout_constraintTop_toBottomOf="@id/progressbar"
+     app:layout_constraintTop_toBottomOf="@id/strength_progressbar"
      app:layout_constraintLeft_toLeftOf="@id/guideline_left"
      app:layout_constraintRight_toRightOf="@id/guideline_right"
      >
