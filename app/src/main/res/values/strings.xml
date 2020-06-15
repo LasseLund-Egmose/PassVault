@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PassVault</string>
+    <string name="signInBtnString">Sign In</string>
 </resources>
