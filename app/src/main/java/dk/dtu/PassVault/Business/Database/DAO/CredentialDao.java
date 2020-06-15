@@ -6,7 +6,7 @@ import dk.dtu.PassVault.Business.Database.Entities.Credential;
 
 @Dao
 public interface CredentialDao {
-    @Query("SELECT * FROM credential WHERE uid = 1")
+    @Query("SELECT * FROM credential WHERE id = 1")
     Credential get();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

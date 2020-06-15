@@ -6,7 +6,7 @@ import androidx.room.*;
 public class Credential {
 
     @PrimaryKey
-    public int uid = 1;
+    public int id = 1;
 
     // TODO: Encrypt below
     @ColumnInfo(name = "master_password")
@@ -18,13 +18,5 @@ public class Credential {
 
     public boolean match(String input) {
         return input.equals(this.masterPassword);
-    }
-
-    @Override
-    public String toString() {
-        return "Credential{" +
-                "uid=" + uid +
-                ", masterPassword='" + masterPassword + '\'' +
-                '}';
     }
 }
