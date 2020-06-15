@@ -6,7 +6,9 @@
     <string name="add_input_url">URL (optional) :</string>
     <string name="add_input_username">Username :</string>
     <string name="add_input_password">Password :</string>
-
-
-    <string name="signInBtnString">Sign In</string>
+    <string name="add_input_master_password">Master Password:</string>
+    <string name="add_input_master_password_again">Master Password again:</string>
+    <string name="reset_input">Reset input</string>
+    <string name="save_registration">Save</string>
+    <string name="password_length_indicator">12</string>
 </resources>

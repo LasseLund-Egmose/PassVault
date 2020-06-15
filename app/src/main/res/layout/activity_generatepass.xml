@@ -9,9 +9,10 @@
 
     <TextView
         android:id="@+id/passwordView"
-        android:layout_width="340dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:layout_marginTop="0dp"
+        android:gravity="center"
         android:text="#TM%49!84_PM"
         android:textColor="#000"
         android:textSize="24sp"
@@ -19,6 +20,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <Button
         android:id="@+id/copyToClipboard"
@@ -42,14 +45,30 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordView" />
 
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/length_seekBar"
         android:layout_width="157dp"
         android:layout_height="24dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="32dp"
-        android:progress="20"
+        android:progress="12"
         app:layout_constraintStart_toEndOf="@+id/passLengthText"
         app:layout_constraintTop_toBottomOf="@+id/generate" />
+
+    <TextView
+        android:id="@+id/length_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:textFontWeight="2000"
+        android:text="@string/password_length_indicator"
+        android:textColor="@color/colorAccent"
+
+
+        app:layout_constraintLeft_toRightOf="@id/length_seekBar"
+        app:layout_constraintTop_toBottomOf="@id/generate"
+        ></TextView>
 
     <TextView
         android:id="@+id/passLengthText"
