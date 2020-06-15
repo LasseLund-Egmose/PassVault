@@ -1,0 +1,197 @@
+package dk.dtu.PassVault;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+public class PasswordGenerator {
+    /*
+     * Ascii values for lower case letters a-z is 97-122
+     * Ascii values for upper case letters a-z is 65-90
+     * Ascii values for numbers 0-9 is 48-57
+     * Ascii values for specialChars ! " # $ % & ' ( ) * + , - . / is 33-47
+     * */
+
+    private final int LOWER_CASE_ASCII_LOW = 97;
+    private final int LOWER_CASE_ASCII_HIGH = 122;
+    private final int UPPER_CASE_ASCII_LOW = 65;
+    private final int UPPER_CASE_ASCII_HIGH = 90;
+    private final int NUMBERS_ASCII_LOW = 48;
+    private final int NUMBERS_ASCII_HIGH = 57;
+    private final int SPECIAL_ASCII_LOW = 33;
+    private final int SPECIAL_ASCII_HIGH = 47;
+
+    private final int PASSWORD_LENGTH_MIN = 8;
+    private final int PASSWORD_LENGTH_MAX = 100;
+
+    private final String WEAK_PASSWORD = "Password is weak";
+    private final String STRONG_PASSWORD = "Password is strong";
+    private final String VERY_STRONG_PASSWORD = "Password is very strong";
+
+    private String passwordQuality = "";
+
+    private int length = 10;
+
+    private boolean lowerCaseLetters = true;
+    private boolean upperCaseLetters = true;
+    private boolean numbers = true;
+    private boolean specialChars = true;
+
+    private String password = "";
+
+
+    public PasswordGenerator() {
+        setPasswordQuality();
+    }
+
+    // Generates a new password based on input
+    public void generateNewPassword() {
+        if (!canGenerate()) {
+            throw new IllegalArgumentException("The password must consist of at least one type of character");
+        } else {
+            String password = "";
+            for (int i = 0; i < this.length; i++) {
+                password += chooseRandom();
+            }
+            this.password = password;
+        }
+    }
+
+    // Choose random from list
+    private char chooseRandom() {
+        ArrayList<Character> chars = makeRandomCharList();
+        Random r = new Random();
+        int result = r.nextInt(chars.size());
+        return chars.get(result);
+    }
+
+    // Makes a random list of chars, based on input
+    private ArrayList makeRandomCharList() {
+
+        ArrayList chars = new ArrayList();
+
+        if (lowerCaseLetters == true) {
+            chars.add(getRandomBetweenTwoNum(LOWER_CASE_ASCII_LOW, LOWER_CASE_ASCII_HIGH));
+        }
+        if (upperCaseLetters == true) {
+            chars.add(getRandomBetweenTwoNum(UPPER_CASE_ASCII_LOW, UPPER_CASE_ASCII_HIGH));
+        }
+        if (numbers == true) {
+            chars.add(getRandomBetweenTwoNum(NUMBERS_ASCII_LOW, NUMBERS_ASCII_HIGH));
+        }
+        if (specialChars == true) {
+            chars.add(getRandomBetweenTwoNum(SPECIAL_ASCII_LOW, SPECIAL_ASCII_HIGH));
+        }
+        return chars;
+    }
+
+    // Generate a random Ascii value between to values.
+    private char getRandomBetweenTwoNum(int low, int high) {
+        Random r = new Random();
+        int result = r.nextInt(high - low) + low;
+        return (char) result;
+    }
+
+    // Check that at least one type of char is true
+    private boolean canGenerate() {
+        if (lowerCaseLetters == false && upperCaseLetters == false && numbers == false && specialChars == false) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean passwordIsValid() {
+
+        boolean hasLower = false, hasUpper = false, hasNumber = false, hasSpecial = false;
+
+        for (int i = 0; i < this.password.length(); i++) {
+            if (!hasLower && LOWER_CASE_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= LOWER_CASE_ASCII_HIGH) {
+                hasLower = true;
+            }
+            if (!hasUpper && UPPER_CASE_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= UPPER_CASE_ASCII_HIGH
+            ) {
+                hasUpper = true;
+            }
+            if (!hasNumber && NUMBERS_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= NUMBERS_ASCII_HIGH) {
+                hasNumber = true;
+            }
+            if (!hasSpecial && SPECIAL_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= SPECIAL_ASCII_HIGH) {
+                hasSpecial = true;
+            }
+        }
+
+        if (hasLower == lowerCaseLetters && hasUpper == upperCaseLetters && hasNumber == numbers && hasSpecial == specialChars) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // Getters and setters
+    public String getNewPassword() {
+        System.out.println("1");
+        generateNewPassword();
+        if (passwordIsValid()) {
+            return this.password;
+        }
+        return getNewPassword();
+    }
+
+    public void setLength(int length) throws IllegalArgumentException {
+        if (PASSWORD_LENGTH_MIN <= length && length <= PASSWORD_LENGTH_MAX) {
+            this.length = length;
+        } else {
+            throw new IllegalArgumentException("Length must be between " +
+                    PASSWORD_LENGTH_MIN + " and " + PASSWORD_LENGTH_MAX + " character");
+        }
+    }
+
+    public void setLowerCaseLetters(boolean lowerCaseLetters) {
+        this.lowerCaseLetters = lowerCaseLetters;
+    }
+
+    public void setUpperCaseLetters(boolean upperCaseLetters) {
+        this.upperCaseLetters = upperCaseLetters;
+    }
+
+    public void setNumbers(boolean numbers) {
+        this.numbers = numbers;
+    }
+
+    public void setSpecialChars(boolean specialChars) {
+        this.specialChars = specialChars;
+    }
+
+    private void setPasswordQuality() {
+        int numOfDifferentChars = getNumofDifferentChars();
+
+        // Very strong password if length is greater than 15 and all types are selected
+        if (numOfDifferentChars >= 4 && this.length >= 15) {
+            passwordQuality = VERY_STRONG_PASSWORD;
+        } else if (numOfDifferentChars >= 3 && this.length >= 12) { // Strong password if length is greater 12 and a least 3 types are selected
+            passwordQuality = STRONG_PASSWORD;
+        } else { // Weak password if length is
+            passwordQuality = WEAK_PASSWORD;
+        }
+    }
+
+    public String getPasswordQuality(){
+        return passwordQuality;
+    }
+
+    private int getNumofDifferentChars() {
+        int i = 0;
+        if (lowerCaseLetters == true) {
+            i++;
+        }
+        if (upperCaseLetters == true) {
+            i++;
+        }
+        if (numbers == true) {
+            i++;
+        }
+        if (specialChars == true) {
+            i++;
+        }
+        return i;
+    }
+}
