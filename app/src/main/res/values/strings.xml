@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PassVault</string>
 
+
     <string name="add_head">Please provide the required data :</string>
     <string name="add_input_title">Title :</string>
     <string name="add_input_url">URL (optional) :</string>
@@ -8,4 +9,5 @@
     <string name="add_input_password">Password :</string>
 
 
+    <string name="signInBtnString">Sign In</string>
 </resources>
