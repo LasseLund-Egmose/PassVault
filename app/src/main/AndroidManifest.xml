@@ -17,9 +17,11 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".EditOrCreateProfileActivity">
+        </activity>
 
+        <activity android:name=".WalletActivity"></activity>
 
-        <activity android:name=".MenuActivty">
 
         <activity android:name=".RegisterMasterActivty">
             <intent-filter>

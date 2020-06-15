@@ -31,7 +31,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/unknown" />
+        app:srcCompat="@drawable/logo_passvault" />
 
     <EditText
         android:id="@+id/reg_master_username_editText"
