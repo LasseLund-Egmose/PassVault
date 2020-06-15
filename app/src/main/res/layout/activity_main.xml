@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#940000"
+    android:background="@color/colorDTU"
     tools:context=".MainActivity">
 
 
@@ -15,8 +15,8 @@
         android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="Username"
-        android:textColorHint="#FFF"
         android:textColor="#FFF"
+        android:textColorHint="#FFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
