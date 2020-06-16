@@ -2,8 +2,12 @@ package dk.dtu.PassVault;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.autofill.AutofillManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -55,6 +59,15 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
+
+        if(
+            android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            getApplicationContext().getSystemService(AutofillManager.class).isAutofillSupported()
+        ) {
+            Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
+            intent.setData(Uri.parse("package:dk.dtu.PassVault"));
+            startActivity(intent);
+        }
 
         Button signInButton = findViewById(R.id.signInButton);
         Button registerButton = findViewById(R.id.registerButton);
