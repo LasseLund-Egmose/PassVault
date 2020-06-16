@@ -8,6 +8,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 public class WalletActivity extends AppCompatActivity {
@@ -21,7 +23,7 @@ public class WalletActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
 
-        Button addButton = findViewById(R.id.button11);
+        FloatingActionButton addButton = findViewById(R.id.fabAdd);
         addButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
