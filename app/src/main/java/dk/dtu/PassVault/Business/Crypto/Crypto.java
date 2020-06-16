@@ -124,6 +124,10 @@ public class Crypto {
     protected Key key = null;
     protected MessageDigest SHA256Digester = null;
 
+    public boolean hasKey() {
+        return this.key != null;
+    }
+
     public boolean init(boolean allowNoKey) {
         if(this.keyGenInstance == null) {
             try {
@@ -170,11 +174,6 @@ public class Crypto {
         return true;
     }
 
-    public String getKey() {
-        return Arrays.toString(this.key.getEncoded());
-    }
-
-    // TODO: Cache
     public void setKey(String masterPassword) {
         byte[] bytes = new byte[32];
         byte[] pwBytes = masterPassword.getBytes();
