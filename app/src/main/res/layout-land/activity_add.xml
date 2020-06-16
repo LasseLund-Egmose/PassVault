@@ -66,7 +66,7 @@
         android:text="@string/add_input_username"
         android:textColor="@color/colorDTU"
         android:textSize="18dp"
-        app:layout_constraintStart_toEndOf="@+id/button6"
+        app:layout_constraintStart_toEndOf="@+id/button2"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <TextView
@@ -80,7 +80,7 @@
         android:text="@string/add_input_url"
         android:textColor="@color/colorDTU"
         android:textSize="18dp"
-        app:layout_constraintStart_toEndOf="@+id/button6"
+        app:layout_constraintStart_toEndOf="@+id/button2"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <EditText
@@ -106,7 +106,7 @@
         android:text="@string/add_input_password"
         android:textColor="@color/colorDTU"
         android:textSize="18dp"
-        app:layout_constraintStart_toEndOf="@+id/button7"
+        app:layout_constraintStart_toEndOf="@+id/button3"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
@@ -119,7 +119,7 @@
         android:text="@string/add_input_title"
         android:textColor="@color/colorDTU"
         android:textSize="18dp"
-        app:layout_constraintStart_toEndOf="@+id/button6"
+        app:layout_constraintStart_toEndOf="@+id/button2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -137,7 +137,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editView6" />
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/button5"
         android:layout_width="136dp"
         android:layout_height="47dp"
         android:layout_marginEnd="24dp"
@@ -159,18 +159,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/button6"
+    <ImageButton
+        android:id="@+id/button2"
         android:layout_width="107dp"
         android:layout_height="93dp"
         android:layout_marginStart="75dp"
         android:layout_marginTop="75dp"
-        android:background="@drawable/interrogation_point"
+        android:src="@drawable/interrogation_point"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/button3"
         android:layout_width="107dp"
         android:layout_height="33dp"
         android:layout_marginStart="75dp"
@@ -180,7 +180,7 @@
         android:textColor="#000000"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
