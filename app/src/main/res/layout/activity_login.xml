@@ -13,15 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="100"
+        android:weightSum="70"
         android:layout_margin="30dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:orientation="vertical"
-            android:layout_weight="20"
-            android:layout_gravity="center">
+            android:layout_weight="15"
+            android:layout_gravity="center"
+            >
 
             <ImageView
                 android:layout_width="match_parent"
@@ -36,7 +37,8 @@
             android:background="@drawable/rectangle"
             android:orientation="vertical"
             android:layout_weight="15"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:id="@+id/username"
@@ -65,6 +67,7 @@
                 android:textColor="#FFF"
                 android:textColorHint="#FFF"
                 android:textSize="30sp"
+                android:inputType="textPassword"
                 ></EditText>
         </LinearLayout>
 
@@ -73,7 +76,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_weight="3"
             android:gravity="center"
             >
             <Button

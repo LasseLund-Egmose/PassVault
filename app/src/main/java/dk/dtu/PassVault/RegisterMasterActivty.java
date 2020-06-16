@@ -22,6 +22,7 @@ public class RegisterMasterActivty extends BaseActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            Log.i(TAG,"RegisterMaster created");
             setContentView(R.layout.activity_register_master);
             getSupportActionBar().hide();
 
