@@ -29,8 +29,6 @@ public class LoginActivity extends BaseActivity {
         signInButton.setOnClickListener(v -> {
             EditText password = (EditText) findViewById(R.id.password);
 
-        setContentView(R.layout.activity_login);
-        getSupportActionBar().hide();
             this.getCrypto().checkMasterPassword(
                 getApplicationContext(),
                 password.getText().toString(),

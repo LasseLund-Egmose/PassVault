@@ -18,9 +18,6 @@ public class EditOrCreateProfileActivity extends BaseActivity {
     private EditText mEditText, mEditText1, mEditText2, mEditText3;
     public static int RESULT_LOAD_IMAGE = 1;
 
-    private EditText mEditText, mEditText1, mEditText2, mEditText3;
-    public static int RESULT_LOAD_IMAGE = 1;
-
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
