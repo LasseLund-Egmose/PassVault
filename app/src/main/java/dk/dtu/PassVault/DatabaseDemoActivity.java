@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.Credential;
 
-public class DatabaseDemoActivity extends AppCompatActivity {
+public class DatabaseDemoActivity extends BaseActivity {
 
     protected static class CredentialTransaction extends Database.Transaction<Credential> {
 
