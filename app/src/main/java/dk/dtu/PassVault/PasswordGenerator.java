@@ -44,7 +44,7 @@ public class PasswordGenerator {
     }
 
     // Generates a new password based on input
-    public void generateNewPassword() {
+    public String generateNewPassword() {
         if (!canGenerate()) {
             throw new IllegalArgumentException("The password must consist of at least one type of character");
         } else {
@@ -54,6 +54,7 @@ public class PasswordGenerator {
             }
             this.password = password;
         }
+        return password;
     }
 
     // Choose random from list
@@ -92,7 +93,7 @@ public class PasswordGenerator {
     }
 
     // Check that at least one type of char is true
-    private boolean canGenerate() {
+    public boolean canGenerate() {
         if (lowerCaseLetters == false && upperCaseLetters == false && numbers == false && specialChars == false) {
             return false;
         }
