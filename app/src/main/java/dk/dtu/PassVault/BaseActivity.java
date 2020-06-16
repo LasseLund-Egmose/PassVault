@@ -1,5 +1,6 @@
 package dk.dtu.PassVault;
 
+import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +21,23 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if(!this.getCrypto().init(this.allowNoKey())) {
+        Crypto crypto = this.getCrypto();
+        boolean allowNoKey = this.allowNoKey();
+
+        if(!allowNoKey && !crypto.hasKey()) {
+            Toast.makeText(
+                    getApplicationContext(),
+                    R.string.needs_relogin,
+                    Toast.LENGTH_LONG
+            ).show();
+
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+
+            finishAndRemoveTask();
+        }
+
+        if(!crypto.init(allowNoKey)) {
             Toast.makeText(
                     getApplicationContext(),
                     R.string.cipher_setup_error,
