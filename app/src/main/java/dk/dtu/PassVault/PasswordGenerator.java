@@ -44,15 +44,15 @@ public class PasswordGenerator {
     }
 
     // Generates a new password based on input
-    public String generateNewPassword() {
+    private String generateNewPassword() {
         if (!canGenerate()) {
             throw new IllegalArgumentException("The password must consist of at least one type of character");
         } else {
-            String password = "";
+            StringBuilder password = new StringBuilder();
             for (int i = 0; i < this.length; i++) {
-                password += chooseRandom();
+                password.append(chooseRandom());
             }
-            this.password = password;
+            this.password = password.toString();
         }
         return password;
     }
@@ -66,20 +66,20 @@ public class PasswordGenerator {
     }
 
     // Makes a random list of chars, based on input
-    private ArrayList makeRandomCharList() {
+    private ArrayList<Character> makeRandomCharList() {
 
-        ArrayList chars = new ArrayList();
+        ArrayList<Character> chars = new ArrayList<>();
 
-        if (lowerCaseLetters == true) {
+        if (lowerCaseLetters) {
             chars.add(getRandomBetweenTwoNum(LOWER_CASE_ASCII_LOW, LOWER_CASE_ASCII_HIGH));
         }
-        if (upperCaseLetters == true) {
+        if (upperCaseLetters) {
             chars.add(getRandomBetweenTwoNum(UPPER_CASE_ASCII_LOW, UPPER_CASE_ASCII_HIGH));
         }
-        if (numbers == true) {
+        if (numbers) {
             chars.add(getRandomBetweenTwoNum(NUMBERS_ASCII_LOW, NUMBERS_ASCII_HIGH));
         }
-        if (specialChars == true) {
+        if (specialChars) {
             chars.add(getRandomBetweenTwoNum(SPECIAL_ASCII_LOW, SPECIAL_ASCII_HIGH));
         }
         return chars;
@@ -94,10 +94,7 @@ public class PasswordGenerator {
 
     // Check that at least one type of char is true
     public boolean canGenerate() {
-        if (lowerCaseLetters == false && upperCaseLetters == false && numbers == false && specialChars == false) {
-            return false;
-        }
-        return true;
+        return lowerCaseLetters || upperCaseLetters || numbers || specialChars;
     }
 
     private boolean passwordIsValid() {
@@ -120,16 +117,11 @@ public class PasswordGenerator {
             }
         }
 
-        if (hasLower == lowerCaseLetters && hasUpper == upperCaseLetters && hasNumber == numbers && hasSpecial == specialChars) {
-            return true;
-        }
-
-        return false;
+        return hasLower == lowerCaseLetters && hasUpper == upperCaseLetters && hasNumber == numbers && hasSpecial == specialChars;
     }
 
     // Getters and setters
     public String getNewPassword() {
-        System.out.println("1");
         generateNewPassword();
         if (passwordIsValid()) {
             return this.password;
@@ -148,22 +140,26 @@ public class PasswordGenerator {
 
     public void setLowerCaseLetters(boolean lowerCaseLetters) {
         this.lowerCaseLetters = lowerCaseLetters;
+        setPasswordQuality();
     }
 
     public void setUpperCaseLetters(boolean upperCaseLetters) {
         this.upperCaseLetters = upperCaseLetters;
+        setPasswordQuality();
     }
 
     public void setNumbers(boolean numbers) {
         this.numbers = numbers;
+        setPasswordQuality();
     }
 
     public void setSpecialChars(boolean specialChars) {
         this.specialChars = specialChars;
+        setPasswordQuality();
     }
 
     private void setPasswordQuality() {
-        int numOfDifferentChars = getNumofDifferentChars();
+        int numOfDifferentChars = getNumOfDifferentChars();
 
         // Very strong password if length is greater than 15 and all types are selected
         if (numOfDifferentChars >= 4 && this.length >= 15) {
@@ -179,18 +175,18 @@ public class PasswordGenerator {
         return passwordQuality;
     }
 
-    private int getNumofDifferentChars() {
+    private int getNumOfDifferentChars() {
         int i = 0;
-        if (lowerCaseLetters == true) {
+        if (lowerCaseLetters) {
             i++;
         }
-        if (upperCaseLetters == true) {
+        if (upperCaseLetters) {
             i++;
         }
-        if (numbers == true) {
+        if (numbers) {
             i++;
         }
-        if (specialChars == true) {
+        if (specialChars) {
             i++;
         }
         return i;
