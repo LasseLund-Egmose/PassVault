@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">PassVault</string>
+    <string name="generate_button">Generate</string>
+    <string name="copy_button">Copy</string>
+    <string name="generated_password">Generate a password</string>
+    <string name="password_length">Length</string>
+    <string name="password_lowercases">Lowercases</string>
+    <string name="password_uppercases">Uppercases</string>
+    <string name="password_numbers">Numbers</string>
+    <string name="password_special">Special characters</string>
 </resources>
