@@ -3,10 +3,12 @@ package dk.dtu.PassVault;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.Arrays;
+
+import dk.dtu.PassVault.Business.Crypto.Crypto;
 
 public class LoginActivity extends BaseActivity {
 
@@ -21,13 +23,31 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         Button signInButton = findViewById(R.id.signInButton);
+        Button registerButton = findViewById(R.id.signInButton);
+
         signInButton.setOnClickListener(v -> {
             EditText password = (EditText) findViewById(R.id.password);
-            this.getCrypto().setKey(password.getText().toString());
-            Log.i("Main", "Master password: " + this.getCrypto().getKey());
 
-            Intent intent = new Intent(getApplicationContext(),WalletActivity.class);
-            startActivity(intent);
+            this.getCrypto().checkMasterPassword(
+                getApplicationContext(),
+                password.getText().toString(),
+                new Crypto.MasterPasswordValidationResponse() {
+                    @Override
+                    public void run() {
+                        Log.i("Main", "Valid: " + this.isValid);
+
+                        if(this.isValid) {
+                            // Tell crypto instance about master password
+                            this.crypto.setKey(password.getText().toString());
+                            Intent intent = new Intent(getApplicationContext(),WalletActivity.class);
+                            startActivity(intent);
+
+                        }
+
+                        // TODO: Display error
+                    }
+                }
+            );
         });
     }
 }
