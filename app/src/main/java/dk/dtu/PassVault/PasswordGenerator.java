@@ -21,15 +21,15 @@ public class PasswordGenerator {
     private final int SPECIAL_ASCII_HIGH = 47;
 
     private final int PASSWORD_LENGTH_MIN = 8;
-    private final int PASSWORD_LENGTH_MAX = 100;
+    private final int PASSWORD_LENGTH_MAX = 32;
 
-    private final String WEAK_PASSWORD = "Password is weak";
-    private final String STRONG_PASSWORD = "Password is strong";
-    private final String VERY_STRONG_PASSWORD = "Password is very strong";
+    public final String WEAK_PASSWORD = " WEAK";
+    public final String STRONG_PASSWORD = " STRONG";
+    public final String VERY_STRONG_PASSWORD = " VERY STRONG";
 
     private String passwordQuality = "";
 
-    private int length = 10;
+    private int length = 16;
 
     private boolean lowerCaseLetters = true;
     private boolean upperCaseLetters = true;
@@ -132,10 +132,15 @@ public class PasswordGenerator {
     public void setLength(int length) throws IllegalArgumentException {
         if (PASSWORD_LENGTH_MIN <= length && length <= PASSWORD_LENGTH_MAX) {
             this.length = length;
+            setPasswordQuality();
         } else {
             throw new IllegalArgumentException("Length must be between " +
                     PASSWORD_LENGTH_MIN + " and " + PASSWORD_LENGTH_MAX + " character");
         }
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public void setLowerCaseLetters(boolean lowerCaseLetters) {
@@ -190,5 +195,13 @@ public class PasswordGenerator {
             i++;
         }
         return i;
+    }
+
+    public int getPASSWORD_LENGTH_MIN() {
+        return PASSWORD_LENGTH_MIN;
+    }
+
+    public int getPASSWORD_LENGTH_MAX() {
+        return PASSWORD_LENGTH_MAX;
     }
 }
