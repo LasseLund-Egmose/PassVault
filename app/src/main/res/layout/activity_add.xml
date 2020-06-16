@@ -11,65 +11,67 @@
 
     <EditText
         android:id="@+id/editView3"
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:layout_marginStart="30dp"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="13dp"
         android:layout_marginEnd="30dp"
+        android:singleLine="true"
         android:ems="10"
-        android:hint="@string/add_input_password"
         android:inputType="textPassword"
         android:textColorHint="@color/colorDTU"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/editView" />
 
     <EditText
         android:id="@+id/editView2"
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="13dp"
         android:layout_marginEnd="30dp"
+        android:singleLine="true"
         android:ems="10"
-        android:hint="@string/add_input_url"
         android:textColorHint="@color/colorDTU"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/editView1" />
 
     <EditText
         android:id="@+id/editView"
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="13dp"
         android:layout_marginEnd="30dp"
+        android:singleLine="true"
         android:ems="10"
-        android:hint="@string/add_input_username"
         android:textColorHint="@color/colorDTU"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/editView2" />
 
     <EditText
         android:id="@+id/editView1"
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:layout_margin="30sp"
-        android:layout_marginStart="30dp"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="30dp"
+        android:singleLine="true"
         android:ems="10"
-        android:hint="@string/add_input_title"
         android:textColorHint="@color/colorDTU"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/generate_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:backgroundTint="#FFFFFF"
         android:text="@string/generate_password"
         android:textColor="@color/colorDTU"
@@ -93,6 +95,7 @@
         android:backgroundTint="#FFFFFF"
         android:text="@string/edit_logo"
         android:textAllCaps="false"
+        android:textColor="#000000"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,5 +133,66 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo_lock" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center_vertical"
+        android:text="@string/add_input_title"
+        android:textColor="@color/colorDTU"
+        android:textSize="18dp"
+        app:layout_constraintRight_toLeftOf="@+id/editView1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.37" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="13dp"
+        android:gravity="center_vertical"
+        android:text="@string/add_input_url"
+        android:textColor="@color/colorDTU"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="13dp"
+        android:gravity="center_vertical"
+        android:text="@string/add_input_username"
+        android:textColor="@color/colorDTU"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="13dp"
+        android:gravity="center_vertical"
+        android:text="@string/add_input_password"
+        android:textColor="@color/colorDTU"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
