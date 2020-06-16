@@ -6,8 +6,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-
-
 public class RegisterMasterActivty extends AppCompatActivity{
     private static final String TAG = "Log_Pass";
 
