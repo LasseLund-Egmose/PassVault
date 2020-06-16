@@ -31,7 +31,6 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void onResult(Boolean result) {
             // TODO: Display success
-            Log.i("Main", "Success: " + result);
         }
 
     }
@@ -59,12 +58,10 @@ public class LoginActivity extends BaseActivity {
                 new Crypto.MasterPasswordValidationResponse() {
                     @Override
                     public void run() {
-                        Log.i("Main", "Valid: " + this.isValid);
-
                         if(this.isValid) {
                             // Tell crypto instance about master password
                             this.crypto.setKey(password.getText().toString());
-                            Intent intent = new Intent(getApplicationContext(),WalletActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), VaultActivity.class);
                             startActivity(intent);
 
                         }

@@ -19,7 +19,7 @@
         </activity>
         <activity android:name=".PasswordGeneratorActivity" />
         <activity android:name=".EditOrCreateProfileActivity" />
-        <activity android:name=".WalletActivity" />
+        <activity android:name=".VaultActivity" />
         <activity android:name=".RegisterMasterActivty" />
     </application>
 

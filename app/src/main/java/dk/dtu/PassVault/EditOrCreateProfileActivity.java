@@ -1,7 +1,6 @@
 package dk.dtu.PassVault;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Build;
@@ -73,14 +72,14 @@ public class EditOrCreateProfileActivity extends BaseActivity {
     private void createClicked(){
 
         String title = mEditText1.getText().toString();
-        String url = mEditText2.getText().toString();
+        String URI = mEditText2.getText().toString();
         String username = mEditText.getText().toString();
         String password = mEditText3.getText().toString();
 
-        Intent i = new Intent(getApplicationContext(), WalletActivity.class);
-        i.putExtra("title", title);
-        i.putExtra("url",url);
-        i.putExtra("username",username);
+        Intent i = new Intent(getApplicationContext(), VaultActivity.class);
+        i.putExtra("URI", URI);
+        i.putExtra("displayName", title);
+        i.putExtra("username", username);
         i.putExtra("password", password);
 
         setResult(RESULT_OK,i);
