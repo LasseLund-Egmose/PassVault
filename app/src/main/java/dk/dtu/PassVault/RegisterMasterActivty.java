@@ -8,9 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 
-public class RegisterMasterActivty extends AppCompatActivity{
+public class RegisterMasterActivty extends BaseActivity {
     private static final String TAG = "Log_Pass";
-
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);

@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 
-public class EditOrCreateProfileActivity extends AppCompatActivity {
+public class EditOrCreateProfileActivity extends BaseActivity {
 
     private EditText mEditText, mEditText1, mEditText2, mEditText3;
     public static int RESULT_LOAD_IMAGE = 1;

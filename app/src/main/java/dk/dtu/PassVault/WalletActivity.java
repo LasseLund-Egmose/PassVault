@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 
-public class WalletActivity extends AppCompatActivity {
+public class WalletActivity extends BaseActivity {
 
     public static final int ADD_PROFILE_CODE = 1;
     public static ArrayList<Button> profileButtons = new ArrayList<Button>(0);
