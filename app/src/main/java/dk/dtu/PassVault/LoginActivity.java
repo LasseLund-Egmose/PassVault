@@ -1,40 +1,33 @@
 package dk.dtu.PassVault;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Display;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
+    // Allows activity to be started without a master password having been specified
+    protected boolean allowNoKey() {
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
-
-
-
         setContentView(R.layout.activity_login);
 
-
-
         Button signInButton = findViewById(R.id.signInButton);
-        signInButton.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(),WalletActivity.class);
-                startActivity(intent);
-          }
-        });
+        signInButton.setOnClickListener(v -> {
+            EditText password = (EditText) findViewById(R.id.password);
+            this.getCrypto().setKey(password.getText().toString());
+            Log.i("Main", "Master password: " + this.getCrypto().getKey());
 
+            Intent intent = new Intent(getApplicationContext(),WalletActivity.class);
+            startActivity(intent);
+        });
     }
 }

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.w3c.dom.Text;
 
 
-public class RegisterMasterActivty extends AppCompatActivity{
+public class RegisterMasterActivty extends BaseActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);

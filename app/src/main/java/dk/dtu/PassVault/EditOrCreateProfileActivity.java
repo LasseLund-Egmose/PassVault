@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 
-public class EditOrCreateProfileActivity extends AppCompatActivity {
+public class EditOrCreateProfileActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
