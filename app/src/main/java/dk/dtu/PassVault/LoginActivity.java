@@ -1,48 +1,108 @@
 package dk.dtu.PassVault;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity {
+import java.lang.ref.WeakReference;
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
-        setContentView(R.layout.activity_login);
+import dk.dtu.PassVault.Business.Crypto.Crypto;
+import dk.dtu.PassVault.Business.Database.Database;
+import dk.dtu.PassVault.Business.Database.Entities.Credential;
 
-        Button loginBtn = findViewById(R.id.sign_in_btn);
-        loginBtn.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(),WalletActivity.class);
-                startActivity(intent);
-            }
-        });
+public class LoginActivity extends BaseActivity {
 
-        Button registerMasterBtn = findViewById(R.id.register_master_btn);
-        registerMasterBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),RegisterMasterActivty.class);
-                startActivity(intent);
-            }
-        });
+    protected static class SetupCredentialTransaction extends Database.Transaction<Boolean> {
 
+        protected WeakReference<Context> contextRef;
+        protected String hashedPassword;
+
+        SetupCredentialTransaction(WeakReference<Context> contextRef, String hashedPassword) {
+            this.contextRef = contextRef;
+            this.hashedPassword = hashedPassword;
+        }
+
+        @Override
+        public Boolean doRequest(Database db) {
+            Credential cred = new Credential(this.hashedPassword);
+            db.setCredential(cred);
+
+            return db.hasCredential();
+        }
+
+        @Override
+        public void onResult(Boolean result) {
+            Toast.makeText(
+                    contextRef.get(),
+                    result ? "Master password created!" : "Something went wrong!",
+                    Toast.LENGTH_LONG
+            ).show();
+        }
 
     }
 
-    //TODO:
-    public boolean checkUserLogin(){
-
+    // Allows activity to be started without a master password having been specified
+    protected boolean allowNoKey() {
         return true;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        getSupportActionBar().hide();
+
+        Button signInButton = findViewById(R.id.signInButton);
+        Button registerButton = findViewById(R.id.registerButton);
+
+        signInButton.setOnClickListener(v -> {
+            EditText password = (EditText) findViewById(R.id.password);
+
+            this.getCrypto().checkMasterPassword(
+                getApplicationContext(),
+                password.getText().toString(),
+                new Crypto.MasterPasswordValidationResponse() {
+                    @Override
+                    public void run() {
+                        if(this.isValid) {
+                            // Tell crypto instance about master password
+                            this.crypto.setKey(password.getText().toString());
+                            Intent intent = new Intent(getApplicationContext(), VaultActivity.class);
+                            startActivity(intent);
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Wrong password entered.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            );
+        });
+
+        registerButton.setOnClickListener(v -> {
+            EditText password = (EditText) findViewById(R.id.password);
+
+            this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
+                @Override
+                public void run() {
+                    if(!this.isSuccessful) {
+                        Toast.makeText(getApplicationContext(), "An error occurred!", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    Database.dispatch(
+                            getApplicationContext(),
+                            new SetupCredentialTransaction(
+                                    new WeakReference<>(getApplicationContext()),
+                                    this.hashedData
+                            )
+                    );
+                }
+            });
+        });
     }
 }

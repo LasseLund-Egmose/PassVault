@@ -8,7 +8,6 @@ public class Credential {
     @PrimaryKey
     public int id = 1;
 
-    // TODO: Encrypt below
     @ColumnInfo(name = "master_password")
     public String masterPassword;
 

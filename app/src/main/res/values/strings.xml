@@ -25,4 +25,6 @@
     <string name="save_registration">Save</string>
     <string name="password_length_indicator">12</string>
     <string name="password_strength_indicator">Password strength: </string>
+    <string name="cipher_setup_error">Error: Could not setup en-/decryption algorithm</string>
+    <string name="needs_relogin">You need to login again.</string>
 </resources>

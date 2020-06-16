@@ -6,9 +6,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class RegisterMasterActivty extends AppCompatActivity{
-    private static final String TAG = "Log_Pass";
 
+public class RegisterMasterActivty extends BaseActivity {
+    private static final String TAG = "Log_Pass";
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
