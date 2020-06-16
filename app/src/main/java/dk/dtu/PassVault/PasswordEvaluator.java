@@ -28,7 +28,6 @@ public class PasswordEvaluator {
     private String password = "";
 
     public PasswordEvaluator(){
-
     }
 
     public PasswordStrength getPasswordStrength(String password) {

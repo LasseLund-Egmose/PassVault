@@ -29,27 +29,21 @@ public class RegisterMasterActivty extends BaseActivity {
             //Bare brugt til at illustrere hvordan strength indicator virker.
             passwordStrengthCheck();
 
+
+
             Button saveButton = (Button) findViewById(R.id.save_registration);
             saveButton.setOnClickListener(v -> {
+
                 EditText password = (EditText) findViewById(R.id.reg_master_password_editText1);
+                EditText password2 = ((EditText) findViewById(R.id.reg_master_password_editText2));
 
-                this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
-                    @Override
-                    public void run() {
-                        if(!this.isSuccessful) {
-                            Toast.makeText(getApplicationContext(), "An error occurred!", Toast.LENGTH_LONG).show();
-                            return;
-                        }
+                if(password.getText().toString().equals(password2.getText().toString())){
+                    Log.i(TAG,"passwords are same");
 
-                        Database.dispatch(
-                                getApplicationContext(),
-                                new LoginActivity.SetupCredentialTransaction(
-                                        new WeakReference<>(getApplicationContext()),
-                                        this.hashedData
-                                )
-                        );
-                    }
-                });
+                    //Save to database in encrypted form
+                    //Start loginActivty
+                }
+
             });
         }
 
@@ -66,5 +60,11 @@ public class RegisterMasterActivty extends BaseActivity {
             pb.setProgress(66);
             pb.setProgressDrawable(getDrawable(R.drawable.pb_drawable_yellow));
         }
+
+
+
+
+
     }
+
 

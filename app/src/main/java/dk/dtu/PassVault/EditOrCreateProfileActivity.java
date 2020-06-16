@@ -65,9 +65,11 @@ public class EditOrCreateProfileActivity extends BaseActivity {
 
         }
 
+    /*
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
+    */
 
     private void createClicked(){
 
