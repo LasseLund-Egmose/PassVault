@@ -42,7 +42,14 @@ public class EditOrCreateProfileActivity extends AppCompatActivity {
             }
         });
 
-        final ImageButton editLogo = (ImageButton)findViewById(R.id.button2);
+                Button genBtn = (Button) findViewById(R.id.generate_password);
+        
+        genBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(),PasswordGeneratorActivity.class);
+            startActivity(intent);
+        });
+
+        ImageButton editLogo = (ImageButton)findViewById(R.id.button2);
         editLogo.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,5 +85,6 @@ public class EditOrCreateProfileActivity extends AppCompatActivity {
 
         setResult(RESULT_OK,i);
         finish();
+
     }
 }
