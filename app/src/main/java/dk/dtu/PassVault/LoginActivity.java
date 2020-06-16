@@ -28,14 +28,24 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        Button signInButton = findViewById(R.id.signInButton);
-        signInButton.setOnClickListener(new OnClickListener(){
+        Button signInBtn = findViewById(R.id.sign_in_btn);
+        signInBtn.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(getApplicationContext(),WalletActivity.class);
                 startActivity(intent);
-          }
+            }
         });
+
+        Button registerMasterBtn = findViewById(R.id.register_master_btn);
+        registerMasterBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),RegisterMasterActivty.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 }
