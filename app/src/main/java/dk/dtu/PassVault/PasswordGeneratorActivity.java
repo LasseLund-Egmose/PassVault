@@ -6,7 +6,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.widget.Toast.LENGTH_LONG;
+import static dk.dtu.PassVault.R.layout.activity_password_generator;
 
 
 public class PasswordGeneratorActivity extends AppCompatActivity {
@@ -26,7 +26,7 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_password_generator);
+        setContentView(activity_password_generator);
 
         final PasswordGenerator passwordGenerator = new PasswordGenerator();
         final TextView generatedPassword = (TextView) findViewById(R.id.generatedPassword);
@@ -37,7 +37,7 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (passwordGenerator.canGenerate()) {
-                    generatedPassword.setText(passwordGenerator.generateNewPassword());
+                    generatedPassword.setText(passwordGenerator.getNewPassword());
                     passwordGenerated = true;
                 } else {
                     Toast.makeText(PasswordGeneratorActivity.this, "Please turn on some of the settings", LENGTH_LONG).show();
@@ -45,7 +45,7 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
             }
         });
 
-        Button copyButton = (Button) findViewById(R.id.copyButton);
+   /*     Button copyButton = (Button) findViewById(R.id.copyButton);
         copyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +56,7 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
                     Toast.makeText(PasswordGeneratorActivity.this, "Please generate a password", LENGTH_LONG).show();
                 }
             }
-        });
+        }); */
 
         SeekBar lengthBar = (SeekBar) findViewById(R.id.lengthBar);
         lengthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
