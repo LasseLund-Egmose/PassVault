@@ -1,10 +1,14 @@
 package dk.dtu.PassVault;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.lang.ref.WeakReference;
 
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
@@ -14,9 +18,11 @@ public class LoginActivity extends BaseActivity {
 
     protected static class SetupCredentialTransaction extends Database.Transaction<Boolean> {
 
+        protected WeakReference<Context> contextRef;
         protected String hashedPassword;
 
-        SetupCredentialTransaction(String hashedPassword) {
+        SetupCredentialTransaction(WeakReference<Context> contextRef, String hashedPassword) {
+            this.contextRef = contextRef;
             this.hashedPassword = hashedPassword;
         }
 
@@ -30,8 +36,11 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         public void onResult(Boolean result) {
-            // TODO: Display success
-            Log.i("Main", "Success: " + result);
+            Toast.makeText(
+                    contextRef.get(),
+                    result ? "Master password created!" : "Something went wrong!",
+                    Toast.LENGTH_LONG
+            ).show();
         }
 
     }
@@ -59,17 +68,15 @@ public class LoginActivity extends BaseActivity {
                 new Crypto.MasterPasswordValidationResponse() {
                     @Override
                     public void run() {
-                        Log.i("Main", "Valid: " + this.isValid);
-
                         if(this.isValid) {
                             // Tell crypto instance about master password
                             this.crypto.setKey(password.getText().toString());
-                            Intent intent = new Intent(getApplicationContext(),WalletActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), VaultActivity.class);
                             startActivity(intent);
 
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Wrong password entered.", Toast.LENGTH_LONG).show();
                         }
-
-                        // TODO: Display error
                     }
                 }
             );
@@ -82,11 +89,17 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void run() {
                     if(!this.isSuccessful) {
-                        // TODO: Display error
+                        Toast.makeText(getApplicationContext(), "An error occurred!", Toast.LENGTH_LONG).show();
                         return;
                     }
 
-                    Database.dispatch(getApplicationContext(), new SetupCredentialTransaction(this.hashedData));
+                    Database.dispatch(
+                            getApplicationContext(),
+                            new SetupCredentialTransaction(
+                                    new WeakReference<>(getApplicationContext()),
+                                    this.hashedData
+                            )
+                    );
                 }
             });
         });
