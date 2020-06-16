@@ -78,12 +78,12 @@
         app:layout_constraintEnd_toEndOf="@+id/editView3"
         app:layout_constraintTop_toBottomOf="@+id/editView3" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button2"
         android:layout_width="107dp"
         android:layout_height="93dp"
         android:layout_marginTop="34dp"
-        android:background="@drawable/interrogation_point"
+        android:src="@drawable/interrogation_point"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
