@@ -4,13 +4,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity {
@@ -20,16 +17,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-
-
-
         setContentView(R.layout.activity_login);
-        getSupportActionBar().hide();
 
-
-
-        Button signInBtn = findViewById(R.id.sign_in_btn);
-        signInBtn.setOnClickListener(new OnClickListener(){
+        Button loginBtn = findViewById(R.id.sign_in_btn);
+        loginBtn.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(getApplicationContext(),WalletActivity.class);
@@ -47,5 +38,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    //TODO:
+    public boolean checkUserLogin(){
+
+        return true;
     }
 }

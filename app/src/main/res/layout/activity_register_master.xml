@@ -11,8 +11,7 @@
 
 
     <LinearLayout
-        android:layout_marginRight="30sp"
-        android:layout_marginLeft="30sp"
+        android:layout_margin="30dp"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:background="@color/darkRed"
