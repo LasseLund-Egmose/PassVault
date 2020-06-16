@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Array;
@@ -135,7 +136,7 @@ public class VaultActivity extends BaseActivity {
                 @Override
                 public void run() {
                     if (!this.isSuccessful) {
-                        // TODO: Display error
+                        Toast.makeText(getApplicationContext(), "An error occurred!", Toast.LENGTH_LONG).show();
                         return;
                     }
 
