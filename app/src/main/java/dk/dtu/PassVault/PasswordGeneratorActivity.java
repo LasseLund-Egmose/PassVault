@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -17,8 +16,6 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import static android.widget.Toast.LENGTH_LONG;
 import static dk.dtu.PassVault.R.layout.activity_password_generator;
@@ -151,8 +148,6 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
         });
 
 
-
-
         Button okButton = (Button) findViewById(R.id.okButton);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,19 +155,19 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
                 System.out.println(clipboardManager.getPrimaryClip().toString());
             }
         });
-
-
     }
 
     public void updatePasswordStrength(TextView passwordStrength, PasswordGenerator passwordGenerator, ProgressBar progressBar) {
-        passwordStrength.setText(passwordGenerator.getPasswordQuality());
-        if (passwordGenerator.getPasswordQuality().equals(passwordGenerator.WEAK_PASSWORD)) {
+        if (passwordGenerator.getPasswordStrength().equals(PasswordStrength.WEAK)) {
+            passwordStrength.setText(" WEAK");
             progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_red));
             progressBar.setProgress(33);
-        } else if (passwordGenerator.getPasswordQuality().equals(passwordGenerator.STRONG_PASSWORD)) {
+        } else if (passwordGenerator.getPasswordStrength().equals(PasswordStrength.STRONG)) {
+            passwordStrength.setText(" STRONG");
             progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_yellow));
             progressBar.setProgress(66);
         } else {
+            passwordStrength.setText(" VERY STRONG");
             progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_green));
             progressBar.setProgress(100);
         }
