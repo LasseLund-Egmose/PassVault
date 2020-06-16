@@ -2,15 +2,13 @@ package dk.dtu.PassVault;
 
 import android.content.Context;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.lang.ref.WeakReference;
-
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.Credential;
@@ -18,7 +16,6 @@ import dk.dtu.PassVault.Business.Database.Entities.Credential;
 public class LoginActivity extends BaseActivity {
 
     protected static class SetupCredentialTransaction extends Database.Transaction<Boolean> {
-
         protected WeakReference<Context> contextRef;
         protected String hashedPassword;
 
@@ -57,11 +54,11 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
-        Button signInButton = findViewById(R.id.signInButton);
-        Button registerButton = findViewById(R.id.registerButton);
+        Button signInButton = findViewById(R.id.sign_in_btn);
+        Button registerButton = findViewById(R.id.register_master_btn);
 
         signInButton.setOnClickListener(v -> {
-            EditText password = (EditText) findViewById(R.id.password);
+            final EditText password = (EditText) findViewById(R.id.password);
 
             this.getCrypto().checkMasterPassword(
                 getApplicationContext(),
@@ -83,7 +80,15 @@ public class LoginActivity extends BaseActivity {
             );
         });
 
-        registerButton.setOnClickListener(v -> {
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),RegisterMasterActivty.class);
+                startActivity(intent);
+            }
+        });
+
+       /* registerButton.setOnClickListener(v -> {
             EditText password = (EditText) findViewById(R.id.password);
 
             this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
@@ -104,5 +109,6 @@ public class LoginActivity extends BaseActivity {
                 }
             });
         });
+        */
     }
 }
