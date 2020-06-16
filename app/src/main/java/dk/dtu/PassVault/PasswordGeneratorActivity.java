@@ -37,7 +37,7 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (passwordGenerator.canGenerate()) {
-                    generatedPassword.setText(passwordGenerator.generateNewPassword());
+                    generatedPassword.setText(passwordGenerator.getNewPassword());
                     passwordGenerated = true;
                 } else {
                     Toast.makeText(PasswordGeneratorActivity.this, "Please turn on some of the settings", LENGTH_LONG).show();
