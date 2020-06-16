@@ -59,6 +59,10 @@ public class Database {
                 .build();
     }
 
+    public boolean hasCredential() {
+        return this.roomInstance.credentialDao().get() != null;
+    }
+
     public Credential getCredential() {
         return this.roomInstance.credentialDao().get();
     }
