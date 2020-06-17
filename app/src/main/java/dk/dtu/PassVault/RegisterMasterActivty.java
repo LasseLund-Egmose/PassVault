@@ -61,10 +61,6 @@ public class RegisterMasterActivty extends BaseActivity {
         saveButton.setOnClickListener(v -> {
 
             if(password.getText().toString().equals(password2.getText().toString())){
-                Log.i(TAG,"passwords are same");
-
-                //Save to database in encrypted form
-                //Start loginActivty
 
                 this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
                     @Override
@@ -86,7 +82,7 @@ public class RegisterMasterActivty extends BaseActivity {
 
                 finish();
             }else {
-                Toast.makeText(getApplicationContext(),"Please make sure to enter identical master password",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Master password is not identical",Toast.LENGTH_LONG).show();
             }
 
         });

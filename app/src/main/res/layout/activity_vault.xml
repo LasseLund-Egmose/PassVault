@@ -28,7 +28,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add_white_18dp"
-        app:backgroundTint="@color/colorDTU"
+        app:backgroundTint="@color/DTU"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

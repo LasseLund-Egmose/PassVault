@@ -38,11 +38,6 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="0dp" />
-
         <TextView
             android:id="@+id/settingsTextView"
             android:layout_width="match_parent"
@@ -293,10 +288,7 @@
                 android:progressDrawable="@drawable/pb_drawable_green" />
         </LinearLayout>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="" />
+
 
         <Button
             android:id="@+id/generateButton"
