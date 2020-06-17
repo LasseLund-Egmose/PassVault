@@ -1,14 +1,17 @@
 package dk.dtu.PassVault;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -23,6 +26,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
     private final static String TAG = "pgActivity";
     private boolean passwordGenerated = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +34,11 @@ public class PasswordGeneratorActivity extends BaseActivity {
 
         final PasswordGenerator passwordGenerator = new PasswordGenerator();
         final TextView generatedPassword = (TextView) findViewById(R.id.generatedPassword);
-        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+        final ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.strength_progressbar);
+        final TextView passwordStrength = (TextView) findViewById(R.id.passwordStrengthVar);
+        updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
 
         Button generateButton = (Button) findViewById(R.id.generateButton);
         generateButton.setOnClickListener(new View.OnClickListener() {
@@ -45,24 +53,33 @@ public class PasswordGeneratorActivity extends BaseActivity {
             }
         });
 
-   /*     Button copyButton = (Button) findViewById(R.id.copyButton);
+        Button copyButton = (Button) findViewById(R.id.copyButton);
         copyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (passwordGenerated) {
                     ClipData clipData = ClipData.newPlainText("Generated password", generatedPassword.getText());
+                    clipboardManager.setPrimaryClip(clipData);
                     Toast.makeText(PasswordGeneratorActivity.this, "Generated password copied to clipboard", LENGTH_LONG).show();
                 } else {
                     Toast.makeText(PasswordGeneratorActivity.this, "Please generate a password", LENGTH_LONG).show();
                 }
             }
-        }); */
+        });
+
+        final TextView passwordLength = (TextView) findViewById(R.id.passwordLengthNum);
+        passwordLength.setText(" " + String.valueOf(passwordGenerator.getLength()));
 
         SeekBar lengthBar = (SeekBar) findViewById(R.id.lengthBar);
+        lengthBar.setMax(passwordGenerator.getPASSWORD_LENGTH_MAX());
+        lengthBar.setMin(passwordGenerator.getPASSWORD_LENGTH_MIN());
+        lengthBar.setProgress(passwordGenerator.getLength());
         lengthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                passwordGenerator.setLength(progress);
+                passwordLength.setText(" " + String.valueOf(progress));
+                updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
             }
 
             @Override
@@ -86,6 +103,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
                 } else {
                     passwordGenerator.setLowerCaseLetters(false);
                 }
+                updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
             }
         });
 
@@ -98,6 +116,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
                 } else {
                     passwordGenerator.setUpperCaseLetters(false);
                 }
+                updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
             }
         });
 
@@ -110,8 +129,10 @@ public class PasswordGeneratorActivity extends BaseActivity {
                 } else {
                     passwordGenerator.setNumbers(false);
                 }
+                updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
             }
         });
+
 
         Switch specialSwitch = (Switch) findViewById(R.id.specialSwitch);
         specialSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -122,10 +143,34 @@ public class PasswordGeneratorActivity extends BaseActivity {
                 } else {
                     passwordGenerator.setSpecialChars(false);
                 }
+                updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
             }
         });
 
 
+        Button okButton = (Button) findViewById(R.id.okButton);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(clipboardManager.getPrimaryClip().toString());
+            }
+        });
+    }
+
+    public void updatePasswordStrength(TextView passwordStrength, PasswordGenerator passwordGenerator, ProgressBar progressBar) {
+        if (passwordGenerator.getPasswordStrength().equals(PasswordStrength.WEAK)) {
+            passwordStrength.setText(" WEAK");
+            progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_red));
+            progressBar.setProgress(33);
+        } else if (passwordGenerator.getPasswordStrength().equals(PasswordStrength.STRONG)) {
+            passwordStrength.setText(" STRONG");
+            progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_yellow));
+            progressBar.setProgress(66);
+        } else {
+            passwordStrength.setText(" VERY STRONG");
+            progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_green));
+            progressBar.setProgress(100);
+        }
     }
 
 

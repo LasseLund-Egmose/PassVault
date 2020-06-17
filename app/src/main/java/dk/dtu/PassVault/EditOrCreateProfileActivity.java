@@ -22,12 +22,12 @@ public class EditOrCreateProfileActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_add_new);
 
-        mEditText  = (EditText) findViewById(R.id.editView);
-        mEditText1 = (EditText) findViewById(R.id.editView1);
-        mEditText2 = (EditText) findViewById(R.id.editView2);
-        mEditText3 = (EditText) findViewById(R.id.editView3);
+        mEditText  = (EditText) findViewById(R.id.editText1);
+        mEditText1 = (EditText) findViewById(R.id.editText2);
+        mEditText2 = (EditText) findViewById(R.id.editText3);
+        mEditText3 = (EditText) findViewById(R.id.editText4);
 
 
 
@@ -65,9 +65,11 @@ public class EditOrCreateProfileActivity extends BaseActivity {
 
         }
 
+    /*
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
+    */
 
     private void createClicked(){
 

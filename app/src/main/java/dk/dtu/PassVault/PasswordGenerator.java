@@ -21,15 +21,11 @@ public class PasswordGenerator {
     private final int SPECIAL_ASCII_HIGH = 47;
 
     private final int PASSWORD_LENGTH_MIN = 8;
-    private final int PASSWORD_LENGTH_MAX = 100;
+    private final int PASSWORD_LENGTH_MAX = 32;
 
-    private final String WEAK_PASSWORD = "Password is weak";
-    private final String STRONG_PASSWORD = "Password is strong";
-    private final String VERY_STRONG_PASSWORD = "Password is very strong";
+    private PasswordStrength passwordStrength;
 
-    private String passwordQuality = "";
-
-    private int length = 10;
+    private int length = 16;
 
     private boolean lowerCaseLetters = true;
     private boolean upperCaseLetters = true;
@@ -44,7 +40,7 @@ public class PasswordGenerator {
     }
 
     // Generates a new password based on input
-    private String generateNewPassword() {
+    private void generateNewPassword() {
         if (!canGenerate()) {
             throw new IllegalArgumentException("The password must consist of at least one type of character");
         } else {
@@ -54,7 +50,6 @@ public class PasswordGenerator {
             }
             this.password = password.toString();
         }
-        return password;
     }
 
     // Choose random from list
@@ -132,10 +127,15 @@ public class PasswordGenerator {
     public void setLength(int length) throws IllegalArgumentException {
         if (PASSWORD_LENGTH_MIN <= length && length <= PASSWORD_LENGTH_MAX) {
             this.length = length;
+            setPasswordQuality();
         } else {
             throw new IllegalArgumentException("Length must be between " +
                     PASSWORD_LENGTH_MIN + " and " + PASSWORD_LENGTH_MAX + " character");
         }
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public void setLowerCaseLetters(boolean lowerCaseLetters) {
@@ -163,16 +163,16 @@ public class PasswordGenerator {
 
         // Very strong password if length is greater than 15 and all types are selected
         if (numOfDifferentChars >= 4 && this.length >= 15) {
-            passwordQuality = VERY_STRONG_PASSWORD;
+            passwordStrength = PasswordStrength.VERY_STRONG;
         } else if (numOfDifferentChars >= 3 && this.length >= 12) { // Strong password if length is greater 12 and a least 3 types are selected
-            passwordQuality = STRONG_PASSWORD;
+            passwordStrength = PasswordStrength.STRONG;
         } else { // Weak password if length is
-            passwordQuality = WEAK_PASSWORD;
+            passwordStrength = PasswordStrength.WEAK;
         }
     }
 
-    public String getPasswordQuality(){
-        return passwordQuality;
+    public PasswordStrength getPasswordStrength(){
+        return passwordStrength;
     }
 
     private int getNumOfDifferentChars() {
@@ -190,5 +190,13 @@ public class PasswordGenerator {
             i++;
         }
         return i;
+    }
+
+    public int getPASSWORD_LENGTH_MIN() {
+        return PASSWORD_LENGTH_MIN;
+    }
+
+    public int getPASSWORD_LENGTH_MAX() {
+        return PASSWORD_LENGTH_MAX;
     }
 }
