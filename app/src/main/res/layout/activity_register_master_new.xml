@@ -98,7 +98,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:backgroundTint="@color/colorDTU"
+        android:backgroundTint="@color/DTU"
         android:text="@string/save_registration"
         android:textAllCaps="true"
         android:textColor="@color/white"
