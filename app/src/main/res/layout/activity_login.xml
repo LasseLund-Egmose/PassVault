@@ -34,23 +34,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/rectangle"
             android:orientation="vertical"
             android:layout_weight="15"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text=""
+                android:gravity="center"
                 ></TextView>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/rectangle"
             android:orientation="vertical"
             android:layout_weight="15"
             android:layout_marginBottom="10dp">
@@ -59,9 +59,7 @@
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/add_input_password"
-                android:textColor="#FFF"
-                android:textColorHint="#FFF"
+                android:hint="Master Password:"
                 android:textSize="30sp"
                 android:inputType="textPassword"
                 ></EditText>
