@@ -33,7 +33,7 @@ public class RegisterMasterActivty extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG,"RegisterMaster created");
-        setContentView(R.layout.activity_register_master);
+        setContentView(R.layout.activity_register_master_new);
         getSupportActionBar().hide();
 
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.strength_progressbar);
