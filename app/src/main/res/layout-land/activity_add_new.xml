@@ -117,7 +117,7 @@
 
 
                 <EditText
-                    android:id="@+id/editText1"
+                    android:id="@+id/title"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="11"/>
@@ -147,7 +147,7 @@
 
 
                 <EditText
-                    android:id="@+id/editText2"
+                    android:id="@+id/platform"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="11"/>
@@ -177,7 +177,7 @@
                     android:textSize="18dp" />
 
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/username"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="11"/>
@@ -205,7 +205,7 @@
                     android:textSize="18dp" />
 
                 <EditText
-                    android:id="@+id/editText4"
+                    android:id="@+id/password"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="11"/>
