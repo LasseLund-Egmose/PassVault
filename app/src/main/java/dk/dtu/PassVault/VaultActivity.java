@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -88,13 +90,10 @@ public class VaultActivity extends BaseActivity {
         getSupportActionBar().hide();
 
 
-        Button addButton = findViewById(R.id.button11);
-        addButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(), EditOrCreateProfileActivity.class);
-                startActivityForResult(intent, ADD_PROFILE_CODE);
-            }
+        FloatingActionButton addButton = findViewById(R.id.addBtn);
+        addButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), EditOrCreateProfileActivity.class);
+            startActivityForResult(intent, ADD_PROFILE_CODE);
         });
 
 
