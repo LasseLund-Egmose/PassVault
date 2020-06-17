@@ -20,8 +20,16 @@ public class EditOrCreateProfileActivity extends AppCompatActivity {
 
         Button genBtn = (Button) findViewById(R.id.generate_password);
         genBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(),PasswordGeneratorActivity.class);
-            startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), PasswordGeneratorActivity.class);
+            startActivityForResult(intent, 0);
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            System.out.println(intent.getData().toString());
+        }
     }
 }

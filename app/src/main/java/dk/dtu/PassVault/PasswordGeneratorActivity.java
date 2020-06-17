@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -34,11 +36,14 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
 
         final PasswordGenerator passwordGenerator = new PasswordGenerator();
         final TextView generatedPassword = (TextView) findViewById(R.id.generatedPassword);
-
         final ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.strength_progressbar);
+
         final TextView passwordStrength = (TextView) findViewById(R.id.passwordStrengthVar);
         updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
+
+        final TextView passwordLength = (TextView) findViewById(R.id.passwordLengthNum);
+        passwordLength.setText(" " + String.valueOf(passwordGenerator.getLength()));
 
         Button generateButton = (Button) findViewById(R.id.generateButton);
         generateButton.setOnClickListener(new View.OnClickListener() {
@@ -52,23 +57,6 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
                 }
             }
         });
-
-        Button copyButton = (Button) findViewById(R.id.copyButton);
-        copyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (passwordGenerated) {
-                    ClipData clipData = ClipData.newPlainText("Generated password", generatedPassword.getText());
-                    clipboardManager.setPrimaryClip(clipData);
-                    Toast.makeText(PasswordGeneratorActivity.this, "Generated password copied to clipboard", LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(PasswordGeneratorActivity.this, "Please generate a password", LENGTH_LONG).show();
-                }
-            }
-        });
-
-        final TextView passwordLength = (TextView) findViewById(R.id.passwordLengthNum);
-        passwordLength.setText(" " + String.valueOf(passwordGenerator.getLength()));
 
         SeekBar lengthBar = (SeekBar) findViewById(R.id.lengthBar);
         lengthBar.setMax(passwordGenerator.getPASSWORD_LENGTH_MAX());
@@ -152,9 +140,34 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(clipboardManager.getPrimaryClip().toString());
+                if (passwordGenerated) {
+                    Intent result = new Intent();
+                    result.setData(Uri.parse(generatedPassword.getText().toString()));
+                    setResult(RESULT_OK, result);
+                    Toast.makeText(PasswordGeneratorActivity.this, "Password generated successfully", LENGTH_LONG).show();
+                    finish();
+                }
+                else {
+                    Toast.makeText(PasswordGeneratorActivity.this, "No password generated", LENGTH_LONG).show();
+                    finish();
+                }
             }
         });
+
+        Button copyButton = (Button) findViewById(R.id.copyButton);
+        copyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (passwordGenerated) {
+                    ClipData clipData = ClipData.newPlainText("Generated password", generatedPassword.getText());
+                    clipboardManager.setPrimaryClip(clipData);
+                    Toast.makeText(PasswordGeneratorActivity.this, "Generated password copied to clipboard", LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(PasswordGeneratorActivity.this, "Please generate a password", LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 
     public void updatePasswordStrength(TextView passwordStrength, PasswordGenerator passwordGenerator, ProgressBar progressBar) {
