@@ -91,7 +91,7 @@ public class VaultActivity extends BaseActivity {
         );
     }
 
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vault);
         getSupportActionBar().hide();
@@ -100,10 +100,10 @@ public class VaultActivity extends BaseActivity {
         fab_modifyMasterPass = (ExtendedFloatingActionButton) findViewById(R.id.modify_master_pass_Btn);
         fab_deleteAccount = (ExtendedFloatingActionButton) findViewById(R.id.deleteAccountBtn);
 
-        fabOpen = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_settings_open);
-        fabClose = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_settings_close);
-        fabRotateRight = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_settings_rotate);
-        fabRotateLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_settings_rotate_back);
+        fabOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_settings_open);
+        fabClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_settings_close);
+        fabRotateRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_settings_rotate);
+        fabRotateLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_settings_rotate_back);
 
 
         FloatingActionButton addButton = findViewById(R.id.addBtn);
@@ -115,7 +115,7 @@ public class VaultActivity extends BaseActivity {
         fab_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isOpen) {
+                if (isOpen) {
                     fab_modifyMasterPass.startAnimation(fabClose);
                     fab_deleteAccount.startAnimation(fabClose);
                     fab_settings.startAnimation(fabRotateLeft);
@@ -123,7 +123,7 @@ public class VaultActivity extends BaseActivity {
                     fab_deleteAccount.setClickable(false);
                     isOpen = false;
 
-                }else {
+                } else {
                     fab_modifyMasterPass.startAnimation(fabOpen);
                     fab_deleteAccount.startAnimation(fabOpen);
                     fab_settings.startAnimation(fabRotateRight);
@@ -136,12 +136,37 @@ public class VaultActivity extends BaseActivity {
         });
 
 
+        fab_modifyMasterPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialogModifyPass();
+            }
+        });
+
+        fab_deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialogDeleteAccount();
+            }
+        });
+
+
         this.vaultItemAdapter = new VaultItemAdapter(this, R.layout.vault_item_single, vaultItems);
 
         GridView vaultContainer = (GridView) findViewById(R.id.vault_item_container);
         vaultContainer.setAdapter(this.vaultItemAdapter);
 
         this.refreshList();
+    }
+
+    public void openDialogModifyPass() {
+        DialogModifyMasterPass dialog = new DialogModifyMasterPass();
+        dialog.show(getSupportFragmentManager(), "modify pass dialog");
+    }
+
+    public void openDialogDeleteAccount() {
+        DialogDeleteAccount dialog = new DialogDeleteAccount();
+        dialog.show(getSupportFragmentManager(), "delete account");
     }
 
     @Override
