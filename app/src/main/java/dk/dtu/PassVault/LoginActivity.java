@@ -3,9 +3,6 @@ package dk.dtu.PassVault;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -56,7 +53,7 @@ public class LoginActivity extends BaseActivity {
         getSupportActionBar().hide();
 
         Button signInButton = findViewById(R.id.sign_in_btn);
-        Button registerButton = findViewById(R.id.register_master_btn);
+        Button registerButton = findViewById(R.id.register_btn);
 
         signInButton.setOnClickListener(v -> {
             final EditText password = (EditText) findViewById(R.id.password);
