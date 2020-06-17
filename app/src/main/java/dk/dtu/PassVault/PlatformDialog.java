@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -29,6 +32,7 @@ public class PlatformDialog extends DialogFragment {
 
     public interface Listener {
         void onDialogAddClick(DialogFragment dialog);
+
         void onDialogCancelClick(DialogFragment dialog);
     }
 
@@ -48,12 +52,12 @@ public class PlatformDialog extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
 
         builder.setView(inflater.inflate(R.layout.platform_dialog, null))
-            .setPositiveButton("Add", (dialog, id) -> {
-                listener.onDialogAddClick(PlatformDialog.this);
-            })
-            .setNegativeButton("Cancel", (dialog, id) -> {
-                listener.onDialogCancelClick(PlatformDialog.this);
-            });
+                .setPositiveButton("Add", (dialog, id) -> {
+                    listener.onDialogAddClick(PlatformDialog.this);
+                })
+                .setNegativeButton("Cancel", (dialog, id) -> {
+                    listener.onDialogCancelClick(PlatformDialog.this);
+                });
 
         AlertDialog ad = builder.create();
 
@@ -65,11 +69,39 @@ public class PlatformDialog extends DialogFragment {
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
                     .setTextColor(getResources().getColor(R.color.greyed));
 
-            Spinner appList = dialog.findViewById(R.id.appList);
-            if(appList != null) {
-                appList.setAdapter(new AppListAdapter(this.context, R.layout.app_list_single, this.packages));
+            Spinner appList = (Spinner) dialog.findViewById(R.id.appList);
+
+
+            if (appList != null) {
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.context,
+                        R.array.planets_array, android.R.layout.simple_spinner_item);
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                appList.setAdapter(adapter);
+               // appList.setAdapter(new AppListAdapter(this.context, R.layout.app_list_single, this.packages));
             }
+
+            RadioGroup radioGroup = (RadioGroup) ad.findViewById(R.id.radioGroup);
+            RadioButton radioButtonApp = (RadioButton) ad.findViewById(R.id.app);
+
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                    if(radioButtonApp.isChecked()){
+                        ad.findViewById(R.id.tabApp).setVisibility(View.VISIBLE);
+                        ad.findViewById(R.id.tabWeb).setVisibility(View.INVISIBLE);
+                    } else {
+                        ad.findViewById(R.id.tabApp).setVisibility(View.INVISIBLE);
+                        ad.findViewById(R.id.tabWeb).setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
+
         });
+
+
 
         return ad;
     }
