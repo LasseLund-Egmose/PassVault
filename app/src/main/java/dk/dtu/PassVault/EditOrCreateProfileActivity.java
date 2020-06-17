@@ -24,10 +24,10 @@ public class EditOrCreateProfileActivity extends BaseActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_add);
 
-        mEditText  = (EditText) findViewById(R.id.editView);
-        mEditText1 = (EditText) findViewById(R.id.editView1);
-        mEditText2 = (EditText) findViewById(R.id.editView2);
-        mEditText3 = (EditText) findViewById(R.id.editView3);
+        mEditText  = (EditText) findViewById(R.id.editText1);
+        mEditText1 = (EditText) findViewById(R.id.editText2);
+        mEditText2 = (EditText) findViewById(R.id.editText3);
+        mEditText3 = (EditText) findViewById(R.id.editText4);
 
 
 
