@@ -23,7 +23,7 @@ import static android.widget.Toast.LENGTH_LONG;
 import static dk.dtu.PassVault.R.layout.activity_password_generator;
 
 
-public class PasswordGeneratorActivity extends AppCompatActivity {
+public class PasswordGeneratorActivity extends BaseActivity {
 
     private final static String TAG = "pgActivity";
     private boolean passwordGenerated = false;

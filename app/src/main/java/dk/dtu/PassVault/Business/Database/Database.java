@@ -1,14 +1,13 @@
 package dk.dtu.PassVault.Business.Database;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.room.Room;
 
 import dk.dtu.PassVault.Business.Database.Entities.Credential;
+import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
 
-@SuppressLint("StaticFieldLeak")
 public class Database {
 
     public abstract static class Transaction<ResultType> extends AsyncTask<Database, Void, ResultType> {
@@ -59,8 +58,20 @@ public class Database {
                 .build();
     }
 
+    public void addVaultItem(VaultItem item) {
+        this.roomInstance.vaultItemDao().insertAll(item);
+    }
+
+    public boolean hasCredential() {
+        return this.roomInstance.credentialDao().get() != null;
+    }
+
     public Credential getCredential() {
         return this.roomInstance.credentialDao().get();
+    }
+
+    public VaultItem[] getVaultItems() {
+        return this.roomInstance.vaultItemDao().getAll().toArray(new VaultItem[0]);
     }
 
     public void setCredential(Credential cred) {

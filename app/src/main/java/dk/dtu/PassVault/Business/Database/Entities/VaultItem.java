@@ -8,15 +8,35 @@ import androidx.room.PrimaryKey;
 public class VaultItem {
 
     @PrimaryKey(autoGenerate = true)
-    public int id = 1;
+    public int id;
 
-    @ColumnInfo(name = "platform_identifier")
-    public String platformIdentifier;
+    @ColumnInfo(name = "uri")
+    public String URI;
 
-    @ColumnInfo(name = "platform_display_name")
-    public String platformDisplayName;
+    @ColumnInfo(name = "display_name")
+    public String displayName;
+
+    @ColumnInfo(name = "username")
+    public String username;
 
     @ColumnInfo(name = "password")
     public String password;
 
+    public VaultItem(String URI, String displayName, String username, String password) {
+        this.URI = URI;
+        this.displayName = displayName;
+        this.username = username;
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "VaultItem{" +
+                "id=" + id +
+                ", URI='" + URI + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
