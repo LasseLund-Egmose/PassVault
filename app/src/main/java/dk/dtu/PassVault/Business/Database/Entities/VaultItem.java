@@ -20,9 +20,9 @@ public class VaultItem {
     public String username;
 
     @ColumnInfo(name = "password")
-    public String password;
+    public byte[] password;
 
-    public VaultItem(String URI, String displayName, String username, String password) {
+    public VaultItem(String URI, String displayName, String username, byte[] password) {
         this.URI = URI;
         this.displayName = displayName;
         this.username = username;
