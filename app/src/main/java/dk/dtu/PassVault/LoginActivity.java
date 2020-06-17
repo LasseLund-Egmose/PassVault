@@ -80,7 +80,8 @@ public class LoginActivity extends BaseActivity {
 
 
        registerButton.setOnClickListener(v -> {
-            
+            Intent intent = new Intent(LoginActivity.this,RegisterMasterActivty.class);
+            startActivity(intent);
 
             /*this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
                 @Override
