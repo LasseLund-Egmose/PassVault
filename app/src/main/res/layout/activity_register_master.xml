@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/add_input_master_password"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:inputType="textPassword"
                 ></EditText>
 
@@ -59,9 +59,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/add_input_master_password_again"
-                android:textSize="30sp"
                 android:inputType="textPassword"
-                ></EditText>
+                android:textSize="30sp"></EditText>
 
         </LinearLayout>
 
@@ -100,16 +99,6 @@
             android:orientation="horizontal"
             android:layout_weight="10"
             android:layout_marginBottom="10dp">
-            <Button
-                android:id="@+id/reset_btn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/reset_input"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/colorDTU"
-                android:layout_weight="1"
-                android:textSize="20dp"
-                ></Button>
 
             <Button
                 android:id="@+id/save_registration"

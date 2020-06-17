@@ -80,9 +80,9 @@ public class LoginActivity extends BaseActivity {
 
 
        registerButton.setOnClickListener(v -> {
-            EditText password = (EditText) findViewById(R.id.password);
+            
 
-            this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
+            /*this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
                 @Override
                 public void run() {
                     if(!this.isSuccessful) {
@@ -98,7 +98,7 @@ public class LoginActivity extends BaseActivity {
                             )
                     );
                 }
-            });
+            });*/
         });
 
     }
