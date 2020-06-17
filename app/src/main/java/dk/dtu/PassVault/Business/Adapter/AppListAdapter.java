@@ -1,8 +1,7 @@
 package dk.dtu.PassVault.Business.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageInfo;
+import android.content.pm.ApplicationInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +10,21 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
 import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
 import dk.dtu.PassVault.R;
 
-public class AppListAdapter extends ArrayAdapter<PackageInfo> {
+public class AppListAdapter extends ArrayAdapter<ApplicationInfo> implements SpinnerAdapter {
 
     protected final Context context;
-    protected final ArrayList<PackageInfo> items;
+    protected final ArrayList<ApplicationInfo> items;
     protected final int resourceID;
 
-    public AppListAdapter(Context context, int resourceID, ArrayList<PackageInfo> items) {
-        super(context, -1, items);
+    public AppListAdapter(Context context, int resourceID, ArrayList<ApplicationInfo> items) {
+        super(context, resourceID, items);
 
         this.context = context;
         this.items = items;
@@ -45,10 +45,16 @@ public class AppListAdapter extends ArrayAdapter<PackageInfo> {
             itemView = inflater.inflate(this.resourceID, null, true);
         }
 
-        PackageInfo item = this.items.get(position);
+        ApplicationInfo item = this.items.get(position);
 
-        ((TextView) itemView.findViewById(R.id.app_list_name)).setText(item.packageName);
+        CharSequence label = getContext().getPackageManager().getApplicationLabel(item);
+        ((TextView) itemView.findViewById(R.id.app_list_name)).setText(label);
 
         return itemView;
+    }
+
+    @Override
+    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        return this.getView(position, convertView, parent);
     }
 }

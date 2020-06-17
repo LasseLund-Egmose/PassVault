@@ -2,11 +2,8 @@ package dk.dtu.PassVault;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
-import dk.dtu.PassVault.Business.Adapter.AppListAdapter;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
 
@@ -24,7 +19,6 @@ public class SingleVaultItemDialog extends DialogFragment {
 
     protected Context context;
     protected VaultItem item;
-    protected ArrayList<PackageInfo> packages = new ArrayList<>();
 
     public SingleVaultItemDialog(VaultItem item) {
         this.item = item;
@@ -35,7 +29,6 @@ public class SingleVaultItemDialog extends DialogFragment {
         super.onAttach(context);
 
         this.context = context;
-        this.packages.addAll(context.getPackageManager().getInstalledPackages(0));
     }
 
     @NonNull
