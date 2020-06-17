@@ -22,6 +22,11 @@
         <activity android:name=".EditOrCreateVaultItemActivity" />
         <activity android:name=".VaultActivity" />
         <activity android:name=".RegisterMasterActivty" />
+        <activity
+            android:name=".AutoFillDialogActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <service
             android:name=".Business.Service.AutoFillService"

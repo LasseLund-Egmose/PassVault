@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.Credential;
+import dk.dtu.PassVault.Business.Service.AutoFillService;
 import dk.dtu.PassVault.Business.Util.IconExtractor;
 
 public class LoginActivity extends BaseActivity {
@@ -58,6 +59,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
+        /*
         if(
             android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
             getApplicationContext().getSystemService(AutofillManager.class).isAutofillSupported()
@@ -67,8 +69,10 @@ public class LoginActivity extends BaseActivity {
             startActivity(intent);
         }
 
-        Button signInButton = findViewById(R.id.signInButton);
-        Button registerButton = findViewById(R.id.registerButton);
+         */
+
+        Button signInButton = findViewById(R.id.sign_in_btn);
+        Button registerButton = findViewById(R.id.register_btn);
 
         signInButton.setOnClickListener(v -> {
             final EditText password = (EditText) findViewById(R.id.password);
