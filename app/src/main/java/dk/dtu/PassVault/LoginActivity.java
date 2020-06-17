@@ -11,17 +11,15 @@ import android.view.autofill.AutofillManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.lang.ref.WeakReference;
-
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.Credential;
+import dk.dtu.PassVault.Business.Util.IconExtractor;
 
 public class LoginActivity extends BaseActivity {
 
     protected static class SetupCredentialTransaction extends Database.Transaction<Boolean> {
-
         protected WeakReference<Context> contextRef;
         protected String hashedPassword;
 
@@ -73,7 +71,7 @@ public class LoginActivity extends BaseActivity {
         Button registerButton = findViewById(R.id.registerButton);
 
         signInButton.setOnClickListener(v -> {
-            EditText password = (EditText) findViewById(R.id.password);
+            final EditText password = (EditText) findViewById(R.id.password);
 
             this.getCrypto().checkMasterPassword(
                 getApplicationContext(),
@@ -95,7 +93,8 @@ public class LoginActivity extends BaseActivity {
             );
         });
 
-        registerButton.setOnClickListener(v -> {
+
+       registerButton.setOnClickListener(v -> {
             EditText password = (EditText) findViewById(R.id.password);
 
             this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
@@ -116,5 +115,6 @@ public class LoginActivity extends BaseActivity {
                 }
             });
         });
+
     }
 }

@@ -2,14 +2,15 @@ package dk.dtu.PassVault;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -25,9 +26,11 @@ public class VaultActivity extends BaseActivity {
 
     protected static class AddVaultItemTransaction extends Database.Transaction<Void> {
 
+        protected WeakReference<VaultActivity> activityRef;
         protected VaultItem item;
 
-        public AddVaultItemTransaction(VaultItem item) {
+        public AddVaultItemTransaction(WeakReference<VaultActivity> activityRef, VaultItem item) {
+            this.activityRef = activityRef;
             this.item = item;
         }
 
@@ -39,7 +42,10 @@ public class VaultActivity extends BaseActivity {
 
         @Override
         public void onResult(Void result) {
-            // TODO: Display Toast
+            VaultActivity activity = this.activityRef.get();
+
+            Toast.makeText(activity, "Vault item created", Toast.LENGTH_LONG).show();
+            activity.refreshList();
         }
     }
 
@@ -88,13 +94,10 @@ public class VaultActivity extends BaseActivity {
         getSupportActionBar().hide();
 
 
-        Button addButton = findViewById(R.id.button11);
-        addButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(), EditOrCreateProfileActivity.class);
-                startActivityForResult(intent, ADD_PROFILE_CODE);
-            }
+        FloatingActionButton addButton = findViewById(R.id.addBtn);
+        addButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), EditOrCreateVaultItemActivity.class);
+            startActivityForResult(intent, ADD_PROFILE_CODE);
         });
 
 
@@ -102,6 +105,12 @@ public class VaultActivity extends BaseActivity {
 
         GridView vaultContainer = (GridView) findViewById(R.id.vault_item_container);
         vaultContainer.setAdapter(this.vaultItemAdapter);
+        vaultContainer.setOnItemClickListener((parent, view, position, id) -> {
+            VaultItem item = this.vaultItemAdapter.getItem(position);
+
+            DialogFragment dialog = new SingleVaultItemDialog(item);
+            dialog.show(getSupportFragmentManager(), "SingleVaultItemDialog");
+        });
 
         this.refreshList();
     }
@@ -132,7 +141,9 @@ public class VaultActivity extends BaseActivity {
                 return;
             }
 
-            this.getCrypto().hash(password, new Crypto.CryptoResponse() {
+            WeakReference<VaultActivity> thisRef = new WeakReference<>(this);
+
+            this.getCrypto().encrypt(password, new Crypto.CryptoResponse() {
                 @Override
                 public void run() {
                     if (!this.isSuccessful) {
@@ -140,8 +151,8 @@ public class VaultActivity extends BaseActivity {
                         return;
                     }
 
-                    VaultItem item = new VaultItem(URI, displayName, userName, this.hashedData);
-                    Database.dispatch(getApplicationContext(), new AddVaultItemTransaction(item));
+                    VaultItem item = new VaultItem(URI, displayName, userName, this.encryptedData);
+                    Database.dispatch(getApplicationContext(), new AddVaultItemTransaction(thisRef, item));
                 }
             });
         }

@@ -2,8 +2,9 @@
     <string name="app_name">PassVault</string>
     <string name="generate_button">Generate</string>
     <string name="copy_button">Copy</string>
-    <string name="generated_password">Generate a password</string>
-    <string name="password_length">Length</string>
+    <string name="generated_password">PRESS GENERATE</string>
+    <string name="password_length">Length:</string>
+    <string name="password_length_num"></string>
     <string name="password_lowercases">Lowercases</string>
     <string name="password_uppercases">Uppercases</string>
     <string name="password_numbers">Numbers</string>
@@ -27,4 +28,7 @@
     <string name="password_strength_indicator">Password strength: </string>
     <string name="cipher_setup_error">Error: Could not setup en-/decryption algorithm</string>
     <string name="needs_relogin">You need to login again.</string>
+    <string name="password_strength">PASSWORD STRENGTH:</string>
+    <string name="password_strength_var"></string>
+
 </resources>

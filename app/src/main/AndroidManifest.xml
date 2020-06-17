@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PasswordGeneratorActivity" />
-        <activity android:name=".EditOrCreateProfileActivity" />
+        <activity android:name=".EditOrCreateVaultItemActivity" />
         <activity android:name=".VaultActivity" />
         <activity android:name=".RegisterMasterActivty" />
 
