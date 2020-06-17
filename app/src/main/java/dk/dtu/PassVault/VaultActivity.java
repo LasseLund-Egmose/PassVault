@@ -26,9 +26,11 @@ public class VaultActivity extends BaseActivity {
 
     protected static class AddVaultItemTransaction extends Database.Transaction<Void> {
 
+        protected WeakReference<VaultActivity> activityRef;
         protected VaultItem item;
 
-        public AddVaultItemTransaction(VaultItem item) {
+        public AddVaultItemTransaction(WeakReference<VaultActivity> activityRef, VaultItem item) {
+            this.activityRef = activityRef;
             this.item = item;
         }
 
@@ -40,7 +42,10 @@ public class VaultActivity extends BaseActivity {
 
         @Override
         public void onResult(Void result) {
-            // TODO: Display Toast
+            VaultActivity activity = this.activityRef.get();
+
+            Toast.makeText(activity, "Vault item created", Toast.LENGTH_LONG).show();
+            activity.refreshList();
         }
     }
 
@@ -136,6 +141,8 @@ public class VaultActivity extends BaseActivity {
                 return;
             }
 
+            WeakReference<VaultActivity> thisRef = new WeakReference<>(this);
+
             this.getCrypto().encrypt(password, new Crypto.CryptoResponse() {
                 @Override
                 public void run() {
@@ -145,7 +152,7 @@ public class VaultActivity extends BaseActivity {
                     }
 
                     VaultItem item = new VaultItem(URI, displayName, userName, this.encryptedData);
-                    Database.dispatch(getApplicationContext(), new AddVaultItemTransaction(item));
+                    Database.dispatch(getApplicationContext(), new AddVaultItemTransaction(thisRef, item));
                 }
             });
         }
