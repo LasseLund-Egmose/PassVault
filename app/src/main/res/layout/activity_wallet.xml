@@ -17,8 +17,9 @@
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
         android:backgroundTint="@color/colorDTU"
-        android:contentDescription="@string/add_input_url"
-        android:src="@drawable/add" />
+        android:src="@drawable/ic_plus"
+
+         />
 
 </RelativeLayout>
 
