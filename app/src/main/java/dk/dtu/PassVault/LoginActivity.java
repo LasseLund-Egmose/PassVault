@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.clean_login);
         getSupportActionBar().hide();
 
         Button signInButton = findViewById(R.id.sign_in_btn);
