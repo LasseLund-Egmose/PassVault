@@ -48,21 +48,6 @@ public class EditOrCreateProfileActivity extends BaseActivity {
             startActivityForResult(intent, 0);
         });
 
-        ImageButton editLogo = (ImageButton)findViewById(R.id.button2);
-        editLogo.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
-
-            }
-
-
-
-
-        });
-
-
         }
 
     /*
