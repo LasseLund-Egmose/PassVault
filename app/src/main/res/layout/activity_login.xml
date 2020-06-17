@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkRed"
+    android:background="@color/white"
     tools:context=".LoginActivity"
     >
 
@@ -34,27 +34,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/rectangle"
             android:orientation="vertical"
             android:layout_weight="15"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            >
 
-            <EditText
-                android:id="@+id/username"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/add_input_username"
-                android:textColor="#FFF"
-                android:textColorHint="#FFF"
-                android:textSize="30sp"
-                ></EditText>
+                android:text=""
+                android:gravity="center"
+                ></TextView>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/rectangle"
             android:orientation="vertical"
             android:layout_weight="15"
             android:layout_marginBottom="10dp">
@@ -63,9 +59,7 @@
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/add_input_password"
-                android:textColor="#FFF"
-                android:textColorHint="#FFF"
+                android:hint="Master Password:"
                 android:textSize="30sp"
                 android:inputType="textPassword"
                 ></EditText>
@@ -79,22 +73,29 @@
             android:layout_weight="3"
             android:gravity="center"
             >
+
             <Button
                 android:id="@+id/sign_in_btn"
-                android:layout_width="match_parent"
+                android:layout_width="339dp"
                 android:layout_height="match_parent"
-                android:text="@string/sign_in_btn_string"
-                android:textSize="30dp"
                 android:layout_weight="1"
-                />
+                android:background="@color/colorDTU"
+                android:text="@string/sign_in_btn_string"
+                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:layout_marginRight="20dp"/>
+
 
             <Button
                 android:id="@+id/register_master_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorDTU"
                 android:text="Register"
+                android:textColor="@color/white"
                 android:textSize="30dp"
                 android:layout_weight="1"
+                android:layout_marginLeft="20dp"
                 />
 
         </LinearLayout>

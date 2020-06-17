@@ -22,7 +22,7 @@ public class EditOrCreateProfileActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_add_new);
 
         mEditText  = (EditText) findViewById(R.id.editText1);
         mEditText1 = (EditText) findViewById(R.id.editText2);

@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@color/darkRed"
     android:orientation="vertical"
     >
 
@@ -14,7 +13,6 @@
         android:layout_margin="30dp"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:background="@color/darkRed"
         android:orientation="vertical"
         android:weightSum="100"
         android:gravity="center"
@@ -36,26 +34,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/rectangle"
-            android:orientation="vertical"
-            android:layout_weight="15"
-            android:layout_marginBottom="10dp">
-
-            <EditText
-                android:id="@+id/reg_master_username_editText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/add_input_username"
-                android:textColor="#FFF"
-                android:textColorHint="#FFF"
-                android:textSize="30sp"
-                ></EditText>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/rectangle"
             android:layout_weight="15"
             android:layout_marginBottom="10dp">
 
@@ -64,8 +42,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/add_input_master_password"
-                android:textColor="#FFF"
-                android:textColorHint="#FFF"
                 android:textSize="30sp"
                 android:inputType="textPassword"
                 ></EditText>
@@ -75,7 +51,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/rectangle"
             android:layout_weight="15"
             android:layout_marginBottom="10dp">
 
@@ -84,8 +59,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/add_input_master_password_again"
-                android:textColor="#FFF"
-                android:textColorHint="#FFF"
                 android:textSize="30sp"
                 android:inputType="textPassword"
                 ></EditText>
@@ -95,7 +68,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/rectangle"
             android:orientation="vertical"
             android:layout_weight="10"
             android:layout_marginBottom="10dp">
@@ -106,7 +78,6 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:text="@string/password_strength_indicator"
-                android:textColor="@color/white"
                 android:textSize="20dp"
                 ></TextView>
 
@@ -126,7 +97,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/rectangle"
             android:orientation="horizontal"
             android:layout_weight="10"
             android:layout_marginBottom="10dp">
@@ -135,6 +105,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/reset_input"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/colorDTU"
                 android:layout_weight="1"
                 android:textSize="20dp"
                 ></Button>
@@ -144,6 +116,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/save_registration"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/colorDTU"
                 android:layout_weight="1"
                 android:textSize="20dp"
                ></Button>
