@@ -2,11 +2,13 @@ package dk.dtu.PassVault.Business.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 
 import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
+import dk.dtu.PassVault.Business.Util.IconExtractor;
 import dk.dtu.PassVault.R;
 
 public class VaultItemAdapter extends ArrayAdapter<VaultItem> {
@@ -50,7 +53,15 @@ public class VaultItemAdapter extends ArrayAdapter<VaultItem> {
 
         VaultItem item = this.items.get(position);
 
-        TextView name = (TextView) itemView.findViewById(R.id.vault_item_name);
+        ImageView icon = itemView.findViewById(R.id.vault_item_icon);
+        TextView name = itemView.findViewById(R.id.vault_item_name);
+
+
+        Drawable iconSrc = IconExtractor.extractIcon(this.context, item.URI);
+        if(iconSrc != null) {
+            icon.setImageDrawable(iconSrc);
+        }
+
         name.setText(item.displayName);
 
         return itemView;
