@@ -81,15 +81,8 @@ public class LoginActivity extends BaseActivity {
             );
         });
 
-        registerButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),RegisterMasterActivty.class);
-                startActivity(intent);
-            }
-        });
 
-       /* registerButton.setOnClickListener(v -> {
+       registerButton.setOnClickListener(v -> {
             EditText password = (EditText) findViewById(R.id.password);
 
             this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
@@ -110,6 +103,6 @@ public class LoginActivity extends BaseActivity {
                 }
             });
         });
-        */
+
     }
 }
