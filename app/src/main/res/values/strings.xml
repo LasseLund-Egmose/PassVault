@@ -20,6 +20,9 @@
     <string name="edit_logo">Edit Logo</string>
     <string name="create_profile">Create</string>
 
+    <string name="delete_account">Delete Account</string>
+    <string name="change_master_password">Modify Master Password</string>
+
     <string name="register_master_password_warning">Please remember this password and only keep it somewhere safe, as you will not be able to recover it in case it is lost.</string>
     <string name="add_input_master_password">Master Password:</string>
     <string name="add_input_master_password_again">Master Password again:</string>
