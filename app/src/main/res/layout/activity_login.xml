@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkRed"
+    android:background="@color/white"
     tools:context=".LoginActivity"
     >
 
@@ -40,15 +40,11 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp">
 
-            <EditText
-                android:id="@+id/username"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/add_input_username"
-                android:textColor="#FFF"
-                android:textColorHint="#FFF"
-                android:textSize="30sp"
-                ></EditText>
+                android:text=""
+                ></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -79,22 +75,29 @@
             android:layout_weight="3"
             android:gravity="center"
             >
+
             <Button
                 android:id="@+id/sign_in_btn"
-                android:layout_width="match_parent"
+                android:layout_width="339dp"
                 android:layout_height="match_parent"
-                android:text="@string/sign_in_btn_string"
-                android:textSize="30dp"
                 android:layout_weight="1"
-                />
+                android:background="@color/colorDTU"
+                android:text="@string/sign_in_btn_string"
+                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:layout_marginRight="20dp"/>
+
 
             <Button
                 android:id="@+id/register_master_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorDTU"
                 android:text="Register"
+                android:textColor="@color/white"
                 android:textSize="30dp"
                 android:layout_weight="1"
+                android:layout_marginLeft="20dp"
                 />
 
         </LinearLayout>
