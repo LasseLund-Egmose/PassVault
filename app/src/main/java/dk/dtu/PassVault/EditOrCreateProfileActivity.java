@@ -44,8 +44,8 @@ public class EditOrCreateProfileActivity extends BaseActivity {
                 Button genBtn = (Button) findViewById(R.id.generate_password);
         
         genBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(),PasswordGeneratorActivity.class);
-            startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), PasswordGeneratorActivity.class);
+            startActivityForResult(intent, 0);
         });
 
         ImageButton editLogo = (ImageButton)findViewById(R.id.button2);
@@ -87,5 +87,13 @@ public class EditOrCreateProfileActivity extends BaseActivity {
         setResult(RESULT_OK,i);
         finish();
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            System.out.println(intent.getData().toString());
+        }
     }
 }
