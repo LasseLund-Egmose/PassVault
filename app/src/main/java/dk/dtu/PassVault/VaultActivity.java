@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
@@ -24,6 +27,10 @@ public class VaultActivity extends BaseActivity {
 
     public static final int ADD_PROFILE_CODE = 1;
     public static ArrayList<Button> profileButtons = new ArrayList<Button>(0);
+    FloatingActionButton fab_settings;
+    ExtendedFloatingActionButton fab_modifyMasterPass, fab_deleteAccount;
+    Animation fabOpen, fabClose, fabRotateRight, fabRotateLeft;
+    boolean isOpen = false;
 
     protected static class AddVaultItemTransaction extends Database.Transaction<Void> {
 
@@ -89,11 +96,43 @@ public class VaultActivity extends BaseActivity {
         setContentView(R.layout.activity_vault);
         getSupportActionBar().hide();
 
+        fab_settings = (FloatingActionButton) findViewById(R.id.settingsBtn);
+        fab_modifyMasterPass = (ExtendedFloatingActionButton) findViewById(R.id.modify_master_pass_Btn);
+        fab_deleteAccount = (ExtendedFloatingActionButton) findViewById(R.id.deleteAccountBtn);
+
+        fabOpen = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_settings_open);
+        fabClose = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_settings_close);
+        fabRotateRight = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_settings_rotate);
+        fabRotateLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_settings_rotate_back);
+
 
         FloatingActionButton addButton = findViewById(R.id.addBtn);
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), EditOrCreateProfileActivity.class);
             startActivityForResult(intent, ADD_PROFILE_CODE);
+        });
+
+        fab_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isOpen) {
+                    fab_modifyMasterPass.startAnimation(fabClose);
+                    fab_deleteAccount.startAnimation(fabClose);
+                    fab_settings.startAnimation(fabRotateLeft);
+                    fab_modifyMasterPass.setClickable(false);
+                    fab_deleteAccount.setClickable(false);
+                    isOpen = false;
+
+                }else {
+                    fab_modifyMasterPass.startAnimation(fabOpen);
+                    fab_deleteAccount.startAnimation(fabOpen);
+                    fab_settings.startAnimation(fabRotateRight);
+                    fab_modifyMasterPass.setClickable(true);
+                    fab_deleteAccount.setClickable(true);
+                    isOpen = true;
+
+                }
+            }
         });
 
 

@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.MaterialComponents">
+
 
     <GridView
         android:id="@+id/vault_item_container"
@@ -32,4 +34,54 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/settingsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_settings_cog_18dp"
+        app:backgroundTint="@color/colorDTU"
+        android:tint="@color/white"
+        app:pressedTranslationZ="12dp"
+        />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/deleteAccountBtn"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:layout_gravity="center|bottom"
+            android:layout_margin="175dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/delete_account"
+            android:textAllCaps="false"
+            android:textColor="@color/colorDTU"
+            android:tint="@color/white"
+            app:pressedTranslationZ="12dp"
+            android:visibility="visible"/>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/modify_master_pass_Btn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_margin="100dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/change_master_password"
+            android:textAllCaps="false"
+            android:textColor="@color/colorDTU"
+            android:tint="@color/white"
+            android:visibility="visible"
+            android:gravity="center"
+            app:pressedTranslationZ="12dp" />
+    </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
