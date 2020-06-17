@@ -8,5 +8,6 @@
     <color name="pass_strength_green">#028A0F</color>
     <color name="pass_strength_red">#800000</color>
     <color name="pass_strength_yellow">#FFF200</color>
+    <color name="greyed">#787878</color>
     <color name="white">#FFFFFF</color>
 </resources>

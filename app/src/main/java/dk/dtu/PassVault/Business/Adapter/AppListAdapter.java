@@ -1,40 +1,34 @@
 package dk.dtu.PassVault.Business.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
+import android.content.pm.ApplicationInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
 import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
-import dk.dtu.PassVault.Business.Util.IconExtractor;
 import dk.dtu.PassVault.R;
 
-public class VaultItemAdapter extends ArrayAdapter<VaultItem> {
+public class AppListAdapter extends ArrayAdapter<ApplicationInfo> implements SpinnerAdapter {
 
-    protected final Activity context;
-    protected final ArrayList<VaultItem> items;
+    protected final Context context;
+    protected final ArrayList<ApplicationInfo> items;
     protected final int resourceID;
 
-    public VaultItemAdapter(Activity context, int resourceID, ArrayList<VaultItem> items) {
-        super(context, -1, items);
+    public AppListAdapter(Context context, int resourceID, ArrayList<ApplicationInfo> items) {
+        super(context, resourceID, items);
 
         this.context = context;
         this.items = items;
         this.resourceID = resourceID;
-    }
-
-    public VaultItem getItem(int position) {
-        return this.items.get(position);
     }
 
     @Override
@@ -51,19 +45,16 @@ public class VaultItemAdapter extends ArrayAdapter<VaultItem> {
             itemView = inflater.inflate(this.resourceID, null, true);
         }
 
-        VaultItem item = this.items.get(position);
+        ApplicationInfo item = this.items.get(position);
 
-        ImageView icon = itemView.findViewById(R.id.vault_item_icon);
-        TextView name = itemView.findViewById(R.id.vault_item_name);
-
-
-        Drawable iconSrc = IconExtractor.extractIcon(this.context, item.URI);
-        if(iconSrc != null) {
-            icon.setImageDrawable(iconSrc);
-        }
-
-        name.setText(item.displayName);
+        CharSequence label = getContext().getPackageManager().getApplicationLabel(item);
+        ((TextView) itemView.findViewById(R.id.app_list_name)).setText(label);
 
         return itemView;
+    }
+
+    @Override
+    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        return this.getView(position, convertView, parent);
     }
 }
