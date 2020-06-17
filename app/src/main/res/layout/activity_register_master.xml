@@ -34,22 +34,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_weight="15"
-            android:layout_marginBottom="10dp">
-
-            <EditText
-                android:id="@+id/reg_master_username_editText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/add_input_username"
-                android:textSize="30sp"
-                ></EditText>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:layout_weight="15"
             android:layout_marginBottom="10dp">
 
@@ -121,6 +105,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/reset_input"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/colorDTU"
                 android:layout_weight="1"
                 android:textSize="20dp"
                 ></Button>
@@ -130,6 +116,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/save_registration"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/colorDTU"
                 android:layout_weight="1"
                 android:textSize="20dp"
                ></Button>
