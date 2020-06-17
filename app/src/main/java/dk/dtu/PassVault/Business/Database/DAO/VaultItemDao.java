@@ -14,5 +14,4 @@ public interface VaultItemDao {
 
     @Insert
     void insertAll(VaultItem... vaultItems);
-
 }
