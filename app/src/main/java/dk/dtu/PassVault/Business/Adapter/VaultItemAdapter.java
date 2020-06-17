@@ -30,6 +30,10 @@ public class VaultItemAdapter extends ArrayAdapter<VaultItem> {
         this.resourceID = resourceID;
     }
 
+    public VaultItem getItem(int position) {
+        return this.items.get(position);
+    }
+
     @Override
     public int getCount() {
         return this.items.size();

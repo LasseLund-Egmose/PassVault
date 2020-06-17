@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import androidx.fragment.app.DialogFragment;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
@@ -98,6 +100,12 @@ public class VaultActivity extends BaseActivity {
 
         GridView vaultContainer = (GridView) findViewById(R.id.vault_item_container);
         vaultContainer.setAdapter(this.vaultItemAdapter);
+        vaultContainer.setOnItemClickListener((parent, view, position, id) -> {
+            VaultItem item = this.vaultItemAdapter.getItem(position);
+
+            DialogFragment dialog = new SingleVaultItemDialog(item);
+            dialog.show(getSupportFragmentManager(), "SingleVaultItemDialog");
+        });
 
         this.refreshList();
     }
@@ -128,7 +136,7 @@ public class VaultActivity extends BaseActivity {
                 return;
             }
 
-            this.getCrypto().hash(password, new Crypto.CryptoResponse() {
+            this.getCrypto().encrypt(password, new Crypto.CryptoResponse() {
                 @Override
                 public void run() {
                     if (!this.isSuccessful) {
@@ -136,7 +144,7 @@ public class VaultActivity extends BaseActivity {
                         return;
                     }
 
-                    VaultItem item = new VaultItem(URI, displayName, userName, this.hashedData);
+                    VaultItem item = new VaultItem(URI, displayName, userName, this.encryptedData);
                     Database.dispatch(getApplicationContext(), new AddVaultItemTransaction(item));
                 }
             });
