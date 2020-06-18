@@ -40,6 +40,68 @@
             tools:layout_editor_absoluteX="0dp">
 
             <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="30dp"
+                android:gravity="center_vertical"
+                android:layout_weight="7"
+                android:text="@string/add_input_title"
+                android:textColor="@color/DTU"
+                android:textSize="18dp" />
+
+
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="11"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:weightSum="20">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="30dp"
+                android:gravity="center_vertical"
+                android:layout_weight="7"
+                android:singleLine="true"
+                android:text="@string/add_input_url"
+                android:textColor="@color/DTU"
+                android:textSize="18dp" />
+
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="11"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:weightSum="20">
+
+            <TextView
                 android:id="@+id/textView3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -100,18 +162,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/generate_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="#FFFFFF"
-        android:gravity="center"
+            <Button
+                android:id="@+id/generate_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:backgroundTint="#FFFFFF"
+                android:gravity="center"
+                android:text="@string/generate_password"
 
-        android:text="@string/generate_password"
-        android:textColor="@color/DTU"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button5" />
+                android:textColor="@color/DTU" /> </RelativeLayout>
 
     <ImageView
         android:id="@+id/icon"
@@ -151,14 +211,19 @@
             android:layout_weight="11" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6"
-        android:weightSum="20"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        tools:layout_editor_absoluteX="0dp">
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#EDA3A3"
+        android:text="@string/create_profile"
+        android:textAllCaps="true"
+        android:textColor="@color/DTU"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
 
         <TextView
             android:id="@+id/textView2"

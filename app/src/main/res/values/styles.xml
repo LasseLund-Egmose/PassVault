@@ -8,8 +8,8 @@
     </style>
 
     <style name="SwitchTheme">
-        <item name="colorControlActivated">@color/white</item>
-        <item name="colorControlNormal">@color/darkRed</item>
+        <item name="colorControlActivated">@color/DTU</item>
+        <item name="colorControlNormal">#939393</item>
     </style>
 
 </resources>
