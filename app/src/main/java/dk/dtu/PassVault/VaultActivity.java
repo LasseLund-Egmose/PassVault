@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -31,6 +33,7 @@ public class VaultActivity extends BaseActivity {
     ExtendedFloatingActionButton fab_modifyMasterPass, fab_deleteAccount;
     Animation fabOpen, fabClose, fabRotateRight, fabRotateLeft;
     boolean isOpen = false;
+    ConstraintLayout constraintLayout;
 
     protected static class AddVaultItemTransaction extends Database.Transaction<Void> {
 
@@ -106,6 +109,21 @@ public class VaultActivity extends BaseActivity {
         fabRotateLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_settings_rotate_back);
 
 
+        constraintLayout = (ConstraintLayout) findViewById(R.id.vault_constraint_layout);
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isOpen) {
+                    fab_modifyMasterPass.startAnimation(fabClose);
+                    fab_deleteAccount.startAnimation(fabClose);
+                    fab_settings.startAnimation(fabRotateLeft);
+                    fab_modifyMasterPass.setClickable(false);
+                    fab_deleteAccount.setClickable(false);
+                    isOpen = false;
+                }
+            }
+        } );
+
         FloatingActionButton addButton = findViewById(R.id.addBtn);
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), EditOrCreateProfileActivity.class);
@@ -134,6 +152,8 @@ public class VaultActivity extends BaseActivity {
                 }
             }
         });
+
+
 
 
         fab_modifyMasterPass.setOnClickListener(new View.OnClickListener() {

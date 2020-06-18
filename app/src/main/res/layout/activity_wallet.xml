@@ -16,7 +16,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
-        android:backgroundTint="@color/colorDTU"
+        android:backgroundTint="@color/DTU"
         android:src="@drawable/ic_plus"
 
          />

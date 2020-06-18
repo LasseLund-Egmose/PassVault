@@ -32,7 +32,7 @@
                 android:layout_weight="7"
                 android:gravity="center_vertical"
                 android:text="@string/add_input_title"
-                android:textColor="@color/colorDTU"
+                android:textColor="@color/DTU"
                 android:textSize="18dp" />
 
 
@@ -60,7 +60,7 @@
                 android:layout_weight="7"
                 android:gravity="center_vertical"
                 android:text="@string/add_input_username"
-                android:textColor="@color/colorDTU"
+                android:textColor="@color/DTU"
                 android:textSize="18dp" />
 
             <EditText
@@ -86,7 +86,7 @@
                 android:layout_weight="7"
                 android:gravity="center_vertical"
                 android:text="@string/add_input_password"
-                android:textColor="@color/colorDTU"
+                android:textColor="@color/DTU"
                 android:textSize="18dp" />
 
             <EditText
@@ -114,7 +114,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="@string/add_input_url"
-                android:textColor="@color/colorDTU"
+                android:textColor="@color/DTU"
                 android:textSize="18dp" />
 
 
@@ -136,7 +136,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/colorDTU"
+        android:backgroundTint="@color/DTU"
         android:text="@string/create_profile"
         android:textAllCaps="true"
         android:textColor="@color/white"
@@ -153,7 +153,7 @@
         android:gravity="center"
 
         android:text="@string/generate_password"
-        android:textColor="@color/colorDTU"
+        android:textColor="@color/DTU"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button5" />
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.MaterialComponents">
+    android:theme="@style/Theme.MaterialComponents"
+    android:id="@+id/vault_constraint_layout">
 
 
     <GridView
@@ -29,7 +30,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add_white_18dp"
-        app:backgroundTint="@color/colorDTU"
+        app:backgroundTint="@color/DTU"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -45,7 +46,7 @@
             android:layout_margin="16dp"
             android:src="@drawable/ic_settings_cog_18dp"
             android:tint="@color/white"
-            app:backgroundTint="@color/colorDTU"
+            app:backgroundTint="@color/DTU"
             app:pressedTranslationZ="12dp" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -59,7 +60,7 @@
             android:singleLine="true"
             android:text="@string/delete_account"
             android:textAllCaps="false"
-            android:textColor="@color/colorDTU"
+            android:textColor="@color/DTU"
             android:tint="@color/white"
             android:visibility="invisible"
             app:pressedTranslationZ="12dp" />
@@ -74,9 +75,9 @@
             android:gravity="center"
             android:text="@string/change_master_password"
             android:textAllCaps="false"
-            android:textColor="@color/colorDTU"
+            android:textColor="@color/DTU"
             android:tint="@color/white"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:pressedTranslationZ="12dp" />
     </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
 

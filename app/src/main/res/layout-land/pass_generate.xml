@@ -41,7 +41,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="0dp" />
+            />
 
         <TextView
             android:id="@+id/settingsTextView"
@@ -296,7 +296,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="" />
+             />
 
         <Button
             android:id="@+id/generateButton"
