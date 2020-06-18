@@ -3,6 +3,7 @@ package dk.dtu.PassVault.Business.Crypto;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
@@ -10,7 +11,9 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -119,7 +122,7 @@ public class Crypto {
             try {
                 decryptedData = new String(this.cipherDecryptInstance.doFinal(this.input), StandardCharsets.UTF_8);
                 success = true;
-            } catch (BadPaddingException | IllegalBlockSizeException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -155,7 +158,7 @@ public class Crypto {
             try {
                 encryptedData = this.cipherEncryptInstance.doFinal(this.input.getBytes());
                 success = true;
-            } catch (BadPaddingException | IllegalBlockSizeException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -185,8 +188,18 @@ public class Crypto {
 
         @Override
         protected CryptoResponse doInBackground(Void... voids) {
-            this.cr.injectHashedData(new String(this.SHA256Digester.digest(this.input), StandardCharsets.UTF_8));
-            this.cr.injectSuccessful(true);
+            String hashedData = null;
+            boolean success = false;
+
+            try {
+                hashedData = new String(this.SHA256Digester.digest(this.input), StandardCharsets.UTF_8);
+                success = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            this.cr.injectHashedData(hashedData);
+            this.cr.injectSuccessful(success);
 
             return this.cr;
         }
@@ -205,23 +218,31 @@ public class Crypto {
     protected static Crypto instance = null;
 
     public static Crypto getInstance() {
-        if(instance == null) {
+        long timestamp = (new Date()).getTime();
+
+        // Check if instance is null or has expired - expires after 5 minutes
+        if(instance == null || timestamp - instance.getCreatedAt() > 30000) {
             instance = new Crypto();
         }
+
+        instance.renew();
 
         return instance;
     }
 
-    protected Crypto() {}
-
     protected Cipher cipherDecryptInstance = null;
     protected Cipher cipherEncryptInstance = null;
+    protected long createdAt;
     protected KeyGenerator keyGenInstance = null;
     protected Key key = null;
     protected MessageDigest SHA256Digester = null;
 
     public boolean hasKey() {
         return this.key != null;
+    }
+
+    public long getCreatedAt() {
+        return this.createdAt;
     }
 
     public boolean init(boolean allowNoKey) {
@@ -309,6 +330,14 @@ public class Crypto {
     public void hash(String str, CryptoResponse cr) {
         cr.injectCrypto(this);
         (new HashingHandler(this.SHA256Digester, cr, str.getBytes())).execute();
+    }
+
+    public void renew() {
+        this.createdAt = (new Date()).getTime();
+    }
+
+    protected Crypto() {
+        this.renew();
     }
 
 }

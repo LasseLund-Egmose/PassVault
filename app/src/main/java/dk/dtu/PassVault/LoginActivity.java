@@ -102,15 +102,6 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
-        if(
-            android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-            getApplicationContext().getSystemService(AutofillManager.class).isAutofillSupported()
-        ) {
-            Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
-            intent.setData(Uri.parse("package:dk.dtu.PassVault"));
-            startActivity(intent);
-        }
-
         Button signInButton = findViewById(R.id.sign_in_btn);
         Button registerButton = findViewById(R.id.register_btn);
 
@@ -132,7 +123,7 @@ public class LoginActivity extends BaseActivity {
                                 startActivity(intent);
                                 finish();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Wrong password entered.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Wrong password entered (or something went wrong).", Toast.LENGTH_LONG).show();
                             }
                         }
                     }

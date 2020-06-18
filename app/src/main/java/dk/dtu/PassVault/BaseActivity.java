@@ -35,6 +35,8 @@ public class BaseActivity extends AppCompatActivity {
             startActivity(intent);
 
             finishAndRemoveTask();
+
+            return;
         }
 
         if(!crypto.init(allowNoKey)) {
