@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,11 +18,11 @@
         <ImageView
             android:layout_width="92dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/logo_icon" />
+            app:srcCompat="@drawable/logo_icon"/>
 
         <ImageView
             android:layout_width="156dp"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
             android:paddingLeft="8dp"
             app:srcCompat="@drawable/logo_text" />
     </LinearLayout>
@@ -56,11 +56,10 @@
         android:id="@+id/sign_in_btn"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:background="@color/DTU"
         android:text="Open Vault"
         android:textColor="@android:color/primary_text_dark"
-        app:layout_constraintBottom_toTopOf="@+id/hr"
+        app:layout_constraintBottom_toBottomOf="@+id/hr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -68,7 +67,7 @@
         android:id="@+id/hr"
         android:layout_width="370dp"
         android:layout_height="2dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="5dp"
         android:background="#E1E1E1"
         app:layout_constraintBottom_toTopOf="@+id/register_btn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -78,8 +77,9 @@
         android:id="@+id/register_btn"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="5dp"
         android:background="@color/DTU"
+
         android:text="Setup Vault"
         android:textColor="@android:color/primary_text_dark"
         app:layout_constraintBottom_toBottomOf="parent"
