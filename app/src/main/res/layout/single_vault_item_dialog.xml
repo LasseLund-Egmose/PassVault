@@ -227,12 +227,12 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button10"
+                android:id="@+id/delete_item_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:backgroundTint="@color/white"
-                android:text="Edit/delete"
+                android:text="Delete"
                 android:textColor="@color/DTU"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
