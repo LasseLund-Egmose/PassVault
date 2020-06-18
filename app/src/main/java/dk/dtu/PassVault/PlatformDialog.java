@@ -124,6 +124,7 @@ public class PlatformDialog extends DialogFragment {
                         ApplicationInfo ai = (ApplicationInfo) spinner.getSelectedItem();
                         if (ai != null) {
                             result = "app://" + ai.packageName;
+                            dialog.dismiss();
                         }
                     } else {
                         String input = webSiteText.getText().toString();
