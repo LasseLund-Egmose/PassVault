@@ -127,7 +127,7 @@ public class PlatformDialog extends DialogFragment {
             AlertDialog dialog = (AlertDialog) dialogInterface;
 
             dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                    .setTextColor(getResources().getColor(R.color.colorDTU));
+                    .setTextColor(getResources().getColor(R.color.DTU));
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
                     .setTextColor(getResources().getColor(R.color.greyed));
 

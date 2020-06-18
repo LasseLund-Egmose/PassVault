@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:adjustViewBounds="true"
-        android:background="@color/colorDTU"
+        android:background="@color/DTU"
         android:contentDescription="@string/app_name"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="App"
-            android:buttonTint="@color/colorDTU"
+            android:buttonTint="@color/DTU"
             />
 
 
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Website"
-            android:buttonTint="@color/colorDTU"/>
+            android:buttonTint="@color/DTU"/>
 
     </RadioGroup>
 
