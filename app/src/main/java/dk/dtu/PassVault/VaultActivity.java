@@ -1,14 +1,21 @@
 package dk.dtu.PassVault;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.autofill.AutofillManager;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import androidx.fragment.app.DialogFragment;
@@ -85,6 +92,28 @@ public class VaultActivity extends BaseActivity {
     protected VaultItemAdapter vaultItemAdapter = null;
     protected ArrayList<VaultItem> vaultItems = new ArrayList<>();
 
+    protected void promptAutoFill() {
+        if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return;
+        }
+
+        AutofillManager afm = getApplicationContext().getSystemService(AutofillManager.class);
+        if(afm.isAutofillSupported() && !afm.hasEnabledAutofillServices()) {
+            new AlertDialog.Builder(this)
+                .setTitle("PassVault Autofill")
+                .setMessage("Do you want to use PassVault as your primary Autofill-application?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    intent.setData(Uri.parse("package:dk.dtu.PassVault"));
+                    startActivity(intent);
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(R.drawable.logo_icon)
+                .show();
+        }
+    }
+
     protected void refreshList() {
         if(this.vaultItemAdapter == null) {
             return;
@@ -101,19 +130,11 @@ public class VaultActivity extends BaseActivity {
         setContentView(R.layout.activity_vault);
         getSupportActionBar().hide();
 
-
-
         FloatingActionButton addButton = findViewById(R.id.addBtn);
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), EditOrCreateVaultItemActivity.class);
             startActivityForResult(intent, ADD_PROFILE_CODE);
         });
-
-
-
-
-
-
 
 
         this.vaultItemAdapter = new VaultItemAdapter(this, R.layout.vault_item_single, vaultItems);
@@ -128,6 +149,7 @@ public class VaultActivity extends BaseActivity {
         });
 
         this.refreshList();
+        this.promptAutoFill();
     }
 
 
