@@ -70,6 +70,11 @@ public class Database {
         return this.roomInstance.credentialDao().get();
     }
 
+    // TODO: Do not only return first!
+    public VaultItem getVaultItemByURI(String URI) {
+        return this.roomInstance.vaultItemDao().getByURI(URI);
+    }
+
     public VaultItem[] getVaultItems() {
         return this.roomInstance.vaultItemDao().getAll().toArray(new VaultItem[0]);
     }

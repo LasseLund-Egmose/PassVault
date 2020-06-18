@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="dk.dtu.PassVault">
 
     <application
@@ -21,6 +22,25 @@
         <activity android:name=".EditOrCreateVaultItemActivity" />
         <activity android:name=".VaultActivity" />
         <activity android:name=".RegisterMasterActivty" />
+        <activity
+            android:name=".AutoFillDialogActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
+        <service
+            android:name=".Business.Service.AutoFillService"
+            android:label="PassVault Password Manager"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE">
+
+            <intent-filter>
+                <action android:name="android.service.autofill.AutofillService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.autofill"
+                android:resource="@xml/autofill_service" />
+        </service>
     </application>
 
 </manifest>
