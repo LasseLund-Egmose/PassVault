@@ -99,6 +99,8 @@ public class PlatformDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
 
+        setRetainInstance(true);
+
         builder.setView(inflater.inflate(R.layout.platform_dialog, null))
                 .setPositiveButton("Add", (dialog, id) -> {
 

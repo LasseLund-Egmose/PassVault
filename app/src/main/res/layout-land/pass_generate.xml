@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbarSize="10dp">
+    android:scrollbarSize="10dp"
+    android:layout_marginLeft="25dp"
+    android:layout_marginRight="25dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +39,7 @@
                 android:text="@string/generated_password"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp" />
+                android:textSize="20dp" />
         </LinearLayout>
 
 
@@ -51,75 +55,64 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="SETTINGS"
+            android:layout_marginTop="8dp"
             android:textColor="#939393" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="15"
-            android:orientation="horizontal">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="146dp">
+
 
             <TextView
                 android:id="@+id/passwordLength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/password_length"
                 android:textColor="@color/DTU"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/lengthBar"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/passwordLengthNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/password_length_num"
                 android:textColor="@color/DTU"
-                android:textSize="18sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/lengthBar"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <SeekBar
                 android:id="@+id/lengthBar"
-                android:layout_width="250dp"
+                android:layout_width="450dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="15dp"
+                android:layout_marginTop="18dp"
                 android:scrollbarSize="10dp"
-                android:theme="@style/SwitchTheme" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="2dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="15"
-            android:orientation="horizontal">
+                android:theme="@style/SwitchTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.57"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/passwordLowercases"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/password_lowercases"
                 android:textColor="@color/DTU"
-                android:textSize="18sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLength" />
 
 
             <Switch
@@ -127,117 +120,80 @@
                 android:id="@+id/lowercasesSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/passwordLowercases"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
                 android:checked="true"
                 android:textSize="18sp"
-                android:theme="@style/SwitchTheme" />
+                android:theme="@style/SwitchTheme"
+                app:layout_constraintStart_toEndOf="@+id/passwordSpecial"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLength" />
 
-        </LinearLayout>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="15"
-            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/passwordUppercases"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
                 android:text="@string/password_uppercases"
                 android:textColor="@color/DTU"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/uppercasesSwitch"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLength" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
             <Switch
                 android:id="@+id/uppercasesSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/passwordUppercases"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="70dp"
                 android:checked="true"
                 android:textSize="18sp"
-                android:theme="@style/SwitchTheme" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="15"
-            android:orientation="horizontal">
+                android:theme="@style/SwitchTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLength" />
 
             <TextView
                 android:id="@+id/passwordNumbers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/password_numbers"
                 android:textColor="@color/DTU"
-                android:textSize="18sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/passwordUppercases"
+                app:layout_constraintTop_toBottomOf="@+id/passwordUppercases" />
 
             <Switch
                 android:id="@+id/numbersSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/passwordNumbers"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="70dp"
                 android:checked="true"
                 android:textSize="18sp"
-                android:theme="@style/SwitchTheme" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="15"
-            android:orientation="horizontal">
+                android:theme="@style/SwitchTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/uppercasesSwitch" />
 
             <TextView
                 android:id="@+id/passwordSpecial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/password_special"
                 android:textColor="@color/DTU"
-                android:textSize="18sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLowercases" />
 
             <Switch
                 android:id="@+id/specialSwitch"
@@ -245,11 +201,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/passwordSpecial"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
                 android:checked="true"
                 android:textSize="18sp"
-                android:theme="@style/SwitchTheme" />
-        </LinearLayout>
+                android:theme="@style/SwitchTheme"
+                app:layout_constraintStart_toEndOf="@+id/passwordSpecial"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLowercases" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:layout_width="0dp"
@@ -259,13 +219,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_gravity="center">
 
                 <TextView
                     android:id="@+id/passwordStrength"
@@ -288,7 +248,7 @@
                 android:id="@+id/strength_progressbar"
                 style="@android:style/Widget.Holo.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
+                android:layout_height="20dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
@@ -306,6 +266,7 @@
             android:id="@+id/generateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:backgroundTint="@color/DTU"
             android:text="@string/generate_button"
             android:textColor="#FFFFFF"
@@ -349,7 +310,8 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+
+</LinearLayout>
 
 
 </RelativeLayout>
