@@ -80,6 +80,7 @@ public class RegisterMasterActivty extends BaseActivity {
                     }
                 });
 
+                setResult(RESULT_OK);
                 finish();
             }else {
                 Toast.makeText(getApplicationContext(),"Master password is not identical",Toast.LENGTH_LONG).show();

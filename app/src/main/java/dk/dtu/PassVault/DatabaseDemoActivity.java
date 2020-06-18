@@ -3,6 +3,7 @@ package dk.dtu.PassVault;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,33 +14,33 @@ import dk.dtu.PassVault.Business.Database.Entities.Credential;
 
 public class DatabaseDemoActivity extends BaseActivity {
 
-    protected static class CredentialTransaction extends Database.Transaction<Credential> {
+    protected static class DatabaseHasCredential extends Database.Transaction<Boolean> {
 
-        protected WeakReference<Activity> activityReference;
+        protected WeakReference<DatabaseDemoActivity> ref;
 
-        CredentialTransaction(Activity ref) {
-            this.activityReference = new WeakReference<>(ref);
+        public DatabaseHasCredential(WeakReference<DatabaseDemoActivity> ref) {
+            this.ref = ref;
         }
 
         @Override
-        public Credential doRequest(Database db) {
-            Credential c1 = new Credential("Pass1");
-            Credential c2 = new Credential("Pass2");
-            Credential c3 = new Credential("Pass3");
-
-            db.setCredential(c1);
-            db.setCredential(c2);
-            db.setCredential(c3);
-
-            return db.getCredential();
+        public Boolean doRequest(Database db) {
+            return db.hasCredential();
         }
 
         @Override
-        public void onResult(Credential result) {
-            // TextView tv = (TextView) activityReference.get().findViewById(R.id.hello_world_text);
-            // tv.setText("Pass: " + result.masterPassword);
-        }
+        public void onResult(Boolean result) {
+            DatabaseDemoActivity activity = this.ref.get();
 
+            if(activity == null) {
+                return;
+            }
+
+            if(result) {
+                Toast.makeText(activity.getApplicationContext(), "Vi har et master password", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(activity.getApplicationContext(), "Vi har ikke et master password", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -47,7 +48,8 @@ public class DatabaseDemoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Database.dispatch(getApplicationContext(), new CredentialTransaction(this));
+        DatabaseHasCredential transaction = new DatabaseHasCredential(new WeakReference<>(this));
+        Database.dispatch(getApplicationContext(), transaction);
     }
 
 }
