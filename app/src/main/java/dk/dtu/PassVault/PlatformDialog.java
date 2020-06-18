@@ -137,6 +137,7 @@ public class PlatformDialog extends DialogFragment {
                                 Toast.makeText(getContext(), "No URL provided", LENGTH_LONG).show();
                             }
                         } catch (IllegalArgumentException e) {
+                            e.printStackTrace();
                         }
                     }
                     listener.onDialogAddClick(PlatformDialog.this, result);
