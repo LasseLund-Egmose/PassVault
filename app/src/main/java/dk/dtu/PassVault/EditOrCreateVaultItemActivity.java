@@ -71,7 +71,6 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
 
     @Override
     public void onDialogAddClick(DialogFragment dialog, String result) {
-        Log.i("Dialog", "Positive");
         Log.i("Dialog", result);
         platform.setText(result);
         platform.clearFocus();

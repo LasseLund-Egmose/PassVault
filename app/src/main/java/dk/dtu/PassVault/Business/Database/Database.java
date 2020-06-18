@@ -66,18 +66,13 @@ public class Database {
         return this.roomInstance.credentialDao().get() != null;
     }
 
-    // TODO: Fix this
-    public boolean hasVaultItemWithURI(String URI) {
-        return true;
-    }
-
     public Credential getCredential() {
         return this.roomInstance.credentialDao().get();
     }
 
     // TODO: Do not only return first!
     public VaultItem getVaultItemByURI(String URI) {
-        return this.getVaultItems()[0];
+        return this.roomInstance.vaultItemDao().getByURI(URI);
     }
 
     public VaultItem[] getVaultItems() {

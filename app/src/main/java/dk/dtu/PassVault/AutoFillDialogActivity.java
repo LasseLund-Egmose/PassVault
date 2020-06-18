@@ -2,11 +2,13 @@ package dk.dtu.PassVault;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
@@ -14,6 +16,8 @@ import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Service.AutoFillService;
 
 public class AutoFillDialogActivity extends BaseActivity {
+
+    public static final String LOG_TAG = "AutoFillDialogDebugging";
 
     protected AutoFillService.AutoFillCommunicator receiver = null;
 
@@ -34,9 +38,24 @@ public class AutoFillDialogActivity extends BaseActivity {
                     return;
                 }
 
-                Log.i("Dialog", "Received validation response");
+                Log.i(LOG_TAG, "Received broadcast");
+
+                Bundle extras = intent.getExtras();
+                if(extras == null) {
+                    return;
+                }
+
+                if(extras.getBoolean("success")) {
+                    Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
+                    finishAndRemoveTask();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Wrong password entered", Toast.LENGTH_SHORT).show();
+                }
             }
         };
+
+        registerReceiver(this.receiver, new IntentFilter(AutoFillService.AutoFillCommunicator.ACTION_MASTER_PASSWORD_VALIDATION_RESPONSE));
+
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +70,16 @@ public class AutoFillDialogActivity extends BaseActivity {
 
 
         btn.setOnClickListener(v -> {
+            Log.i(LOG_TAG, "Click");
+
             this.setupReceiver();
 
             Intent intent = new Intent();
             intent.setAction(AutoFillService.AutoFillCommunicator.ACTION_RECEIVED_MASTER_PASSWORD);
             intent.putExtra("password", masterPassword.getText().toString());
             sendBroadcast(intent);
+
+            Log.i(LOG_TAG, "Sent broadcast");
         });
     }
 

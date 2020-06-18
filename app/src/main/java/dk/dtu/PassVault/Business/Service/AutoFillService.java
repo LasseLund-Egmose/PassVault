@@ -1,5 +1,6 @@
 package dk.dtu.PassVault.Business.Service;
 
+import android.app.Service;
 import android.app.assist.AssistStructure;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,12 +30,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import dk.dtu.PassVault.AutoFillDialogActivity;
+import dk.dtu.PassVault.AutoFillFieldSet;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class AutoFillService extends android.service.autofill.AutofillService {
+
+    public static final String LOG_TAG = "AutoFillDebugging";
 
     public abstract static class AutoFillCommunicator extends BroadcastReceiver {
 
@@ -47,24 +51,27 @@ public class AutoFillService extends android.service.autofill.AutofillService {
 
         protected FillCallback callback;
         protected Crypto crypto;
+        protected AutoFillFieldSet fields;
         protected String hashedMasterPassword;
         protected String packageName;
-        protected ArrayList<AutofillId> passwordFields;
+        protected WeakReference<AutoFillService> serviceRef;
         protected VaultItem vaultItem;
 
         public ValidateMasterPasswordAndDecryptVaultItem(
                 FillCallback callback,
                 Crypto crypto,
+                AutoFillFieldSet fields,
                 String hashedMasterPassword,
                 String packageName,
-                ArrayList<AutofillId> passwordFields,
+                WeakReference<AutoFillService> serviceRef,
                 VaultItem vaultItem
         ) {
             this.callback = callback;
             this.crypto = crypto;
+            this.fields = fields;
             this.hashedMasterPassword = hashedMasterPassword;
             this.packageName = packageName;
-            this.passwordFields = passwordFields;
+            this.serviceRef = serviceRef;
             this.vaultItem = vaultItem;
         }
 
@@ -74,34 +81,58 @@ public class AutoFillService extends android.service.autofill.AutofillService {
         }
 
         protected void buildAutoFillResponse(String decryptedPassword) {
-            RemoteViews passwordPresentation = new RemoteViews(packageName, android.R.layout.simple_list_item_1);
-            passwordPresentation.setTextViewText(android.R.id.text1, "PassVault password");
+            RemoteViews presentation = new RemoteViews(packageName, android.R.layout.simple_list_item_1);
+            presentation.setTextViewText(android.R.id.text1, "PassVault");
 
-            AutofillId passwordID = passwordFields.get(0);
+            Dataset.Builder dataSetBuilder = new Dataset.Builder();
 
-            FillResponse fillResponse = new FillResponse.Builder()
-                .addDataset(new Dataset.Builder()
-                    .setValue(passwordID,
-                        AutofillValue.forText(decryptedPassword), passwordPresentation)
-                    .build())
-                .build();
+            Log.i(LOG_TAG, "Build response: " + this.fields);
+            if(this.fields.username != null) {
+                dataSetBuilder.setValue(
+                    this.fields.username,
+                    AutofillValue.forText(vaultItem.username),
+                    presentation
+                );
+            }
+
+            if(this.fields.password != null) {
+                dataSetBuilder.setValue(
+                    this.fields.password,
+                    AutofillValue.forText(decryptedPassword),
+                    presentation
+                );
+            }
 
             if(callback != null) {
-                callback.onSuccess(fillResponse); // Send response
+                FillResponse response = new FillResponse.Builder()
+                        .addDataset(dataSetBuilder.build())
+                        .build();
+
+                callback.onSuccess(response); // Send response
             } else {
-                Log.i("Autofill", "Callback is null");
+                Log.i(LOG_TAG, "Callback is null");
             }
         }
 
         @Override
         public void onResult(Boolean result) {
-            // TODO: Send validation response broadcast to dialog receiver
+            AutoFillService service = this.serviceRef.get();
+            if(service == null) {
+                return;
+            }
+
+            Intent intent = new Intent();
+            intent.setAction(AutoFillCommunicator.ACTION_MASTER_PASSWORD_VALIDATION_RESPONSE);
+            intent.putExtra("success", result);
+            service.sendBroadcast(intent);
+
+            service.setRequestLock(false);
 
             if(!result) {
                 return;
             }
 
-            Log.i("Autofill", "Encrypted password: " + Arrays.toString(this.vaultItem.password));
+            Log.i(LOG_TAG, "Encrypted password: " + Arrays.toString(this.vaultItem.password));
 
             this.crypto.decrypt(this.vaultItem.password, new Crypto.CryptoResponse() {
                 @Override
@@ -110,9 +141,8 @@ public class AutoFillService extends android.service.autofill.AutofillService {
                         return;
                     }
 
-                    Log.i("Autofill", "Decrypted password: " + this.decryptedData);
-                    Log.i("Autofill", "Password fields: " + passwordFields);
-                    Log.i("Autofill", "Callback: " + callback);
+                    Log.i(LOG_TAG, "Decrypted password: " + this.decryptedData);
+                    Log.i(LOG_TAG, "Callback: " + callback);
 
                     buildAutoFillResponse(this.decryptedData);
                 }
@@ -146,9 +176,10 @@ public class AutoFillService extends android.service.autofill.AutofillService {
         }
     }
 
-    protected boolean hasReceivedRequest = false;
+    protected boolean requestLock = false;
     protected AutoFillCommunicator receiver = null;
-    protected ArrayList<AutofillId> passwordFields = new ArrayList<>();
+
+    protected AutoFillFieldSet fields = new AutoFillFieldSet();
 
     protected void setupPrompt(FillCallback callback, VaultItem item) {
         if(this.receiver != null) {
@@ -162,7 +193,8 @@ public class AutoFillService extends android.service.autofill.AutofillService {
 
             protected void dispatchVaultItemDecryption(Crypto crypto, String hashedMasterPassword) {
                 ValidateMasterPasswordAndDecryptVaultItem transaction = new ValidateMasterPasswordAndDecryptVaultItem(
-                        callback, crypto, hashedMasterPassword, selfPkgName, passwordFields, item
+                        callback, crypto, fields, hashedMasterPassword, selfPkgName,
+                        new WeakReference<>(AutoFillService.this), item
                 );
 
                 Database.dispatch(getApplicationContext(), transaction);
@@ -176,8 +208,8 @@ public class AutoFillService extends android.service.autofill.AutofillService {
                             return;
                         }
 
-                        Log.i("Autofill", "Hashed password: " + this.hashedData);
-                        Log.i("Autofill", "WeakRefCallback: " + callback);
+                        Log.i(LOG_TAG, "Hashed password: " + this.hashedData);
+                        Log.i(LOG_TAG, "WeakRefCallback: " + callback);
 
                         dispatchVaultItemDecryption(this.crypto, this.hashedData);
                     }
@@ -190,7 +222,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
                     return;
                 }
 
-                Log.i("Autofill", "Received broadcast" + intent.getExtras());
+                Log.i(LOG_TAG, "Received broadcast" + intent.getExtras());
 
                 Bundle extras = intent.getExtras();
                 if(extras == null) {
@@ -224,48 +256,56 @@ public class AutoFillService extends android.service.autofill.AutofillService {
         context.startActivity(intent);
     }
 
-    protected AutofillId identifyPasswordField(AssistStructure.ViewNode root) {
-        if(root.getClassName() != null && root.getClassName().equals("android.widget.EditText")) {
-            String combinedFields = root.getText().toString() + root.getHint();
+    protected void traverseStructure(AssistStructure structure) {
+        int nodes = structure.getWindowNodeCount();
 
-            if(combinedFields.toLowerCase().contains("password")) {
-                return root.getAutofillId();
+        for (int i = 0; i < nodes; i++) {
+            AssistStructure.WindowNode windowNode = structure.getWindowNodeAt(i);
+            AssistStructure.ViewNode viewNode = windowNode.getRootViewNode();
+            traverseNode(viewNode);
+        }
+    }
+
+    protected void traverseNode(AssistStructure.ViewNode viewNode) {
+        if(viewNode.getClassName().equals("android.widget.EditText")) {
+            boolean noUsername = this.fields.username == null;
+            boolean noPassword = this.fields.password == null;
+
+            if(noPassword && (viewNode.getText() + viewNode.getHint()).toLowerCase().contains("password")) {
+                this.fields.password = viewNode.getAutofillId();
+            } else if(noUsername) {
+                this.fields.username = viewNode.getAutofillId();
+            } else if(noPassword) {
+                this.fields.password = viewNode.getAutofillId();
             }
         }
 
-        for(int i = 0; i < root.getChildCount(); i++) {
-            AutofillId fieldID = identifyPasswordField(root.getChildAt(i));
-            if(fieldID != null) {
-                return fieldID;
-            }
+        for(int i = 0; i < viewNode.getChildCount(); i++) {
+            AssistStructure.ViewNode childNode = viewNode.getChildAt(i);
+            traverseNode(childNode);
         }
+    }
 
-        return null;
+    protected void setRequestLock(boolean to) {
+        this.requestLock = to;
     }
 
     @Override
     public void onFillRequest(@NonNull FillRequest request, @NonNull CancellationSignal signal, @NonNull FillCallback callback) {
-        Log.i("Autofill", "Autofill request!");
+        Log.i(LOG_TAG, "Autofill request!");
 
-        if(this.hasReceivedRequest) {
+        if(this.requestLock) {
             return;
         }
 
-        this.hasReceivedRequest = true;
+        this.requestLock = true;
 
         List<FillContext> fillContexts = request.getFillContexts();
         AssistStructure structure = fillContexts.get(fillContexts.size() - 1).getStructure();
 
-        this.passwordFields.clear();
-        for(int i = 0; i < structure.getWindowNodeCount(); i++) {
-            AssistStructure.WindowNode node = structure.getWindowNodeAt(i);
-            Log.i("Autofill", "ID: " + node.getDisplayId() + ", Name: " + node.getTitle());
+        this.traverseStructure(structure);
 
-            AutofillId fieldID = this.identifyPasswordField(node.getRootViewNode());
-            if(fieldID != null) {
-                this.passwordFields.add(fieldID);
-            }
-        }
+        Log.i(LOG_TAG, this.fields.toString());
 
         String pkgName = structure.getActivityComponent().getPackageName();
         String URI = "app://" + pkgName;
