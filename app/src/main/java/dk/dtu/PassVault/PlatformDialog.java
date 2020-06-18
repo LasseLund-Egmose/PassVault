@@ -126,11 +126,6 @@ public class PlatformDialog extends DialogFragment {
         ad.setOnShowListener(dialogInterface -> {
             AlertDialog dialog = (AlertDialog) dialogInterface;
 
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                    .setTextColor(getResources().getColor(R.color.DTU));
-            dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-                    .setTextColor(getResources().getColor(R.color.greyed));
-
             Spinner appList = (Spinner) dialog.findViewById(R.id.appList);
 
             if (appList != null) {
