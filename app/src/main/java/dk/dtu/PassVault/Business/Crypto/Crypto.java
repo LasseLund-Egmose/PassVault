@@ -3,6 +3,7 @@ package dk.dtu.PassVault.Business.Crypto;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
@@ -10,7 +11,9 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -25,25 +28,6 @@ import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.Credential;
 
 public class Crypto {
-
-    protected static final String ENCRYPTION_ALGORITHM = "AES";
-    protected static final String ENCRYPTION_TRANSFORMATION = "AES/CBC/PKCS5PADDING";
-    protected static final String HASHING_ALGORITHM = "SHA-256";
-    protected static final byte[] IV = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-    protected static Crypto instance = null;
-
-    public static Crypto getInstance() {
-        if(instance == null) {
-            instance = new Crypto();
-        }
-
-        return instance;
-    }
-
-    protected Crypto() {}
-
-
 
     public static abstract class CryptoResponse implements Runnable {
 
@@ -118,14 +102,147 @@ public class Crypto {
         }
     }
 
+    protected static class DecryptionHandler extends AsyncTask<Void, Void, CryptoResponse> {
+
+        protected Cipher cipherDecryptInstance;
+        protected CryptoResponse cr;
+        protected byte[] input;
+
+        public DecryptionHandler(Cipher cipherDecryptInstance, CryptoResponse cr, byte[] input) {
+            this.cipherDecryptInstance = cipherDecryptInstance;
+            this.cr = cr;
+            this.input = input;
+        }
+
+        @Override
+        protected CryptoResponse doInBackground(Void... voids) {
+            String decryptedData = null;
+            boolean success = false;
+
+            try {
+                decryptedData = new String(this.cipherDecryptInstance.doFinal(this.input), StandardCharsets.UTF_8);
+                success = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            this.cr.injectDecryptedData(decryptedData);
+            this.cr.injectSuccessful(success);
+
+            return this.cr;
+        }
+
+        @Override
+        protected void onPostExecute(CryptoResponse cryptoResponse) {
+            this.cr.run();
+        }
+    }
+
+    protected static class EncryptionHandler extends AsyncTask<Void, Void, CryptoResponse> {
+
+        protected Cipher cipherEncryptInstance;
+        protected CryptoResponse cr;
+        protected String input;
+
+        public EncryptionHandler(Cipher cipherEncryptInstance, CryptoResponse cr, String input) {
+            this.cipherEncryptInstance = cipherEncryptInstance;
+            this.cr = cr;
+            this.input = input;
+        }
+
+        @Override
+        protected CryptoResponse doInBackground(Void... voids) {
+            byte[] encryptedData = null;
+            boolean success = false;
+
+            try {
+                encryptedData = this.cipherEncryptInstance.doFinal(this.input.getBytes());
+                success = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            this.cr.injectEncryptedData(encryptedData);
+            this.cr.injectSuccessful(success);
+
+            return this.cr;
+        }
+
+        @Override
+        protected void onPostExecute(CryptoResponse cryptoResponse) {
+            this.cr.run();
+        }
+    }
+
+    protected static class HashingHandler extends AsyncTask<Void, Void, CryptoResponse> {
+
+        protected CryptoResponse cr;
+        protected MessageDigest SHA256Digester;
+        protected byte[] input;
+
+        public HashingHandler(MessageDigest SHA256Digester, CryptoResponse cr, byte[] input) {
+            this.SHA256Digester = SHA256Digester;
+            this.cr = cr;
+            this.input = input;
+        }
+
+        @Override
+        protected CryptoResponse doInBackground(Void... voids) {
+            String hashedData = null;
+            boolean success = false;
+
+            try {
+                hashedData = new String(this.SHA256Digester.digest(this.input), StandardCharsets.UTF_8);
+                success = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            this.cr.injectHashedData(hashedData);
+            this.cr.injectSuccessful(success);
+
+            return this.cr;
+        }
+
+        @Override
+        protected void onPostExecute(CryptoResponse cryptoResponse) {
+            this.cr.run();
+        }
+    }
+
+    protected static final String ENCRYPTION_ALGORITHM = "AES";
+    protected static final String ENCRYPTION_TRANSFORMATION = "AES/CBC/PKCS5PADDING";
+    protected static final String HASHING_ALGORITHM = "SHA-256";
+    protected static final byte[] IV = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+    protected static Crypto instance = null;
+
+    public static Crypto getInstance() {
+        long timestamp = (new Date()).getTime();
+
+        // Check if instance is null or has expired - expires after 5 minutes
+        if(instance == null || timestamp - instance.getCreatedAt() > 30000) {
+            instance = new Crypto();
+        }
+
+        instance.renew();
+
+        return instance;
+    }
+
     protected Cipher cipherDecryptInstance = null;
     protected Cipher cipherEncryptInstance = null;
+    protected long createdAt;
     protected KeyGenerator keyGenInstance = null;
     protected Key key = null;
     protected MessageDigest SHA256Digester = null;
 
     public boolean hasKey() {
         return this.key != null;
+    }
+
+    public long getCreatedAt() {
+        return this.createdAt;
     }
 
     public boolean init(boolean allowNoKey) {
@@ -200,81 +317,9 @@ public class Crypto {
         });
     }
 
-    protected static class DecryptionHandler extends AsyncTask<Void, Void, CryptoResponse> {
-
-        protected Cipher cipherDecryptInstance;
-        protected CryptoResponse cr;
-        protected byte[] input;
-
-        public DecryptionHandler(Cipher cipherDecryptInstance, CryptoResponse cr, byte[] input) {
-            this.cipherDecryptInstance = cipherDecryptInstance;
-            this.cr = cr;
-            this.input = input;
-        }
-
-        @Override
-        protected CryptoResponse doInBackground(Void... voids) {
-            String decryptedData = null;
-            boolean success = false;
-
-            try {
-                decryptedData = new String(this.cipherDecryptInstance.doFinal(this.input), StandardCharsets.UTF_8);
-                success = true;
-            } catch (BadPaddingException | IllegalBlockSizeException e) {
-                e.printStackTrace();
-            }
-
-            this.cr.injectDecryptedData(decryptedData);
-            this.cr.injectSuccessful(success);
-
-            return this.cr;
-        }
-
-        @Override
-        protected void onPostExecute(CryptoResponse cryptoResponse) {
-            this.cr.run();
-        }
-    }
-
     public void decrypt(byte[] encryptedBytes, CryptoResponse cr) {
         cr.injectCrypto(this);
         (new DecryptionHandler(this.cipherDecryptInstance, cr, encryptedBytes)).execute();
-    }
-
-    protected static class EncryptionHandler extends AsyncTask<Void, Void, CryptoResponse> {
-
-        protected Cipher cipherEncryptInstance;
-        protected CryptoResponse cr;
-        protected String input;
-
-        public EncryptionHandler(Cipher cipherEncryptInstance, CryptoResponse cr, String input) {
-            this.cipherEncryptInstance = cipherEncryptInstance;
-            this.cr = cr;
-            this.input = input;
-        }
-
-        @Override
-        protected CryptoResponse doInBackground(Void... voids) {
-            byte[] encryptedData = null;
-            boolean success = false;
-
-            try {
-                encryptedData = this.cipherEncryptInstance.doFinal(this.input.getBytes());
-                success = true;
-            } catch (BadPaddingException | IllegalBlockSizeException e) {
-                e.printStackTrace();
-            }
-
-            this.cr.injectEncryptedData(encryptedData);
-            this.cr.injectSuccessful(success);
-
-            return this.cr;
-        }
-
-        @Override
-        protected void onPostExecute(CryptoResponse cryptoResponse) {
-            this.cr.run();
-        }
     }
 
     public void encrypt(String str, CryptoResponse cr) {
@@ -282,35 +327,17 @@ public class Crypto {
         (new EncryptionHandler(this.cipherEncryptInstance, cr, str)).execute();
     }
 
-    protected static class HashingHandler extends AsyncTask<Void, Void, CryptoResponse> {
-
-        protected CryptoResponse cr;
-        protected MessageDigest SHA256Digester;
-        protected byte[] input;
-
-        public HashingHandler(MessageDigest SHA256Digester, CryptoResponse cr, byte[] input) {
-            this.SHA256Digester = SHA256Digester;
-            this.cr = cr;
-            this.input = input;
-        }
-
-        @Override
-        protected CryptoResponse doInBackground(Void... voids) {
-            this.cr.injectHashedData(new String(this.SHA256Digester.digest(this.input), StandardCharsets.UTF_8));
-            this.cr.injectSuccessful(true);
-
-            return this.cr;
-        }
-
-        @Override
-        protected void onPostExecute(CryptoResponse cryptoResponse) {
-            this.cr.run();
-        }
-    }
-
     public void hash(String str, CryptoResponse cr) {
         cr.injectCrypto(this);
         (new HashingHandler(this.SHA256Digester, cr, str.getBytes())).execute();
+    }
+
+    public void renew() {
+        this.createdAt = (new Date()).getTime();
+    }
+
+    protected Crypto() {
+        this.renew();
     }
 
 }

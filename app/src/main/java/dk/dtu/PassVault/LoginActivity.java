@@ -123,7 +123,7 @@ public class LoginActivity extends BaseActivity {
                                 startActivity(intent);
                                 finish();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Wrong password entered.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Wrong password entered (or something went wrong).", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
