@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -43,6 +44,7 @@ public class PlatformDialog extends DialogFragment {
     protected Context context;
     protected Listener listener;
     protected ArrayList<ApplicationInfo> packages = new ArrayList<>();
+    private EditText mPlatformEditText;
 
     public interface Listener {
         void onDialogAddClick(DialogFragment dialog, String result);
@@ -80,6 +82,14 @@ public class PlatformDialog extends DialogFragment {
 
             return label1.compareTo(label2);
         }));
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mPlatformEditText = (EditText) getActivity().findViewById(R.id.platform);
+        mPlatformEditText.clearFocus();
+
     }
 
     @NonNull
