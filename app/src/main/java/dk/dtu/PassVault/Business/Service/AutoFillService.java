@@ -36,9 +36,10 @@ import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class AutoFillService extends android.service.autofill.AutofillService {
 
-    public abstract static class AutoFillPermissionGrantedReceiver extends BroadcastReceiver {
+    public abstract static class AutoFillCommunicator extends BroadcastReceiver {
 
-        public static final String ACTION = "dk.dtu.PassVault.AUTO_FILL_PERMISSION_GRANTED";
+        public static final String ACTION_RECEIVED_MASTER_PASSWORD = "dk.dtu.PassVault.RECEIVED_MASTER_PASSWORD";
+        public static final String ACTION_MASTER_PASSWORD_VALIDATION_RESPONSE = "dk.dtu.PassVault.MASTER_PASSWORD_VALIDATION_RESPONSE";
 
     }
 
@@ -94,6 +95,12 @@ public class AutoFillService extends android.service.autofill.AutofillService {
 
         @Override
         public void onResult(Boolean result) {
+            // TODO: Send validation response broadcast to dialog receiver
+
+            if(!result) {
+                return;
+            }
+
             Log.i("Autofill", "Encrypted password: " + Arrays.toString(this.vaultItem.password));
 
             this.crypto.decrypt(this.vaultItem.password, new Crypto.CryptoResponse() {
@@ -140,7 +147,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
     }
 
     protected boolean hasReceivedRequest = false;
-    protected AutoFillPermissionGrantedReceiver receiver = null;
+    protected AutoFillCommunicator receiver = null;
     protected ArrayList<AutofillId> passwordFields = new ArrayList<>();
 
     protected void setupPrompt(FillCallback callback, VaultItem item) {
@@ -151,7 +158,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
 
         String selfPkgName = this.getPackageName();
 
-        this.receiver = new AutoFillPermissionGrantedReceiver() {
+        this.receiver = new AutoFillCommunicator() {
 
             protected void dispatchVaultItemDecryption(Crypto crypto, String hashedMasterPassword) {
                 ValidateMasterPasswordAndDecryptVaultItem transaction = new ValidateMasterPasswordAndDecryptVaultItem(
@@ -179,6 +186,10 @@ public class AutoFillService extends android.service.autofill.AutofillService {
 
             @Override
             public void onReceive(Context context, Intent intent) {
+                if(!AutoFillCommunicator.ACTION_RECEIVED_MASTER_PASSWORD.equals(intent.getAction())) {
+                    return;
+                }
+
                 Log.i("Autofill", "Received broadcast" + intent.getExtras());
 
                 Bundle extras = intent.getExtras();
@@ -201,7 +212,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
             }
         };
 
-        registerReceiver(this.receiver, new IntentFilter(AutoFillPermissionGrantedReceiver.ACTION));
+        registerReceiver(this.receiver, new IntentFilter(AutoFillCommunicator.ACTION_RECEIVED_MASTER_PASSWORD));
 
         this.openDialog();
     }
@@ -215,8 +226,11 @@ public class AutoFillService extends android.service.autofill.AutofillService {
 
     protected AutofillId identifyPasswordField(AssistStructure.ViewNode root) {
         if(root.getClassName() != null && root.getClassName().equals("android.widget.EditText")) {
-            // TODO: Identify through root.getText() and root.getHint() whether or not this is a password field
-            return root.getAutofillId();
+            String combinedFields = root.getText().toString() + root.getHint();
+
+            if(combinedFields.toLowerCase().contains("password")) {
+                return root.getAutofillId();
+            }
         }
 
         for(int i = 0; i < root.getChildCount(); i++) {
