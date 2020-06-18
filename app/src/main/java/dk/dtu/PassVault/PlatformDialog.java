@@ -69,7 +69,7 @@ public class PlatformDialog extends DialogFragment {
 
             ApplicationInfo appInfo = info.activityInfo.applicationInfo;
 
-            if (appInfo.packageName != null) {
+            if (appInfo.packageName != null && !appInfo.packageName.equals("dk.dtu.PassVault")) {
                 this.packages.add(appInfo);
             }
         }
