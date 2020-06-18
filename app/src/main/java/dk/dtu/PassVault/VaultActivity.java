@@ -27,6 +27,7 @@ import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
 
 public class VaultActivity extends BaseActivity {
+    private final String TAG = "Pass_Vault";
 
     public static final int ADD_PROFILE_CODE = 1;
     public static ArrayList<Button> profileButtons = new ArrayList<Button>(0);
@@ -104,6 +105,8 @@ public class VaultActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vault);
         getSupportActionBar().hide();
+
+        Log.i(TAG,"VaultActivity onCreate");
 
         fab_settings = (FloatingActionButton) findViewById(R.id.settingsBtn);
         fab_modifyMasterPass = (ExtendedFloatingActionButton) findViewById(R.id.modify_master_pass_Btn);
