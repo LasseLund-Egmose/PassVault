@@ -133,6 +133,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
                 tools:layout_editor_absoluteX="0dp">
 
+
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="0dp"
@@ -144,7 +145,6 @@
                     android:text="Platform: "
                     android:textColor="@color/colorDTU"
                     android:textSize="18dp" />
-
 
                 <EditText
                     android:id="@+id/viewPlatform"

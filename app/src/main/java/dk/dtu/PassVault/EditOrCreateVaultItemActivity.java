@@ -23,8 +23,8 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
         getSupportActionBar().hide();
         setContentView(R.layout.activity_add_new);
 
-        this.title = findViewById(R.id.title);
         this.platform = findViewById(R.id.platform);
+        this.title = findViewById(R.id.title);
         this.username = findViewById(R.id.username);
         this.password = findViewById(R.id.password);
 
@@ -65,17 +65,21 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == 0 && resultCode == RESULT_OK) {
-            System.out.println(intent.getData().toString());
+            password.setText(intent.getData().toString());
         }
     }
 
     @Override
-    public void onDialogAddClick(DialogFragment dialog) {
+    public void onDialogAddClick(DialogFragment dialog, String result) {
         Log.i("Dialog", "Positive");
+        Log.i("Dialog", result);
+        platform.setText(result);
+        platform.clearFocus();
     }
 
     @Override
     public void onDialogCancelClick(DialogFragment dialog) {
         Log.i("Dialog", "Negative");
+        platform.clearFocus();
     }
 }
