@@ -3,6 +3,7 @@ package dk.dtu.PassVault;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 public class EditOrCreateVaultItemActivity extends BaseActivity implements PlatformDialog.Listener {
 
     protected EditText title, platform, username, password;
+    private final static int REQUEST_CODE_PASSWORD = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +35,24 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
 
             DialogFragment dialog = new PlatformDialog();
             dialog.show(getSupportFragmentManager(), "PlatformDialogFragment");
+
+            dialog.onCancel(new DialogInterface() {
+                @Override
+                public void cancel() {
+                    platform.clearFocus();
+                }
+
+                @Override
+                public void dismiss() {
+                    platform.clearFocus();
+                }
+            });
         });
 
         Button genBtn = findViewById(R.id.generate_password);
         genBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), PasswordGeneratorActivity.class);
-            startActivityForResult(intent, 0);
+            startActivityForResult(intent, REQUEST_CODE_PASSWORD);
         });
 
         Button createButton = findViewById(R.id.button5);
@@ -64,7 +78,7 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == 0 && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_PASSWORD && resultCode == RESULT_OK) {
             password.setText(intent.getData().toString());
         }
     }
@@ -84,4 +98,10 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
         Log.i("Dialog", "Negative");
         platform.clearFocus();
     }
+
+    @Override
+    public void onDialogTouchOutsideClick(DialogFragment dialog) {
+        platform.clearFocus();
+    }
+
 }
