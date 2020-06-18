@@ -11,6 +11,7 @@ import java.lang.ref.WeakReference;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.Credential;
+import dk.dtu.PassVault.Business.Util.IconExtractor;
 
 public class LoginActivity extends BaseActivity {
 
