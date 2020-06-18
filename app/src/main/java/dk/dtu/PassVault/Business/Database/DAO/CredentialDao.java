@@ -12,6 +12,9 @@ public interface CredentialDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long insert(Credential credential);
 
+    @Delete
+    void delete(Credential credential);
+
     @Update(onConflict = OnConflictStrategy.IGNORE)
     void update(Credential credential);
 

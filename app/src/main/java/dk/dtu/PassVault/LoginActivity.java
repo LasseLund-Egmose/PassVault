@@ -3,6 +3,7 @@ package dk.dtu.PassVault;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,6 +13,8 @@ import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.Credential;
 
 public class LoginActivity extends BaseActivity {
+
+    private final String TAG ="Pass_Vault";
 
     protected static class SetupCredentialTransaction extends Database.Transaction<Boolean> {
         protected WeakReference<Context> contextRef;
@@ -68,8 +71,9 @@ public class LoginActivity extends BaseActivity {
                             // Tell crypto instance about master password
                             this.crypto.setKey(password.getText().toString());
                             Intent intent = new Intent(getApplicationContext(), VaultActivity.class);
+                            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
-
+                            finish();
                         } else {
                             Toast.makeText(getApplicationContext(), "Wrong password entered.", Toast.LENGTH_LONG).show();
                         }
@@ -103,4 +107,5 @@ public class LoginActivity extends BaseActivity {
         });
 
     }
+
 }

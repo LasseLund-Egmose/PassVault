@@ -38,10 +38,12 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             />
+
 
         <TextView
             android:id="@+id/settingsTextView"
@@ -293,10 +295,12 @@
                 android:progressDrawable="@drawable/pb_drawable_green" />
         </LinearLayout>
 
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
              />
+
 
         <Button
             android:id="@+id/generateButton"
