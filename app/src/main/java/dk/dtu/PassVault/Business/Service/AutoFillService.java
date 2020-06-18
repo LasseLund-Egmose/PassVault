@@ -23,6 +23,7 @@ import android.widget.RemoteViews;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,45 +42,61 @@ public class AutoFillService extends android.service.autofill.AutofillService {
 
     }
 
-    protected static class ValidateMasterPasswordAndGetVaultItem extends Database.Transaction<VaultItem> {
+    protected static class ValidateMasterPasswordAndDecryptVaultItem extends Database.Transaction<Boolean> {
 
         protected FillCallback callback;
         protected Crypto crypto;
         protected String hashedMasterPassword;
         protected String packageName;
         protected ArrayList<AutofillId> passwordFields;
-        protected String URI;
+        protected VaultItem vaultItem;
 
-        public ValidateMasterPasswordAndGetVaultItem(
+        public ValidateMasterPasswordAndDecryptVaultItem(
                 FillCallback callback,
                 Crypto crypto,
                 String hashedMasterPassword,
                 String packageName,
                 ArrayList<AutofillId> passwordFields,
-                String URI
+                VaultItem vaultItem
         ) {
             this.callback = callback;
             this.crypto = crypto;
             this.hashedMasterPassword = hashedMasterPassword;
             this.packageName = packageName;
             this.passwordFields = passwordFields;
-            this.URI = URI;
+            this.vaultItem = vaultItem;
         }
 
         @Override
-        public VaultItem doRequest(Database db) {
-            if(!db.getCredential().match(this.hashedMasterPassword)) {
-                return null;
+        public Boolean doRequest(Database db) {
+            return db.getCredential().match(this.hashedMasterPassword);
+        }
+
+        protected void buildAutoFillResponse(String decryptedPassword) {
+            RemoteViews passwordPresentation = new RemoteViews(packageName, android.R.layout.simple_list_item_1);
+            passwordPresentation.setTextViewText(android.R.id.text1, "PassVault password");
+
+            AutofillId passwordID = passwordFields.get(0);
+
+            FillResponse fillResponse = new FillResponse.Builder()
+                .addDataset(new Dataset.Builder()
+                    .setValue(passwordID,
+                        AutofillValue.forText(decryptedPassword), passwordPresentation)
+                    .build())
+                .build();
+
+            if(callback != null) {
+                callback.onSuccess(fillResponse); // Send response
+            } else {
+                Log.i("Autofill", "Callback is null");
             }
-
-            return db.getVaultItemByURI(this.URI);
         }
 
         @Override
-        public void onResult(VaultItem result) {
-            Log.i("Autofill", "Encrypted password: " + Arrays.toString(result.password));
+        public void onResult(Boolean result) {
+            Log.i("Autofill", "Encrypted password: " + Arrays.toString(this.vaultItem.password));
 
-            this.crypto.decrypt(result.password, new Crypto.CryptoResponse() {
+            this.crypto.decrypt(this.vaultItem.password, new Crypto.CryptoResponse() {
                 @Override
                 public void run() {
                     if(!this.isSuccessful) {
@@ -90,31 +107,111 @@ public class AutoFillService extends android.service.autofill.AutofillService {
                     Log.i("Autofill", "Password fields: " + passwordFields);
                     Log.i("Autofill", "Callback: " + callback);
 
-                    RemoteViews passwordPresentation = new RemoteViews(packageName, android.R.layout.simple_list_item_1);
-                    passwordPresentation.setTextViewText(android.R.id.text1, "PassVault password");
-
-                    AutofillId passwordID = passwordFields.get(0);
-
-                    FillResponse fillResponse = new FillResponse.Builder()
-                        .addDataset(new Dataset.Builder()
-                            .setValue(passwordID,
-                                AutofillValue.forText(this.decryptedData), passwordPresentation)
-                            .build())
-                        .build();
-
-                    if(callback != null) {
-                        callback.onSuccess(fillResponse);
-                    } else {
-                        Log.i("Autofill", "Callback is null");
-                    }
+                    buildAutoFillResponse(this.decryptedData);
                 }
             });
+        }
+    }
+
+    protected static class GetVaultItemByURI extends Database.Transaction<VaultItem> {
+
+        protected WeakReference<AutoFillService> ref;
+        protected FillCallback callback;
+        protected String URI;
+
+        public GetVaultItemByURI(WeakReference<AutoFillService> ref, FillCallback callback, String URI) {
+            this.callback = callback;
+            this.ref = ref;
+            this.URI = URI;
+        }
+
+        @Override
+        public VaultItem doRequest(Database db) {
+            return db.getVaultItemByURI(this.URI);
+        }
+
+        @Override
+        public void onResult(VaultItem result) {
+            AutoFillService service = this.ref.get();
+            if(result != null && service != null) {
+                service.setupPrompt(this.callback, result);
+            }
         }
     }
 
     protected boolean hasReceivedRequest = false;
     protected AutoFillPermissionGrantedReceiver receiver = null;
     protected ArrayList<AutofillId> passwordFields = new ArrayList<>();
+
+    protected void setupPrompt(FillCallback callback, VaultItem item) {
+        if(this.receiver != null) {
+            unregisterReceiver(this.receiver);
+            this.receiver = null;
+        }
+
+        String selfPkgName = this.getPackageName();
+
+        this.receiver = new AutoFillPermissionGrantedReceiver() {
+
+            protected void dispatchVaultItemDecryption(Crypto crypto, String hashedMasterPassword) {
+                ValidateMasterPasswordAndDecryptVaultItem transaction = new ValidateMasterPasswordAndDecryptVaultItem(
+                        callback, crypto, hashedMasterPassword, selfPkgName, passwordFields, item
+                );
+
+                Database.dispatch(getApplicationContext(), transaction);
+            }
+
+            protected void hashPassword(Crypto crypto, String password) {
+                crypto.hash(password, new Crypto.CryptoResponse() {
+                    @Override
+                    public void run() {
+                        if (!this.isSuccessful) {
+                            return;
+                        }
+
+                        Log.i("Autofill", "Hashed password: " + this.hashedData);
+                        Log.i("Autofill", "WeakRefCallback: " + callback);
+
+                        dispatchVaultItemDecryption(this.crypto, this.hashedData);
+                    }
+                });
+            }
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.i("Autofill", "Received broadcast" + intent.getExtras());
+
+                Bundle extras = intent.getExtras();
+                if(extras == null) {
+                    return;
+                }
+
+                String password = extras.getString("password");
+                if(password == null) {
+                    return;
+                }
+
+                Crypto crypto = Crypto.getInstance();
+
+                // A new instance is initialized as we cannot expect any old instances to have been persisted
+                crypto.setKey(password);
+                crypto.init(false);
+
+                this.hashPassword(crypto, password);
+            }
+        };
+
+        registerReceiver(this.receiver, new IntentFilter(AutoFillPermissionGrantedReceiver.ACTION));
+
+        this.openDialog();
+    }
+
+    protected void openDialog() {
+        Context context = this.getApplicationContext();
+        Intent intent = new Intent(context, AutoFillDialogActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 
     protected AutofillId identifyPasswordField(AssistStructure.ViewNode root) {
         if(root.getClassName() != null && root.getClassName().equals("android.widget.EditText")) {
@@ -133,7 +230,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
     }
 
     @Override
-    public void onFillRequest(FillRequest request, CancellationSignal signal, FillCallback callback) {
+    public void onFillRequest(@NonNull FillRequest request, @NonNull CancellationSignal signal, @NonNull FillCallback callback) {
         Log.i("Autofill", "Autofill request!");
 
         if(this.hasReceivedRequest) {
@@ -156,66 +253,14 @@ public class AutoFillService extends android.service.autofill.AutofillService {
             }
         }
 
-        if(this.receiver != null) {
-            unregisterReceiver(this.receiver);
-            this.receiver = null;
-        }
+        String pkgName = structure.getActivityComponent().getPackageName();
+        String URI = "app://" + pkgName;
 
-        String pkgName = this.getPackageName();
+        Database.dispatch(
+                getApplicationContext(),
+                new GetVaultItemByURI(new WeakReference<>(this), callback, URI)
+        );
 
-        this.receiver = new AutoFillPermissionGrantedReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.i("Autofill", "Received broadcast" + intent.getExtras());
-
-                Bundle extras = intent.getExtras();
-                if(extras == null) {
-                    return;
-                }
-
-                String password = extras.getString("password");
-                if(password == null) {
-                    return;
-                }
-
-                Crypto crypto = Crypto.getInstance();
-
-                // A new instance is initialized as we cannot expect any old instances to have been persisted
-                crypto.setKey(password);
-                crypto.init(false);
-
-                crypto.hash(password, new Crypto.CryptoResponse() {
-                    @Override
-                    public void run() {
-                        if (!this.isSuccessful) {
-                            return;
-                        }
-
-                        Log.i("Autofill", "Hashed password: " + this.hashedData);
-                        Log.i("Autofill", "WeakRefCallback: " + callback);
-
-                        Database.dispatch(
-                            getApplicationContext(),
-                            new ValidateMasterPasswordAndGetVaultItem(
-                                callback,
-                                this.crypto,
-                                this.hashedData,
-                                pkgName,
-                                passwordFields,
-                                "app://com.google.chrome"
-                            )
-                        );
-                    }
-                });
-            }
-        };
-
-        registerReceiver(this.receiver, new IntentFilter(AutoFillPermissionGrantedReceiver.ACTION));
-
-        Context context = this.getApplicationContext();
-        Intent intent = new Intent(context, AutoFillDialogActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
     }
 
     @Override
