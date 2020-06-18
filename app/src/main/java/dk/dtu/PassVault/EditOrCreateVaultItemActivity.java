@@ -4,8 +4,10 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,12 +15,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
+import dk.dtu.PassVault.Business.Util.IconExtractor;
 
 
 public class EditOrCreateVaultItemActivity extends BaseActivity implements PlatformDialog.Listener {
 
     protected EditText title, platform, username, password;
     private final static int REQUEST_CODE_PASSWORD = 0;
+    protected ImageView icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +32,12 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
         getSupportActionBar().hide();
         setContentView(R.layout.activity_add_new);
 
-        //ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.layout_create_profile);
-        //constraintLayout.clearFocus();
-
 
         this.platform = findViewById(R.id.platform);
         this.title = findViewById(R.id.title);
         this.username = findViewById(R.id.username);
         this.password = findViewById(R.id.password);
+        this.icon = findViewById(R.id.app_icon);
 
         this.platform.setOnFocusChangeListener((v, isFocused) -> {
             if(!isFocused) return;
@@ -91,10 +95,11 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
     @Override
     public void onDialogAddClick(DialogFragment dialog, String result) {
         Log.i("Dialog", result);
-
-        platform.setText(result);
-        platform.clearFocus();
-
+        this.platform.setText(result);
+        Context context = getApplicationContext();
+        Drawable iconSrc = IconExtractor.extractIcon(context, result);
+        this.icon.setImageDrawable(iconSrc);
+        this.platform.clearFocus();
     }
 
     @Override
