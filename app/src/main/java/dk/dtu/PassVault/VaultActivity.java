@@ -1,27 +1,19 @@
 package dk.dtu.PassVault;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.autofill.AutofillManager;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import androidx.fragment.app.DialogFragment;
 
-
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
@@ -37,7 +29,7 @@ public class VaultActivity extends BaseActivity {
 
     public static final int ADD_PROFILE_CODE = 1;
 
-    boolean isOpen = false;
+    protected static final String SETTING_HAS_SHOWN_AUTO_FILL_DIALOG = "hasShownAutoFillDialog";
 
     protected static class AddVaultItemTransaction extends Database.Transaction<Void> {
 
@@ -89,6 +81,67 @@ public class VaultActivity extends BaseActivity {
         }
     }
 
+    protected static class UpdateAutoFillDialogSetting extends Database.Transaction<Void> {
+
+        protected boolean hasShown;
+
+        public UpdateAutoFillDialogSetting(boolean hasShown) {
+            this.hasShown = hasShown;
+        }
+
+        @Override
+        public Void doRequest(Database db) {
+            db.setSetting(SETTING_HAS_SHOWN_AUTO_FILL_DIALOG, String.valueOf(this.hasShown));
+            return null;
+        }
+
+        @Override
+        public void onResult(Void result) {
+            // Do nothing
+        }
+    }
+
+    protected static class ShowAutoFillDialogIfRelevant extends Database.Transaction<Boolean> {
+
+        protected WeakReference<VaultActivity> ref;
+
+        public ShowAutoFillDialogIfRelevant(WeakReference<VaultActivity> ref) {
+            this.ref = ref;
+        }
+
+        @Override
+        public Boolean doRequest(Database db) {
+            Log.i("Database", String.valueOf(db.getSetting(SETTING_HAS_SHOWN_AUTO_FILL_DIALOG)));
+            return db.getSetting(SETTING_HAS_SHOWN_AUTO_FILL_DIALOG) == null;
+        }
+
+        @Override
+        public void onResult(Boolean result) {
+            VaultActivity activity = this.ref.get();
+
+            if(activity == null || !result) return;
+
+            new AlertDialog.Builder(activity)
+                .setTitle("PassVault Autofill")
+                .setMessage("Do you want to use PassVault as your primary Autofill-application?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    intent.setData(Uri.parse("package:dk.dtu.PassVault"));
+                    activity.startActivity(intent);
+
+                    Toast.makeText(activity, "Please select \"PassVault Password Manager\"", Toast.LENGTH_LONG).show();
+
+                    Database.dispatch(activity, new UpdateAutoFillDialogSetting(true));
+                })
+                .setNegativeButton(android.R.string.no, ((dialog, which) -> {
+                    Database.dispatch(activity, new UpdateAutoFillDialogSetting(false));
+                }))
+                .setIcon(R.drawable.logo_icon)
+                .show();
+        }
+    }
+
     protected VaultItemAdapter vaultItemAdapter = null;
     protected ArrayList<VaultItem> vaultItems = new ArrayList<>();
 
@@ -99,18 +152,7 @@ public class VaultActivity extends BaseActivity {
 
         AutofillManager afm = getApplicationContext().getSystemService(AutofillManager.class);
         if(afm.isAutofillSupported() && !afm.hasEnabledAutofillServices()) {
-            new AlertDialog.Builder(this)
-                .setTitle("PassVault Autofill")
-                .setMessage("Do you want to use PassVault as your primary Autofill-application?")
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                    intent.setData(Uri.parse("package:dk.dtu.PassVault"));
-                    startActivity(intent);
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .setIcon(R.drawable.logo_icon)
-                .show();
+            Database.dispatch(getApplicationContext(), new ShowAutoFillDialogIfRelevant(new WeakReference<>(this)));
         }
     }
 
@@ -152,12 +194,9 @@ public class VaultActivity extends BaseActivity {
         this.promptAutoFill();
     }
 
-
-
     @Override
     protected void onResume() {
         super.onResume();
-
         this.refreshList();
     }
 
