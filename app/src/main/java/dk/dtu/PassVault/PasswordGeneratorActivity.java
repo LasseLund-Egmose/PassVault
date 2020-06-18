@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import static android.widget.Toast.LENGTH_LONG;
 import static dk.dtu.PassVault.R.layout.activity_password_generator;
+import static dk.dtu.PassVault.R.layout.pass_generate;
 
 
 public class PasswordGeneratorActivity extends BaseActivity {
@@ -32,7 +33,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(activity_password_generator);
+        setContentView(pass_generate);
 
         final PasswordGenerator passwordGenerator = new PasswordGenerator();
         final TextView generatedPassword = (TextView) findViewById(R.id.generatedPassword);
