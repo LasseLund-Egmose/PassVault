@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,12 +91,26 @@ public class PlatformDialog extends DialogFragment {
 
         builder.setView(inflater.inflate(R.layout.platform_dialog, null))
                 .setPositiveButton("Add", (dialog, id) -> {
-                    AlertDialog ad = (AlertDialog) dialog;
-                    RadioGroup radioGroup = (RadioGroup) ad.findViewById(R.id.radioGroup);
-                    Spinner spinner = (Spinner) ad.findViewById(R.id.appList);
-                    TextView webSiteText = (TextView) ad.findViewById(R.id.webSiteText);
 
+                })
+                .setNegativeButton("Cancel", (dialog, id) -> {
+                    listener.onDialogCancelClick(PlatformDialog.this);
+                });
+
+        AlertDialog ad = builder.create();
+
+        ad.setOnShowListener(dialogInterface -> {
+            AlertDialog dialog = (AlertDialog) dialogInterface;
+            Button addBtn = (Button) dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            RadioGroup radioGroup = (RadioGroup) ad.findViewById(R.id.radioGroup);
+            Spinner spinner = (Spinner) ad.findViewById(R.id.appList);
+            TextView webSiteText = (TextView) ad.findViewById(R.id.webSiteText);
+
+            addBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     String result = "";
+                    Boolean validWebsiteFormat = false;
                     if (radioGroup.getCheckedRadioButtonId() == R.id.app) {
                         ApplicationInfo ai = (ApplicationInfo) spinner.getSelectedItem();
 
@@ -108,6 +123,7 @@ public class PlatformDialog extends DialogFragment {
                             String scheme = URI.create(input).getScheme();
                             if (scheme != null && (scheme.equals("http") || scheme.equals("https"))) {
                                 result = input;
+                                dialog.dismiss();
                             } else {
                                 Toast.makeText(getContext(), "No URL provided", LENGTH_LONG).show();
                             }
@@ -115,16 +131,9 @@ public class PlatformDialog extends DialogFragment {
                         }
                     }
                     listener.onDialogAddClick(PlatformDialog.this, result);
+                }
+            });
 
-                })
-                .setNegativeButton("Cancel", (dialog, id) -> {
-                    listener.onDialogCancelClick(PlatformDialog.this);
-                });
-
-        AlertDialog ad = builder.create();
-
-        ad.setOnShowListener(dialogInterface -> {
-            AlertDialog dialog = (AlertDialog) dialogInterface;
 
             Spinner appList = (Spinner) dialog.findViewById(R.id.appList);
 
@@ -132,7 +141,6 @@ public class PlatformDialog extends DialogFragment {
                 appList.setAdapter(new AppListAdapter(this.context, R.layout.app_list_single, this.packages));
             }
 
-            RadioGroup radioGroup = (RadioGroup) ad.findViewById(R.id.radioGroup);
             RadioButton radioButtonApp = (RadioButton) ad.findViewById(R.id.app);
 
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
