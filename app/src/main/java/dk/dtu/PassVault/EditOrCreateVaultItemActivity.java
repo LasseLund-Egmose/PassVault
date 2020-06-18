@@ -1,6 +1,7 @@
 package dk.dtu.PassVault;
 
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
@@ -22,6 +23,10 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_add_new);
+
+        //ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.layout_create_profile);
+        //constraintLayout.clearFocus();
+
 
         this.platform = findViewById(R.id.platform);
         this.title = findViewById(R.id.title);
@@ -81,5 +86,7 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
     public void onDialogCancelClick(DialogFragment dialog) {
         Log.i("Dialog", "Negative");
         platform.clearFocus();
+
+
     }
 }

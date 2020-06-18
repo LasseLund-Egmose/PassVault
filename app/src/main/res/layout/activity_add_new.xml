@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="MissingDefaultResource">
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:ignore="MissingDefaultResource"
+    android:id="@+id/layout_create_profile">
 
 
     <TextView
@@ -54,7 +57,8 @@
                 android:id="@+id/username"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="11" />
+                android:layout_weight="11"
+                android:singleLine="true" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,8 +82,10 @@
 
             <EditText
                 android:id="@+id/password"
+                android:inputType="textPassword"
+                android:singleLine="true"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="11" />
         </LinearLayout>
 
@@ -146,9 +152,11 @@
 
         <EditText
             android:id="@+id/title"
+            android:singleLine="true"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="11" />
+            android:layout_weight="11"
+            android:inputType="text"/>
     </LinearLayout>
 
     <LinearLayout
@@ -178,7 +186,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="11"
-            android:editable="false" />
+            android:maxLines="2"
+            android:editable="false"
+            android:singleLine="true" />
 
 
     </LinearLayout>
