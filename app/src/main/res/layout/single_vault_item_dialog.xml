@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:adjustViewBounds="true"
-        android:background="@color/colorDTU"
+        android:background="@color/DTU"
         android:contentDescription="@string/app_name"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -24,6 +24,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,23 +50,32 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
                     android:layout_weight="7"
                     android:gravity="center_vertical"
                     android:text="@string/add_input_title"
-                    android:textColor="@color/colorDTU"
+                    android:textColor="@color/DTU"
                     android:textSize="18dp" />
 
 
-                <EditText
-                    android:id="@+id/viewTitle"
-                    android:editable="false"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="11"
-                    android:text="Loading..." />
+                    android:paddingBottom="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView">
+
+                    <EditText
+                        android:id="@+id/viewTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="11"
+                        android:editable="false"
+                        android:text="Loading..." />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -78,50 +89,73 @@
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
                     android:layout_weight="7"
                     android:gravity="center_vertical"
                     android:text="@string/add_input_username"
-                    android:textColor="@color/colorDTU"
+                    android:textColor="@color/DTU"
                     android:textSize="18dp" />
 
-                <EditText
-                    android:id="@+id/viewUsername"
-                    android:editable="false"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="11"
-                    android:text="Loading..." />
+                    android:paddingBottom="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView3">
+
+                    <EditText
+                        android:id="@+id/viewUsername"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="11"
+                        android:editable="false"
+                        android:text="Loading..." />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="6"
                 android:weightSum="20"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                tools:layout_editor_absoluteX="0dp">
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
                     android:layout_weight="7"
                     android:gravity="center_vertical"
                     android:text="@string/add_input_password"
-                    android:textColor="@color/colorDTU"
+                    android:textColor="@color/DTU"
                     android:textSize="18dp" />
 
-                <EditText
-                    android:id="@+id/viewPassword"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="11"
-                    android:editable="false"
-                    android:text="Loading..." />
+                    android:paddingBottom="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView4"
+                    app:passwordToggleEnabled="true">
+
+                    <EditText
+                        android:id="@+id/viewPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="textPassword"
+                        android:maxWidth="200dp"
+                        android:text="Loading..." />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -133,29 +167,37 @@
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
                 tools:layout_editor_absoluteX="0dp">
 
+
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
                     android:layout_weight="7"
                     android:gravity="center_vertical"
                     android:singleLine="true"
                     android:text="Platform: "
-                    android:textColor="@color/colorDTU"
+                    android:textColor="@color/DTU"
                     android:textSize="18dp" />
 
-
-                <EditText
-                    android:id="@+id/viewPlatform"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="11"
-                    android:editable="false"
-                    android:text="Loading..." />
+                    android:paddingBottom="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView2">
 
+                    <EditText
+                        android:id="@+id/viewPlatform"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="11"
+                        android:editable="false"
+                        android:text="Loading..." />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

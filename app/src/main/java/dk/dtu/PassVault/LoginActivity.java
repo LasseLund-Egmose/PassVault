@@ -20,6 +20,8 @@ import dk.dtu.PassVault.Business.Util.IconExtractor;
 
 public class LoginActivity extends BaseActivity {
 
+    private final String TAG ="Pass_Vault";
+
     protected static class SetupCredentialTransaction extends Database.Transaction<Boolean> {
         protected WeakReference<Context> contextRef;
         protected String hashedPassword;
@@ -87,8 +89,9 @@ public class LoginActivity extends BaseActivity {
                             // Tell crypto instance about master password
                             this.crypto.setKey(password.getText().toString());
                             Intent intent = new Intent(getApplicationContext(), VaultActivity.class);
+                            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
-
+                            finish();
                         } else {
                             Toast.makeText(getApplicationContext(), "Wrong password entered.", Toast.LENGTH_LONG).show();
                         }
@@ -99,9 +102,10 @@ public class LoginActivity extends BaseActivity {
 
 
        registerButton.setOnClickListener(v -> {
-            EditText password = (EditText) findViewById(R.id.password);
+            Intent intent = new Intent(LoginActivity.this,RegisterMasterActivty.class);
+            startActivity(intent);
 
-            this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
+            /*this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
                 @Override
                 public void run() {
                     if(!this.isSuccessful) {
@@ -117,8 +121,9 @@ public class LoginActivity extends BaseActivity {
                             )
                     );
                 }
-            });
+            });*/
         });
 
     }
+
 }

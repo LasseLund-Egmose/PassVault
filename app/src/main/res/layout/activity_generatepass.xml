@@ -63,7 +63,6 @@
         android:textStyle="bold"
         android:textFontWeight="2000"
         android:text="@string/password_length_indicator"
-        android:textColor="@color/colorAccent"
 
 
         app:layout_constraintLeft_toRightOf="@id/length_seekBar"

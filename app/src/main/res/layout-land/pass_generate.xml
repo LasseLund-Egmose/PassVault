@@ -13,21 +13,6 @@
         android:weightSum="100">
 
         <TextView
-            android:id="@+id/passwordGeneratorTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
-            android:text="PASSWORD GENERATOR"
-            android:textColor="@color/DTU"
-            android:textSize="30sp" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="5" />
-
-        <TextView
             android:id="@+id/settingsTextView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,13 +35,8 @@
                 android:text="@string/generated_password"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
         </LinearLayout>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="10" />
 
         <TextView
             android:id="@+id/settingsTextView"
@@ -69,7 +49,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="15"
             android:orientation="horizontal">
 
             <TextView
@@ -116,7 +96,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="15"
             android:orientation="horizontal">
 
             <TextView
@@ -157,7 +137,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="15"
             android:orientation="horizontal">
 
             <TextView
@@ -196,7 +176,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="15"
             android:orientation="horizontal">
 
             <TextView
@@ -234,7 +214,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="15"
             android:orientation="horizontal">
 
             <TextView
@@ -272,7 +252,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -300,17 +281,14 @@
                 android:id="@+id/strength_progressbar"
                 style="@android:style/Widget.Holo.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
                 android:progressDrawable="@drawable/pb_drawable_green" />
         </LinearLayout>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="6" />
+
 
         <Button
             android:id="@+id/generateButton"
@@ -319,7 +297,7 @@
             android:backgroundTint="@color/DTU"
             android:text="@string/generate_button"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="15sp"
             />
 
         <View

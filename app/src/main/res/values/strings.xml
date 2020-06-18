@@ -10,16 +10,20 @@
     <string name="password_numbers">Numbers</string>
     <string name="password_special">Special characters</string>
     <string name="sign_in_btn_string">Sign In</string>
-    <string name="add_head">Please provide the required data :</string>
-    <string name="add_input_title">Title :</string>
-    <string name="add_input_url">URL (optional) :</string>
-    <string name="add_input_username">Username :</string>
-    <string name="add_input_password">Password :</string>
+    <string name="add_head">Please provide the required data:</string>
+    <string name="add_input_title">Title:</string>
+    <string name="add_input_url">URL (optional):</string>
+    <string name="add_input_username">Username:</string>
+    <string name="add_input_password">Password:</string>
 
     <string name="generate_password">Generate Password</string>
     <string name="edit_logo">Edit Logo</string>
     <string name="create_profile">Create</string>
 
+    <string name="delete_account">Delete Account</string>
+    <string name="change_master_password">Modify Master Password</string>
+
+    <string name="register_master_password_warning">Please remember this password and only keep it somewhere safe, as you will not be able to recover it in case it is lost.</string>
     <string name="add_input_master_password">Master Password:</string>
     <string name="add_input_master_password_again">Master Password again:</string>
     <string name="reset_input">Reset input</string>
