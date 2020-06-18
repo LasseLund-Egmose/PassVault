@@ -267,7 +267,8 @@ public class AutoFillService extends android.service.autofill.AutofillService {
     }
 
     protected void traverseNode(AssistStructure.ViewNode viewNode) {
-        if(viewNode.getClassName().equals("android.widget.EditText")) {
+        String className = viewNode.getClassName();
+        if(className != null && className.equals("android.widget.EditText")) {
             boolean noUsername = this.fields.username == null;
             boolean noPassword = this.fields.password == null;
 
