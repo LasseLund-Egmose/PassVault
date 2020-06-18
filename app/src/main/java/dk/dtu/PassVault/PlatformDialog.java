@@ -90,12 +90,14 @@ public class PlatformDialog extends DialogFragment {
 
         builder.setView(inflater.inflate(R.layout.platform_dialog, null))
                 .setPositiveButton("Add", (dialog, id) -> {
+
                     AlertDialog ad = (AlertDialog) dialog;
                     RadioGroup radioGroup = (RadioGroup) ad.findViewById(R.id.radioGroup);
                     Spinner spinner = (Spinner) ad.findViewById(R.id.appList);
                     TextView webSiteText = (TextView) ad.findViewById(R.id.webSiteText);
 
                     String result = "";
+
                     if (radioGroup.getCheckedRadioButtonId() == R.id.app) {
                         ApplicationInfo ai = (ApplicationInfo) spinner.getSelectedItem();
 
@@ -111,10 +113,12 @@ public class PlatformDialog extends DialogFragment {
                             } else {
                                 Toast.makeText(getContext(), "No URL provided", LENGTH_LONG).show();
                             }
-                        } catch (IllegalArgumentException e) {
+                        } catch (IllegalArgumentException ignored) {
                         }
                     }
+
                     listener.onDialogAddClick(PlatformDialog.this, result);
+
 
                 })
                 .setNegativeButton("Cancel", (dialog, id) -> {
@@ -126,11 +130,13 @@ public class PlatformDialog extends DialogFragment {
         ad.setOnShowListener(dialogInterface -> {
             AlertDialog dialog = (AlertDialog) dialogInterface;
 
+            // Change between app and website
             Spinner appList = (Spinner) dialog.findViewById(R.id.appList);
 
             if (appList != null) {
                 appList.setAdapter(new AppListAdapter(this.context, R.layout.app_list_single, this.packages));
             }
+
 
             RadioGroup radioGroup = (RadioGroup) ad.findViewById(R.id.radioGroup);
             RadioButton radioButtonApp = (RadioButton) ad.findViewById(R.id.app);
