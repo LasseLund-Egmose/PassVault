@@ -90,6 +90,9 @@ public class SingleVaultItemDialog extends DialogFragment {
             TextView platform = dialog.findViewById(R.id.viewPlatform);
             TextView username = dialog.findViewById(R.id.viewUsername);
             TextView password = dialog.findViewById(R.id.viewPassword);
+
+            Button copyPassword = dialog.findViewById(R.id.copyPassword);
+            Button copyUsername = dialog.findViewById(R.id.copyUsername);
             Button deleteBtn = dialog.findViewById(R.id.delete_item_btn);
 
             copyPassword.setOnClickListener(view -> {
@@ -113,8 +116,7 @@ public class SingleVaultItemDialog extends DialogFragment {
                 }
 
             });
-
-            if (title == null || platform == null || username == null || password == null) {
+            
             if(title == null || platform == null || username == null || password == null || deleteBtn == null) {
                 return;
             }
