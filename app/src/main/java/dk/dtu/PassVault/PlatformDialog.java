@@ -49,8 +49,8 @@ public class PlatformDialog extends DialogFragment {
 
     public interface Listener {
         void onDialogAddClick(DialogFragment dialog, String result);
-
         void onDialogCancelClick(DialogFragment dialog);
+        void onDialogTouchOutsideClick(DialogFragment dialog);
     }
 
     @Override
@@ -120,10 +120,8 @@ public class PlatformDialog extends DialogFragment {
                 @Override
                 public void onClick(View v) {
                     String result = "";
-                    Boolean validWebsiteFormat = false;
                     if (radioGroup.getCheckedRadioButtonId() == R.id.app) {
                         ApplicationInfo ai = (ApplicationInfo) spinner.getSelectedItem();
-
                         if (ai != null) {
                             result = "app://" + ai.packageName;
                         }
@@ -144,6 +142,7 @@ public class PlatformDialog extends DialogFragment {
                 }
             });
 
+            dialog.setOnCancelListener(dialog1 -> listener.onDialogTouchOutsideClick(PlatformDialog.this));
 
             Spinner appList = (Spinner) dialog.findViewById(R.id.appList);
 
@@ -166,9 +165,7 @@ public class PlatformDialog extends DialogFragment {
                 }
             });
 
-
         });
-
 
         return ad;
     }
