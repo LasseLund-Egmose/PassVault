@@ -17,4 +17,7 @@ public interface VaultItemDao {
 
     @Insert
     void insertAll(VaultItem... vaultItems);
+
+    @Delete
+    void delete(VaultItem vaultItem);
 }

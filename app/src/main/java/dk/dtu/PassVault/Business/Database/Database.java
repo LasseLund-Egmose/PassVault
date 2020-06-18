@@ -82,6 +82,10 @@ public class Database {
         return this.roomInstance.vaultItemDao().getAll().toArray(new VaultItem[0]);
     }
 
+    public void deleteVaultItem(VaultItem vaultItem) {
+        this.roomInstance.vaultItemDao().delete(vaultItem);
+    }
+
     public void setCredential(Credential cred) {
         this.roomInstance.credentialDao().set(cred);
     }
