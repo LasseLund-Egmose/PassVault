@@ -1,12 +1,8 @@
 package dk.dtu.PassVault.Android.Activity.Abstract;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import dk.dtu.PassVault.Android.Activity.LoginActivity;
@@ -29,16 +25,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void toastShort(int message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-
-        ActionBar ab = getSupportActionBar();
-        if(ab != null) {
-            ab.hide();
-        }
     }
 
     @Override
