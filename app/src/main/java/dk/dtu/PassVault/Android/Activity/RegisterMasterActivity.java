@@ -115,7 +115,6 @@ public class RegisterMasterActivity extends BaseActivity {
         });
     }
 
-
     // TODO: Update this so there's no duplicate code
     public void updatePasswordStrength(TextView strengthView, EditText passwordEditText, ProgressBar progressBar) {
         PasswordEvaluator pwe = new PasswordEvaluator();
