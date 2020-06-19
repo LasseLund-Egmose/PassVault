@@ -106,6 +106,17 @@ public class PasswordEvaluator {
         return passwordScore(password.length(), diversity[0], diversity[1], diversity[2], diversity[3]);
     }
 
+    public int passwordScore(int passwordLength, boolean containsLower, boolean containsUpper, boolean containsNums, boolean containsSpecial) {
+        int score = passwordLength;
+
+        if (containsLower) { score += 5; }
+        if (containsUpper) { score += 5; }
+        if (containsNums) { score += 5; }
+        if (containsSpecial) { score += 5; }
+
+        return score;
+    }
+
     public boolean[] evaluateCharacterDiversity(String password) {
         boolean hasLower = false, hasUpper = false, hasNumber = false, hasSpecial = false;
 
@@ -126,16 +137,5 @@ public class PasswordEvaluator {
         }
 
         return new boolean[]{ hasLower, hasUpper, hasNumber, hasSpecial };
-    }
-
-    public int passwordScore(int passwordLength, boolean containsLower, boolean containsUpper, boolean containsNums, boolean containsSpecial) {
-        int score = passwordLength;
-
-        if (containsLower) { score += 5; }
-        if (containsUpper) { score += 5; }
-        if (containsNums) { score += 5; }
-        if (containsSpecial) { score += 5; }
-
-        return score;
     }
 }
