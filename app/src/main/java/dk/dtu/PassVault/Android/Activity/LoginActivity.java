@@ -1,11 +1,20 @@
 package dk.dtu.PassVault.Android.Activity;
 
+import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 
 import java.lang.ref.WeakReference;
 
@@ -16,6 +25,7 @@ import dk.dtu.PassVault.R;
 
 public class LoginActivity extends BaseActivity {
 
+    protected static final String SETTING_HAS_SHOWN_WELCOME_DIALOG = "hasShownWelcomeDialog";
     protected static int REQUEST_CODE_BUTTONS = 2;
 
     protected static class ShowApplicableButtonsTransaction extends Database.Transaction<Boolean> {
@@ -41,6 +51,60 @@ public class LoginActivity extends BaseActivity {
 
             activity.findViewById(R.id.sign_in_btn).setEnabled(result);
             activity.findViewById(R.id.register_btn).setEnabled(!result);
+        }
+    }
+
+    protected static class ShowWelcomeDialogIfRelevantTransaction extends Database.Transaction<Boolean> {
+
+        protected WeakReference<LoginActivity> ref;
+
+        public ShowWelcomeDialogIfRelevantTransaction(WeakReference<LoginActivity> ref) {
+            this.ref = ref;
+        }
+
+        @Override
+        public Boolean doRequest(Database db) {
+            return db.getSetting(SETTING_HAS_SHOWN_WELCOME_DIALOG) == null;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public void onResult(Boolean result) {
+            LoginActivity activity = this.ref.get();
+
+            if (activity == null || !result) return;
+
+            new AlertDialog.Builder(activity)
+                .setTitle("Test")
+                .setMessage("Message")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .setOnDismissListener(dialog -> {
+                    Database.dispatch(activity, new UpdateWelcomeDialogSettingTransaction(true));
+                })
+                .setIcon(R.drawable.logo_icon)
+                .show();
+        }
+    }
+
+    protected static class UpdateWelcomeDialogSettingTransaction extends Database.Transaction<Void> {
+
+        protected boolean hasShown;
+
+        public UpdateWelcomeDialogSettingTransaction(boolean hasShown) {
+            this.hasShown = hasShown;
+        }
+
+        @Override
+        public Void doRequest(Database db) {
+            db.setSetting(SETTING_HAS_SHOWN_WELCOME_DIALOG, String.valueOf(this.hasShown));
+            return null;
+        }
+
+        @Override
+        public void onResult(Void result) {
+            // Do nothing
         }
     }
 
@@ -93,6 +157,11 @@ public class LoginActivity extends BaseActivity {
         });
 
         this.showApplicableButtons();
+
+        Database.dispatch(
+            this,
+            new ShowWelcomeDialogIfRelevantTransaction(new WeakReference<>(this))
+        );
     }
 
     @Override
