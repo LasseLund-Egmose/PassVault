@@ -15,7 +15,7 @@
     <string name="add_input_title">Titel:</string>
     <string name="add_input_url">URL (valgfrit):</string>
     <string name="add_input_username">Brugernavn:</string>
-    <string name="add_input_password">Adgangskode:</string>
+    <string name="add_input_password">Adg.-kode:</string>
 
     <string name="generate_password">Generer adgangskode</string>
     <string name="edit_logo">Ændre logo</string>
