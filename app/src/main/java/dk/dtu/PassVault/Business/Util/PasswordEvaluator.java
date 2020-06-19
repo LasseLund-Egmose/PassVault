@@ -68,7 +68,7 @@ public class PasswordEvaluator {
         );
         this.evalPasswordStrength(passwordScore);
 
-        strengthView.setText(this.passwordStrength.toString().replace('_', ' '));
+        strengthView.setText(" " + this.passwordStrength.toString().replace('_', ' '));
 
         this.updateProgressBar(progressBar, context);
     }

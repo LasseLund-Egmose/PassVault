@@ -1,5 +1,5 @@
 <resources>
-    <string name="welcome_text">Velkommen til PassVault. Angiv din master-adgangskode nedenfor, eller tryk \"Opret Konto\" for at komme igang.</string>
+    <string name="welcome_text">Velkommen til PassVault. Angiv din master-adgangskode nedenfor, eller tryk \"Opsæt Konto\" for at komme igang.</string>
     <string name="app_name">PassVault</string>
     <string name="generate_button">Generer</string>
     <string name="copy_button">Kopier</string>
@@ -26,12 +26,11 @@
 
     <string name="register_master_password_warning">
     Vær venlig at huske din adgangskode, og gemme den et sikkert sted. Du vil ikke have mulighed for at gendanne den, i tilfælde af at den bliver glemt</string>
-    <string name="add_input_master_password">Master-adgangskode:</string>
-    <string name="add_input_master_password_again">Master-adgangskode igen:</string>
+    <string name="add_input_master_password">Master-adgangskode</string>
+    <string name="add_input_master_password_again">Master-adgangskode igen</string>
     <string name="reset_input">Nulstil</string>
     <string name="save_registration">Gem</string>
     <string name="password_length_indicator">12</string>
-    <string name="password_strength_indicator">Adgangskode styrke: </string>
     <string name="cipher_setup_error">Fejl: kunne ikke etablerer krypteringsalgoritme</string>
     <string name="needs_relogin">Log ind er påkrævet</string>
     <string name="password_strength">ADGANGSKODE STYRKE:</string>
@@ -71,8 +70,8 @@
     <string name="new_item_title">Opret nyt element</string>
     <string name="platform">Platform:</string>
     <string name="password_generator_title">ADGANGSKODE GENERATOR</string>
-    <string name="password_generated_settings_header">Genereret adgangskode:</string>
-    <string name="settings_header">INDSTILLINGER:</string>
+    <string name="password_generated_settings_header">GENERERET ADGANGSKODE</string>
+    <string name="settings_header">INDSTILLINGER</string>
     <string name="ok_btn">OK</string>
     <string name="copy_btn">KOPIER</string>
     <string name="masster_password_autofill_text">Angiv master-adgangskode for at bruge auto-udfyld funktionen</string>

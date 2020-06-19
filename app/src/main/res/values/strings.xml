@@ -29,12 +29,11 @@
     <string name="setup_vault">Setup Vault</string>
 
     <string name="register_master_password_warning">Please remember this password and only keep it somewhere safe, as you will not be able to recover it in case it is lost.</string>
-    <string name="add_input_master_password">Master Password:</string>
-    <string name="add_input_master_password_again">Master Password again:</string>
+    <string name="add_input_master_password">Master Password</string>
+    <string name="add_input_master_password_again">Master Password again</string>
     <string name="reset_input">Reset input</string>
     <string name="save_registration">Save</string>
     <string name="password_length_indicator">12</string>
-    <string name="password_strength_indicator">Password strength: </string>
     <string name="cipher_setup_error">Error: Could not setup en-/decryption algorithm</string>
     <string name="needs_relogin">You need to login again.</string>
     <string name="password_strength">PASSWORD STRENGTH:</string>
@@ -73,8 +72,8 @@
     <string name="new_item_title">Add new item to Vault</string>
     <string name="platform">Platform:</string>
     <string name="password_generator_title">PASSWORD GENERATOR</string>
-    <string name="password_generated_settings_header">Password generated:</string>
-    <string name="settings_header">SETTINGS:</string>
+    <string name="password_generated_settings_header">GENERATED PASSWORD</string>
+    <string name="settings_header">SETTINGS</string>
     <string name="ok_btn">OK</string>
     <string name="copy_btn">COPY</string>
     <string name="masster_password_autofill_text">Please enter master password to use Autofill</string>
