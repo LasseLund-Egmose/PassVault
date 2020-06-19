@@ -1,4 +1,4 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Android.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.lang.ref.WeakReference;
-
-import dk.dtu.PassVault.Business.Crypto.Crypto;
-import dk.dtu.PassVault.Business.Service.AutoFillService;
+import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
+import dk.dtu.PassVault.R;
+import dk.dtu.PassVault.Android.Service.AutoFillService;
 
 public class AutoFillDialogActivity extends BaseActivity {
 
@@ -31,10 +30,12 @@ public class AutoFillDialogActivity extends BaseActivity {
             unregisterReceiver(this.receiver);
         }
 
+        final String ACTION = AutoFillService.AutoFillCommunicator.ACTION_MASTER_PASSWORD_VALIDATION_RESPONSE;
+
         this.receiver = new AutoFillService.AutoFillCommunicator() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if(!AutoFillService.AutoFillCommunicator.ACTION_MASTER_PASSWORD_VALIDATION_RESPONSE.equals(intent.getAction())) {
+                if(!ACTION.equals(intent.getAction())) {
                     return;
                 }
 
@@ -46,28 +47,24 @@ public class AutoFillDialogActivity extends BaseActivity {
                 }
 
                 if(extras.getBoolean("success")) {
-                    Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
+                    toastShort(R.string.success);
                     finishAndRemoveTask();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Wrong password entered", Toast.LENGTH_SHORT).show();
+                    toastShort(R.string.wrong_password);
                 }
             }
         };
 
-        registerReceiver(this.receiver, new IntentFilter(AutoFillService.AutoFillCommunicator.ACTION_MASTER_PASSWORD_VALIDATION_RESPONSE));
-
+        registerReceiver(this.receiver, new IntentFilter(ACTION));
     }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-
         this.setContentView(R.layout.autofill_dialog);
 
         EditText masterPassword = this.findViewById(R.id.autoFillInput);
         Button btn = this.findViewById(R.id.autoFillBtn);
-
-
 
         btn.setOnClickListener(v -> {
             Log.i(LOG_TAG, "Click");

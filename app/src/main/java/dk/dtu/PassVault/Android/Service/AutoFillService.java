@@ -1,6 +1,5 @@
-package dk.dtu.PassVault.Business.Service;
+package dk.dtu.PassVault.Android.Service;
 
-import android.app.Service;
 import android.app.assist.AssistStructure;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,7 +16,6 @@ import android.service.autofill.FillResponse;
 import android.service.autofill.SaveCallback;
 import android.service.autofill.SaveRequest;
 import android.util.Log;
-import android.view.autofill.AutofillId;
 import android.view.autofill.AutofillValue;
 import android.widget.RemoteViews;
 
@@ -25,12 +23,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import dk.dtu.PassVault.AutoFillDialogActivity;
-import dk.dtu.PassVault.AutoFillFieldSet;
+import dk.dtu.PassVault.Android.Activity.AutoFillDialogActivity;
+import dk.dtu.PassVault.Business.Struct.AutoFillFieldSet;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.VaultItem;

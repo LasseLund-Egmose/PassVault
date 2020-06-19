@@ -1,40 +1,82 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Android.Activity;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import org.w3c.dom.Text;
 
 import java.lang.ref.WeakReference;
+
+import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.Credential;
+import dk.dtu.PassVault.Business.Util.PasswordEvaluator;
+import dk.dtu.PassVault.Business.Enum.PasswordStrength;
+import dk.dtu.PassVault.R;
 
+public class RegisterMasterActivity extends BaseActivity {
 
+    protected static class SetupCredentialTransaction extends Database.Transaction<Boolean> {
+        protected WeakReference<RegisterMasterActivity> ref;
+        protected String hashedPassword;
 
-public class RegisterMasterActivty extends BaseActivity {
-    private static final String TAG = "Log_Pass";
+        SetupCredentialTransaction(WeakReference<RegisterMasterActivity> ref, String hashedPassword) {
+            this.hashedPassword = hashedPassword;
+            this.ref = ref;
+        }
+
+        @Override
+        public Boolean doRequest(Database db) {
+            Credential cred = new Credential(this.hashedPassword);
+            db.setCredential(cred);
+
+            return db.hasCredential();
+        }
+
+        @Override
+        public void onResult(Boolean result) {
+            RegisterMasterActivity activity = this.ref.get();
+            if (activity == null) return;
+
+            activity.toastShort(
+                result ? R.string.master_password_created : R.string.something_went_wrong
+            );
+        }
+
+    }
 
     protected boolean allowNoKey() {
         return true;
     }
 
+    protected void setMasterPassword(String password) {
+        this.getCrypto().hash(password, new Crypto.CryptoResponse() {
+            @Override
+            public void run() {
+                if (!this.isSuccessful) {
+                    toastShort(R.string.error_occurred);
+                    return;
+                }
+
+                Database.dispatch(
+                    getApplicationContext(),
+                    new SetupCredentialTransaction(
+                        new WeakReference<>(RegisterMasterActivity.this),
+                        this.hashedData
+                    )
+                );
+            }
+        });
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG,"RegisterMaster created");
-        setContentView(R.layout.activity_register_master_new);
-        getSupportActionBar().hide();
+        this.setContentView(R.layout.activity_register_master_new);
 
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.strength_progressbar);
         EditText password = (EditText) findViewById(R.id.reg_master_password_editText1);
@@ -48,7 +90,7 @@ public class RegisterMasterActivty extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                updatePasswordStrength(passwordStrengthView,password,progressBar);
+                updatePasswordStrength(passwordStrengthView, password, progressBar);
             }
 
             @Override
@@ -59,37 +101,22 @@ public class RegisterMasterActivty extends BaseActivity {
 
         Button saveButton = (Button) findViewById(R.id.save_registration);
         saveButton.setOnClickListener(v -> {
+            String pw = password.getText().toString();
+            String pw2 = password2.getText().toString();
 
-            if(password.getText().toString().equals(password2.getText().toString())){
-
-                this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {
-                    @Override
-                    public void run() {
-                        if(!this.isSuccessful) {
-                            Toast.makeText(getApplicationContext(), "An error occurred!", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        Database.dispatch(
-                                getApplicationContext(),
-                                new LoginActivity.SetupCredentialTransaction(
-                                        new WeakReference<>(getApplicationContext()),
-                                        this.hashedData
-                                )
-                        );
-                    }
-                });
-
-                setResult(RESULT_OK);
-                finish();
-            }else {
-                Toast.makeText(getApplicationContext(),"Master password is not identical",Toast.LENGTH_LONG).show();
+            if (!pw.equals(pw2)) {
+                this.toastShort(R.string.passwords_not_identical);
             }
 
+            this.setMasterPassword(pw);
+
+            this.setResult(RESULT_OK);
+            this.finish();
         });
     }
 
 
+    // TODO: Update this so there's no duplicate code
     public void updatePasswordStrength(TextView strengthView, EditText passwordEditText, ProgressBar progressBar) {
         PasswordEvaluator pwe = new PasswordEvaluator();
         PasswordStrength passwordStrength = pwe.getPasswordStrength(passwordEditText.getText().toString());
@@ -108,11 +135,6 @@ public class RegisterMasterActivty extends BaseActivity {
             progressBar.setProgress(100);
         }
     }
-
-
-
-
-
 }
 
 

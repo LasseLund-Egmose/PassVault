@@ -1,4 +1,4 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Android.Dialog;
 
 import android.app.Dialog;
 import android.content.ClipData;
@@ -6,7 +6,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +19,8 @@ import java.lang.ref.WeakReference;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
+import dk.dtu.PassVault.R;
+import dk.dtu.PassVault.Android.Activity.VaultActivity;
 
 import static android.widget.Toast.LENGTH_LONG;
 
