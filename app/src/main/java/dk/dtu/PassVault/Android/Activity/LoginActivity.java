@@ -75,8 +75,8 @@ public class LoginActivity extends BaseActivity {
             if (activity == null || !result) return;
 
             new AlertDialog.Builder(activity)
-                .setTitle("Test")
-                .setMessage("Message")
+                .setTitle(R.string.welcome_dialog_title)
+                .setMessage(R.string.welcome_dialog_content)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     dialog.dismiss();
                 })
