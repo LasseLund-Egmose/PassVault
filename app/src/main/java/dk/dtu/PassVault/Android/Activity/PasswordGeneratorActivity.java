@@ -149,7 +149,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pass_generate);
+        setContentView(R.layout.activity_pass_generate);
 
         this.clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         this.passwordGenerator = new PasswordGenerator();
