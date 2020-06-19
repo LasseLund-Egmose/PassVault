@@ -60,4 +60,9 @@
 
     <string name="invalid_url">Invalid URL provided</string>
 
+    <string name="username_copied">Username copied to clipboard</string>
+    <string name="password_copied">Password copied to clipboard</string>
+    <string name="no_username_to_copy">No username to copy</string>
+    <string name="no_password_to_copy">No password to copy</string>
+
 </resources>
