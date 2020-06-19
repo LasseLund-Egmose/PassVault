@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="App"
+            android:text="@string/app_text"
             android:buttonTint="@color/DTU"
             />
 
@@ -44,7 +44,7 @@
             android:id="@+id/website"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Website"
+            android:text="@string/website_text"
             android:buttonTint="@color/DTU"/>
 
     </RadioGroup>
@@ -101,7 +101,7 @@
                 android:id="@+id/webSiteText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="https://www.example.com"
+                android:hint="@string/example_website_hint"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

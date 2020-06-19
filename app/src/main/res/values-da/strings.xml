@@ -1,0 +1,88 @@
+<resources>
+    <string name="welcome_text">Velkommen til PassVault. Angiv dit hoved-adgangskode nedenfor, eller tryk Opret Konto for at komme igang.</string>
+    <string name="app_name">PassVault</string>
+    <string name="generate_button">Generer</string>
+    <string name="copy_button">Kopier</string>
+    <string name="press_generate">TRYK "GENERER"</string>
+    <string name="password_length">Længde:</string>
+    <string name="password_length_num"></string>
+    <string name="password_lowercases">Små bogstaver</string>
+    <string name="password_uppercases">Store bogstaver</string>
+    <string name="password_numbers">Tal</string>
+    <string name="password_special">Specielle tegn</string>
+    <string name="sign_in_btn_string">Log ind</string>
+    <string name="add_head">Nødvendig data påkrævet: </string> ****
+    <string name="add_input_title">Titel:</string>
+    <string name="add_input_url">URL (valgfrit):</string>
+    <string name="add_input_username">Brugernavn:</string>
+    <string name="add_input_password">Adgangskode:</string>
+
+    <string name="generate_password">Generer adgangskode</string>
+    <string name="edit_logo">Ændre logo</string>
+    <string name="create_profile">Opret</string>
+
+    <string name="delete_account">Slet konto</string>
+    <string name="change_master_password">Ændre hoved-adgangskode</string>
+
+    <string name="register_master_password_warning">
+    Vær venlig at huske din adgangskode, og gemme den et sikkert sted. Du vil ikke have mulighed for at gendanne den, i tilfælde af at den bliver glemt</string>
+    <string name="add_input_master_password">Hoved-adgangskode:</string>
+    <string name="add_input_master_password_again">Hoved-adgangskode igen:</string>
+    <string name="reset_input">Nulstil</string>
+    <string name="save_registration">Gem</string>
+    <string name="password_length_indicator">12</string>
+    <string name="password_strength_indicator">Adgangskode styrke: </string>
+    <string name="cipher_setup_error">Fejl: kunne ikke etablerer krypteringsalgoritme</string>
+    <string name="needs_relogin">Log ind er påkrævet</string>
+    <string name="password_strength">ADGANGSKODE STYRKE:</string>
+    <string name="password_strength_var"></string>
+
+    <string name="wrong_password">Forkert adgangskode indtastet</string>
+    <string name="wrong_password_or_something_wrong">Forkert adgangskode indtastet (eller noget andet gik galt).</string>
+    <string name="success">Succes</string>
+    <string name="something_went_wrong">Noget gik galt!</string>
+    <string name="master_password_created">Hoved-adgangskode lavet!</string>
+    <string name="turn_on_settings">Vær venlig at vælge nogle indstillinger</string>
+
+    <string name="strength_weak">SVAG</string>
+    <string name="strength_strong">STÆRK</string>
+    <string name="strength_very_strong">MEGET STÆRK</string>
+
+    <string name="generated_successfully">Adgangskode genereret!</string>
+    <string name="no_password_generated">Ingen adgangskode genereret</string>
+    <string name="pass_copied_to_clipboard">Genereret adgangskode kopieret</string>
+    <string name="please_generate_password">Vær venlig at generere en adgangskode</string>
+
+    <string name="error_occurred">En fejl opstod!</string>
+    <string name="passwords_not_identical">Adgangskode er ikke identisk</string>
+
+    <string name="autofill_title">PassVault Auto-udfyldning</string>
+    <string name="autofill_prompt">Vil du bruge PassVault som din primære auto-udfyldnings applikation?</string>
+    <string name="select_passvault">Vælg venligst \"PassVault Password Manager\"</string>
+
+    <string name="invalid_url">Ugyldigt URL givet</string>
+
+    <string name="username_copied">Brugernavn kopieret</string>
+    <string name="password_copied">Adgangskode kopieret</string>
+    <string name="no_username_to_copy">Intet brugernavn som kan kopieres</string>
+    <string name="no_password_to_copy">Intet brugernavn som kan kopieres</string>
+    <string name="open_vault">Åben Konto</string>
+    <string name="new_item_title">Angiv ny konto-information</string>
+    <string name="platform">Platform:</string>
+    <string name="password_generator_title">ADGANGSKODE GENERATOR</string>
+    <string name="password_generated_settings_header">Genereret adgangskode:</string>
+    <string name="settings_header">INDSTILLINGER:</string>
+    <string name="ok_btn">OK</string>
+    <string name="copy_btn">KOPIER</string>
+    <string name="masster_password_autofill_text">Angiv hoved-adgangskode for at bruge auto-udfyld funktionen</string>
+    <string name="autofill_btn">Auto-udfyld</string>
+    <string name="app_text">Applikation</string>
+    <string name="website_text">Hjemmeside</string>
+    <string name="example_website_hint">https://www.eksempel.dk</string>
+    <string name="loading_text">Indlæser...</string>
+    <string name="copy_username_text">Kopier brugernavn</string>
+    <string name="copy_password_text">Kopier adgangskode</string>
+    <string name="delete_btn">Slet</string>
+    <string name="setup_vault">Opsæt Konto</string>
+
+</resources>
