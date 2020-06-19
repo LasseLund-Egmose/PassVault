@@ -17,7 +17,6 @@ import androidx.fragment.app.FragmentActivity;
 
 import java.lang.ref.WeakReference;
 
-import dk.dtu.PassVault.Android.Activity.EditOrCreateVaultItemActivity;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
@@ -31,7 +30,6 @@ public class SingleVaultItemDialog extends DialogFragment {
     protected ClipboardManager clipboardManager;
     protected Context context;
     protected VaultItem item;
-    protected VaultActivity vaultActivity;
 
     public SingleVaultItemDialog(VaultItem item) {
         this.item = item;
@@ -62,7 +60,9 @@ public class SingleVaultItemDialog extends DialogFragment {
             }
 
             Toast.makeText(activity.getContext(), "Item deleted", Toast.LENGTH_LONG).show();
-            ((VaultActivity)activity.getActivity()).refreshList();
+
+            VaultActivity vaultActivity = (VaultActivity) activity.getActivity();
+            if(vaultActivity == null) return;
             activity.dismiss();
         }
     }
