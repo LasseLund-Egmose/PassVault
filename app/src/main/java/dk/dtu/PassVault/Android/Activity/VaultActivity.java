@@ -175,7 +175,7 @@ public class VaultActivity extends BaseActivity {
         vaultContainer.setOnItemClickListener((parent, view, position, id) -> {
             VaultItem item = this.vaultItemAdapter.getItem(position);
 
-            DialogFragment dialog = new SingleVaultItemDialog(this, item);
+            DialogFragment dialog = new SingleVaultItemDialog(item);
             dialog.show(getSupportFragmentManager(), "SingleVaultItemDialog");
         });
 
