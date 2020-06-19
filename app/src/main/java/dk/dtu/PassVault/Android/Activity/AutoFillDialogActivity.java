@@ -1,14 +1,20 @@
 package dk.dtu.PassVault.Android.Activity;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
 import dk.dtu.PassVault.R;
@@ -23,6 +29,24 @@ public class AutoFillDialogActivity extends BaseActivity {
     @Override
     protected boolean allowNoKey() {
         return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    protected void keepServiceAlive() {
+        // Keep service alive while dialog is shown
+        Intent serviceIntent = new Intent(AutoFillDialogActivity.this, AutoFillService.class);
+        serviceIntent.setAction(AutoFillService.SERVICE_INTERFACE);
+        AutoFillDialogActivity.this.bindService(serviceIntent, new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                // Do nothing
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                // Do nothing
+            }
+        }, Context.BIND_AUTO_CREATE);
     }
 
     protected void setupReceiver() {
@@ -58,6 +82,7 @@ public class AutoFillDialogActivity extends BaseActivity {
         registerReceiver(this.receiver, new IntentFilter(ACTION));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -65,6 +90,8 @@ public class AutoFillDialogActivity extends BaseActivity {
 
         EditText masterPassword = this.findViewById(R.id.autoFillInput);
         Button btn = this.findViewById(R.id.autoFillBtn);
+
+        this.keepServiceAlive();
 
         btn.setOnClickListener(v -> {
             Log.i(LOG_TAG, "Click");
