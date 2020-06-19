@@ -100,7 +100,7 @@ public class RegisterMasterActivity extends BaseActivity {
                     password,
                     progressBar,
                     getApplicationContext(),
-                    getString(R.string.password_strength_indicator));
+                    getString(R.string.password_strength));
             }
 
             @Override
