@@ -30,6 +30,7 @@ import dk.dtu.PassVault.Android.Dialog.SingleVaultItemDialog;
 import dk.dtu.PassVault.R;
 
 public class VaultActivity extends BaseActivity {
+    private final String TAG = "Pass_Vault";
 
     public static final int ADD_PROFILE_CODE = 1;
 
