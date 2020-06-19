@@ -1,5 +1,6 @@
 package dk.dtu.PassVault.Android.Activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -112,6 +113,23 @@ public class VaultActivity extends BaseActivity {
             this.ref = ref;
         }
 
+        protected void openSettings(VaultActivity activity) {
+            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+                Intent intent = new Intent();
+                intent.setComponent( new ComponentName("com.android.settings","com.android.settings.Settings$LanguageAndInputSettingsActivity" ));
+                activity.startActivity(intent);
+
+                Toast.makeText(activity, R.string.select_passvault_long, Toast.LENGTH_LONG).show();
+            } else {
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                intent.setData(Uri.parse("package:dk.dtu.PassVault"));
+                activity.startActivity(intent);
+
+                Toast.makeText(activity, R.string.select_passvault, Toast.LENGTH_LONG).show();
+            }
+        }
+
         @Override
         public Boolean doRequest(Database db) {
             return db.getSetting(SETTING_HAS_SHOWN_AUTO_FILL_DIALOG) == null;
@@ -128,12 +146,7 @@ public class VaultActivity extends BaseActivity {
                 .setTitle(R.string.autofill_title)
                 .setMessage(R.string.autofill_prompt)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                    intent.setData(Uri.parse("package:dk.dtu.PassVault"));
-                    activity.startActivity(intent);
-
-                    Toast.makeText(activity, R.string.select_passvault, Toast.LENGTH_LONG).show();
+                    openSettings(activity);
 
                     Database.dispatch(activity, new UpdateAutoFillDialogSetting(true));
                 })
