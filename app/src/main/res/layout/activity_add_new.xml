@@ -210,7 +210,7 @@
         android:text="@string/generate_password"
         android:textColor="@color/DTU"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button5" />
+        app:layout_constraintEnd_toStartOf="@+id/create_vault_item" />
 
     <ImageView
         android:id="@+id/app_icon"
