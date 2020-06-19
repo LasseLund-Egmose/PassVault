@@ -27,11 +27,6 @@ public class PasswordEvaluator {
     private final int SPECIAL_ASCII_LOW = 33;
     private final int SPECIAL_ASCII_HIGH = 47;
 
-    private boolean hasLower;
-    private boolean hasUpper;
-    private boolean hasNumber;
-    private boolean hasSpecial;
-
     private PasswordStrength passwordStrength;
 
     private String password = "";
@@ -41,20 +36,94 @@ public class PasswordEvaluator {
     }
 
     private void setPasswordStrength(String password) {
-        int numOfDifferentChars = getNumOfDifferentChars();
+
+        int passwordScore = this.passwordScore(password);
 
         // Very strong password if length is greater than 15 and all types are selected
-        if (numOfDifferentChars >= 4 && password.length() >= 15) {
+        if (passwordScore > 35) {
             passwordStrength = PasswordStrength.VERY_STRONG;
-        } else if (numOfDifferentChars >= 3 && password.length() >= 12) { // Strong password if length is greater 12 and a least 3 types are selected
+        } else if (passwordScore > 28) { // Strong password if length is greater 12 and a least 3 types are selected
             passwordStrength = PasswordStrength.STRONG;
         } else { // Weak password if length is
             passwordStrength = PasswordStrength.WEAK;
         }
     }
 
+    private void setPasswordStrength(int passwordLength, boolean containsLower, boolean containsUpper, boolean containsNums, boolean containsSpecial) {
 
-    private int getNumOfDifferentChars() {
+        int passwordScore = this.passwordScore(passwordLength, containsLower, containsUpper, containsNums, containsSpecial);
+
+        // Very strong password if length is greater than 15 and all types are selected
+        if (passwordScore > 35) {
+            passwordStrength = PasswordStrength.VERY_STRONG;
+        } else if (passwordScore > 28) { // Strong password if length is greater 12 and a least 3 types are selected
+            passwordStrength = PasswordStrength.STRONG;
+        } else { // Weak password if length is
+            passwordStrength = PasswordStrength.WEAK;
+        }
+    }
+
+    public void updatePasswordStrength(TextView strengthView, EditText passwordEditText, ProgressBar progressBar, Context context, String baseMsg) {
+        String password = passwordEditText.getText().toString();
+        this.setPassword(password);
+        this.setPasswordStrength(password);
+
+        strengthView.setText(baseMsg);
+        strengthView.append(" " + this.passwordStrength.toString().replace('_', ' '));
+
+        int progress;
+        Drawable progressBg;
+
+        if (this.passwordStrength.equals(PasswordStrength.WEAK)) {
+            progressBg = context.getDrawable(R.drawable.pb_drawable_red);
+            progress = 33;
+        } else if (this.passwordStrength.equals(PasswordStrength.STRONG)) {
+            progressBg = context.getDrawable(R.drawable.pb_drawable_yellow);
+            progress = 66;
+        } else {
+            progressBg = context.getDrawable(R.drawable.pb_drawable_green);
+            progress = 100;
+        }
+
+        progressBar.setProgress(progress);
+        progressBar.setProgressDrawable(progressBg);
+    }
+
+    public void updatePasswordStrength(TextView strengthView, ProgressBar progressBar, Context context, PasswordGenerator passwordGenerator) {
+
+        this.setPasswordStrength(
+                passwordGenerator.getLength(),
+                passwordGenerator.isLowerCaseLetters(),
+                passwordGenerator.isUpperCaseLetters(),
+                passwordGenerator.isNumbers(),
+                passwordGenerator.isSpecialChars()
+        );
+
+        strengthView.setText(this.passwordStrength.toString().replace('_', ' '));
+
+        int progress;
+        Drawable progressBg;
+
+        if (this.passwordStrength.equals(PasswordStrength.WEAK)) {
+            progressBg = context.getDrawable(R.drawable.pb_drawable_red);
+            progress = 33;
+        } else if (this.passwordStrength.equals(PasswordStrength.STRONG)) {
+            progressBg = context.getDrawable(R.drawable.pb_drawable_yellow);
+            progress = 66;
+        } else {
+            progressBg = context.getDrawable(R.drawable.pb_drawable_green);
+            progress = 100;
+        }
+
+        progressBar.setProgress(progress);
+        progressBar.setProgressDrawable(progressBg);
+    }
+
+    public int passwordScore(String password) {
+        boolean hasLower = false;
+        boolean hasUpper = false;
+        boolean hasNumber = false;
+        boolean hasSpecial = false;
 
         for (int i = 0; i < this.password.length(); i++) {
             if (!hasLower && LOWER_CASE_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= LOWER_CASE_ASCII_HIGH) {
@@ -72,45 +141,17 @@ public class PasswordEvaluator {
             }
         }
 
-        int i = 0;
-        if (hasLower) {
-            i++;
-        }
-        if (hasUpper) {
-            i++;
-        }
-        if (hasNumber) {
-            i++;
-        }
-        if (hasSpecial) {
-            i++;
-        }
-        return i;
+        return passwordScore(password.length(), hasLower, hasUpper, hasNumber, hasSpecial);
     }
 
-    public void updatePasswordStrength(TextView strengthView, EditText passwordEditText, ProgressBar progressBar, Context context, String baseMsg) {
-        String password = passwordEditText.getText().toString();
-        this.setPassword(password);
-        this.setPasswordStrength(password);
+    public int passwordScore(int passwordLength, boolean containsLower, boolean containsUpper, boolean containsNums, boolean containsSpecial) {
+        int score = passwordLength;
 
-        strengthView.setText(baseMsg);
-        strengthView.append(" " + passwordStrength.toString().replace('_', ' '));
+        if (containsLower) { score += 5; }
+        if (containsUpper) { score += 5; }
+        if (containsNums) { score += 5; }
+        if (containsSpecial) { score += 5; }
 
-        int progress;
-        Drawable progressBg;
-
-        if (passwordStrength.equals(PasswordStrength.WEAK)) {
-            progressBg = context.getDrawable(R.drawable.pb_drawable_red);
-            progress = 33;
-        } else if (passwordStrength.equals(PasswordStrength.STRONG)) {
-            progressBg = context.getDrawable(R.drawable.pb_drawable_yellow);
-            progress = 66;
-        } else {
-            progressBg = context.getDrawable(R.drawable.pb_drawable_green);
-            progress = 100;
-        }
-
-        progressBar.setProgress(progress);
-        progressBar.setProgressDrawable(progressBg);
+        return score;
     }
 }
