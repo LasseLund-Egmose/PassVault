@@ -1,6 +1,13 @@
 package dk.dtu.PassVault.Business.Util;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import dk.dtu.PassVault.Business.Enum.PasswordStrength;
+import dk.dtu.PassVault.R;
 
 public class PasswordEvaluator {
 
@@ -29,13 +36,8 @@ public class PasswordEvaluator {
 
     private String password = "";
 
-    public PasswordEvaluator(){
-    }
-
-    public PasswordStrength getPasswordStrength(String password) {
-        this.password=password;
-        setPasswordStrength(password);
-        return passwordStrength;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     private void setPasswordStrength(String password) {
@@ -84,5 +86,31 @@ public class PasswordEvaluator {
             i++;
         }
         return i;
+    }
+
+    public void updatePasswordStrength(TextView strengthView, EditText passwordEditText, ProgressBar progressBar, Context context, String baseMsg) {
+        String password = passwordEditText.getText().toString();
+        this.setPassword(password);
+        this.setPasswordStrength(password);
+
+        strengthView.setText(baseMsg);
+        strengthView.append(" " + passwordStrength.toString().replace('_', ' '));
+
+        int progress;
+        Drawable progressBg;
+
+        if (passwordStrength.equals(PasswordStrength.WEAK)) {
+            progressBg = context.getDrawable(R.drawable.pb_drawable_red);
+            progress = 33;
+        } else if (passwordStrength.equals(PasswordStrength.STRONG)) {
+            progressBg = context.getDrawable(R.drawable.pb_drawable_yellow);
+            progress = 66;
+        } else {
+            progressBg = context.getDrawable(R.drawable.pb_drawable_green);
+            progress = 100;
+        }
+
+        progressBar.setProgress(progress);
+        progressBar.setProgressDrawable(progressBg);
     }
 }
