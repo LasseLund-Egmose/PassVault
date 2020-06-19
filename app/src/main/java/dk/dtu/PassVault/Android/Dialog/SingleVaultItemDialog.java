@@ -78,7 +78,7 @@ public class SingleVaultItemDialog extends DialogFragment {
         final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        setRetainInstance(true);
+        this.setRetainInstance(true);
 
         builder.setView(inflater.inflate(R.layout.single_vault_item_dialog, null));
 

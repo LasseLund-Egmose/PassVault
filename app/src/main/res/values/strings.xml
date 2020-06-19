@@ -58,4 +58,6 @@
     <string name="autofill_prompt">Do you want to use PassVault as your primary AutoFill application?</string>
     <string name="select_passvault">Please select \"PassVault Password Manager\"</string>
 
+    <string name="invalid_url">Invalid URL provided</string>
+
 </resources>
