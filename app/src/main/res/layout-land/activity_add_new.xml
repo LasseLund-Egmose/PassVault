@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Add new item to Vault"
+        android:text="@string/new_item_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/DTU"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,7 +116,7 @@
         android:text="@string/generate_password"
         android:textColor="@color/DTU"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button5" />
+        app:layout_constraintEnd_toStartOf="@+id/create_vault_item" />
 
     <ImageView
         android:id="@+id/app_icon"
@@ -175,7 +175,7 @@
             android:layout_weight="7"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:text="Platform: "
+            android:text="@string/platform"
             android:textColor="@color/DTU"
             android:textSize="18dp" />
 

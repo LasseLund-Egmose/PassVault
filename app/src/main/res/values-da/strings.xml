@@ -67,7 +67,7 @@
     <string name="no_username_to_copy">Intet brugernavn som kan kopieres</string>
     <string name="no_password_to_copy">Intet brugernavn som kan kopieres</string>
     <string name="open_vault">Åben Konto</string>
-    <string name="new_item_title">Angiv ny konto-information</string>
+    <string name="new_item_title">Opret nyt element</string>
     <string name="platform">Platform:</string>
     <string name="password_generator_title">ADGANGSKODE GENERATOR</string>
     <string name="password_generated_settings_header">Genereret adgangskode:</string>
