@@ -5,8 +5,8 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -16,8 +16,8 @@ import android.widget.TextView;
 import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
 import dk.dtu.PassVault.Business.Util.PasswordEvaluator;
 import dk.dtu.PassVault.Business.Util.PasswordGenerator;
-import dk.dtu.PassVault.Business.Enum.PasswordStrength;
 import dk.dtu.PassVault.R;
+
 
 public class PasswordGeneratorActivity extends BaseActivity {
 
@@ -82,9 +82,14 @@ public class PasswordGeneratorActivity extends BaseActivity {
 
     protected void setupLengthBar() {
         this.lengthBar.setProgress(passwordGenerator.getLength());
+
+        if (Build.VERSION.SDK_INT > 26) {
+            this.lengthBar.setMin(passwordGenerator.getPASSWORD_LENGTH_MIN());
+        }
         this.lengthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
                 if(progress < passwordGenerator.getPASSWORD_LENGTH_MIN()) {
                     seekBar.setProgress(passwordGenerator.getPASSWORD_LENGTH_MIN());
                     return;
@@ -105,7 +110,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // Do nothing
+
             }
 
             @Override
