@@ -27,82 +27,54 @@ public class PasswordEvaluator {
     private final int SPECIAL_ASCII_LOW = 33;
     private final int SPECIAL_ASCII_HIGH = 47;
 
-    private boolean hasLower;
-    private boolean hasUpper;
-    private boolean hasNumber;
-    private boolean hasSpecial;
-
     private PasswordStrength passwordStrength;
 
-    private String password = "";
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    private void setPasswordStrength(String password) {
-        int numOfDifferentChars = getNumOfDifferentChars();
-
+    protected void evalPasswordStrength(int passwordScore) {
         // Very strong password if length is greater than 15 and all types are selected
-        if (numOfDifferentChars >= 4 && password.length() >= 15) {
+        if (passwordScore > 35) {
             passwordStrength = PasswordStrength.VERY_STRONG;
-        } else if (numOfDifferentChars >= 3 && password.length() >= 12) { // Strong password if length is greater 12 and a least 3 types are selected
+        } else if (passwordScore > 28) { // Strong password if length is greater 12 and a least 3 types are selected
             passwordStrength = PasswordStrength.STRONG;
         } else { // Weak password if length is
             passwordStrength = PasswordStrength.WEAK;
         }
     }
 
-
-    private int getNumOfDifferentChars() {
-
-        for (int i = 0; i < this.password.length(); i++) {
-            if (!hasLower && LOWER_CASE_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= LOWER_CASE_ASCII_HIGH) {
-                hasLower = true;
-            }
-            if (!hasUpper && UPPER_CASE_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= UPPER_CASE_ASCII_HIGH
-            ) {
-                hasUpper = true;
-            }
-            if (!hasNumber && NUMBERS_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= NUMBERS_ASCII_HIGH) {
-                hasNumber = true;
-            }
-            if (!hasSpecial && SPECIAL_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= SPECIAL_ASCII_HIGH) {
-                hasSpecial = true;
-            }
-        }
-
-        int i = 0;
-        if (hasLower) {
-            i++;
-        }
-        if (hasUpper) {
-            i++;
-        }
-        if (hasNumber) {
-            i++;
-        }
-        if (hasSpecial) {
-            i++;
-        }
-        return i;
-    }
-
     public void updatePasswordStrength(TextView strengthView, EditText passwordEditText, ProgressBar progressBar, Context context, String baseMsg) {
         String password = passwordEditText.getText().toString();
-        this.setPassword(password);
-        this.setPasswordStrength(password);
+
+        int passwordScore = this.passwordScore(password);
+        this.evalPasswordStrength(passwordScore);
 
         strengthView.setText(baseMsg);
-        strengthView.append(" " + passwordStrength.toString().replace('_', ' '));
+        strengthView.append(" " + this.passwordStrength.toString().replace('_', ' '));
 
+        this.updateProgressBar(progressBar, context);
+    }
+
+    public void updatePasswordStrength(TextView strengthView, ProgressBar progressBar, Context context, PasswordGenerator passwordGenerator) {
+        int passwordScore = this.passwordScore(
+                passwordGenerator.getLength(),
+                passwordGenerator.isLowerCaseLetters(),
+                passwordGenerator.isUpperCaseLetters(),
+                passwordGenerator.isNumbers(),
+                passwordGenerator.isSpecialChars()
+        );
+        this.evalPasswordStrength(passwordScore);
+
+        strengthView.setText(this.passwordStrength.toString().replace('_', ' '));
+
+        this.updateProgressBar(progressBar, context);
+    }
+
+    protected void updateProgressBar(ProgressBar progressBar, Context context) {
         int progress;
         Drawable progressBg;
 
-        if (passwordStrength.equals(PasswordStrength.WEAK)) {
+        if (this.passwordStrength.equals(PasswordStrength.WEAK)) {
             progressBg = context.getDrawable(R.drawable.pb_drawable_red);
             progress = 33;
-        } else if (passwordStrength.equals(PasswordStrength.STRONG)) {
+        } else if (this.passwordStrength.equals(PasswordStrength.STRONG)) {
             progressBg = context.getDrawable(R.drawable.pb_drawable_yellow);
             progress = 66;
         } else {
@@ -112,5 +84,44 @@ public class PasswordEvaluator {
 
         progressBar.setProgress(progress);
         progressBar.setProgressDrawable(progressBg);
+    }
+
+    public int passwordScore(String password) {
+        boolean[] diversity = this.evaluateCharacterDiversity(password);
+
+        return passwordScore(password.length(), diversity[0], diversity[1], diversity[2], diversity[3]);
+    }
+
+    public int passwordScore(int passwordLength, boolean containsLower, boolean containsUpper, boolean containsNums, boolean containsSpecial) {
+        int score = passwordLength;
+
+        if (containsLower) { score += 5; }
+        if (containsUpper) { score += 5; }
+        if (containsNums) { score += 5; }
+        if (containsSpecial) { score += 5; }
+
+        return score;
+    }
+
+    public boolean[] evaluateCharacterDiversity(String password) {
+        boolean hasLower = false, hasUpper = false, hasNumber = false, hasSpecial = false;
+
+        for (int i = 0; i < password.length(); i++) {
+            if (!hasLower && LOWER_CASE_ASCII_LOW <= password.charAt(i) && password.charAt(i) <= LOWER_CASE_ASCII_HIGH) {
+                hasLower = true;
+            }
+            if (!hasUpper && UPPER_CASE_ASCII_LOW <= password.charAt(i) && password.charAt(i) <= UPPER_CASE_ASCII_HIGH
+            ) {
+                hasUpper = true;
+            }
+            if (!hasNumber && NUMBERS_ASCII_LOW <= password.charAt(i) && password.charAt(i) <= NUMBERS_ASCII_HIGH) {
+                hasNumber = true;
+            }
+            if (!hasSpecial && SPECIAL_ASCII_LOW <= password.charAt(i) && password.charAt(i) <= SPECIAL_ASCII_HIGH) {
+                hasSpecial = true;
+            }
+        }
+
+        return new boolean[]{ hasLower, hasUpper, hasNumber, hasSpecial };
     }
 }

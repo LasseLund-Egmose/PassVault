@@ -13,6 +13,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
+import dk.dtu.PassVault.Business.Util.PasswordEvaluator;
 import dk.dtu.PassVault.Business.Util.PasswordGenerator;
 import dk.dtu.PassVault.Business.Enum.PasswordStrength;
 import dk.dtu.PassVault.R;
@@ -26,6 +27,8 @@ public class PasswordGeneratorActivity extends BaseActivity {
     protected TextView passwordStrength;
     protected TextView passwordLength;
     protected SeekBar lengthBar;
+
+    protected PasswordEvaluator passwordEvaluator;
 
     protected boolean passwordGenerated = false;
 
@@ -87,7 +90,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
                 String spacedLength = " " + progress;
                 passwordLength.setText(spacedLength);
 
-                updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
+                updatePasswordStrength();
             }
 
             @Override
@@ -106,44 +109,30 @@ public class PasswordGeneratorActivity extends BaseActivity {
         Switch lowerCasesSwitch = (Switch) findViewById(R.id.lowercasesSwitch);
         lowerCasesSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setLowerCaseLetters(isChecked);
-            this.updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
+            this.updatePasswordStrength();
         });
 
         Switch upperCasesSwitch = (Switch) findViewById(R.id.uppercasesSwitch);
         upperCasesSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setUpperCaseLetters(isChecked);
-            this.updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
+            this.updatePasswordStrength();
         });
 
         Switch numbersSwitch = (Switch) findViewById(R.id.numbersSwitch);
         numbersSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setNumbers(isChecked);
-            this.updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
+            this.updatePasswordStrength();
         });
 
         Switch specialSwitch = (Switch) findViewById(R.id.specialSwitch);
         specialSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setSpecialChars(isChecked);
-            this.updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
+            this.updatePasswordStrength();
         });
     }
 
-    protected void updatePasswordStrength(TextView passwordStrength, PasswordGenerator passwordGenerator, ProgressBar progressBar) {
-        PasswordStrength strength = passwordGenerator.getPasswordStrength();
-
-        if (strength.equals(PasswordStrength.WEAK)) {
-            passwordStrength.setText(this.getStringWithSpace(R.string.strength_weak));
-            progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_red));
-            progressBar.setProgress(33);
-        } else if (strength.equals(PasswordStrength.STRONG)) {
-            passwordStrength.setText(this.getStringWithSpace(R.string.strength_strong));
-            progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_yellow));
-            progressBar.setProgress(66);
-        } else {
-            passwordStrength.setText(this.getStringWithSpace(R.string.strength_very_strong));
-            progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_green));
-            progressBar.setProgress(100);
-        }
+    protected void updatePasswordStrength() {
+        this.passwordEvaluator.updatePasswordStrength(this.passwordStrength, this.progressBar, getApplicationContext(), this.passwordGenerator);
     }
 
     @Override
@@ -153,6 +142,8 @@ public class PasswordGeneratorActivity extends BaseActivity {
 
         this.clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         this.passwordGenerator = new PasswordGenerator();
+        this.passwordEvaluator = new PasswordEvaluator();
+
         this.generatedPassword = this.findViewById(R.id.generatedPassword);
         this.clipboardManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
         this.progressBar = this.findViewById(R.id.strength_progressbar);
@@ -160,7 +151,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
         this.passwordLength = this.findViewById(R.id.passwordLengthNum);
         this.lengthBar = this.findViewById(R.id.lengthBar);
 
-        this.updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
+        this.updatePasswordStrength();
 
         String passLength = " " + passwordGenerator.getLength();
         this.passwordLength.setText(passLength);

@@ -1,6 +1,9 @@
 package dk.dtu.PassVault.Business.Util;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import dk.dtu.PassVault.Business.Enum.PasswordStrength;
@@ -22,10 +25,8 @@ public class PasswordGenerator {
     private final int SPECIAL_ASCII_LOW = 33;
     private final int SPECIAL_ASCII_HIGH = 47;
 
-    private final int PASSWORD_LENGTH_MIN = 8;
+    private final int PASSWORD_LENGTH_MIN = 1;
     private final int PASSWORD_LENGTH_MAX = 32;
-
-    private PasswordStrength passwordStrength;
 
     private int length = 16;
 
@@ -35,11 +36,6 @@ public class PasswordGenerator {
     private boolean specialChars = true;
 
     private String password = "";
-
-
-    public PasswordGenerator() {
-        setPasswordQuality();
-    }
 
     // Generates a new password based on input
     private void generateNewPassword() {
@@ -95,26 +91,9 @@ public class PasswordGenerator {
     }
 
     private boolean passwordIsValid() {
-
-        boolean hasLower = false, hasUpper = false, hasNumber = false, hasSpecial = false;
-
-        for (int i = 0; i < this.password.length(); i++) {
-            if (!hasLower && LOWER_CASE_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= LOWER_CASE_ASCII_HIGH) {
-                hasLower = true;
-            }
-            if (!hasUpper && UPPER_CASE_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= UPPER_CASE_ASCII_HIGH
-            ) {
-                hasUpper = true;
-            }
-            if (!hasNumber && NUMBERS_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= NUMBERS_ASCII_HIGH) {
-                hasNumber = true;
-            }
-            if (!hasSpecial && SPECIAL_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= SPECIAL_ASCII_HIGH) {
-                hasSpecial = true;
-            }
-        }
-
-        return hasLower == lowerCaseLetters && hasUpper == upperCaseLetters && hasNumber == numbers && hasSpecial == specialChars;
+        PasswordEvaluator pwe = new PasswordEvaluator();
+        boolean[] diversity = pwe.evaluateCharacterDiversity(this.password);
+        return diversity[0] == lowerCaseLetters && diversity[1] == upperCaseLetters && diversity[2] == numbers && diversity[3] == specialChars;
     }
 
     // Getters and setters
@@ -129,7 +108,6 @@ public class PasswordGenerator {
     public void setLength(int length) throws IllegalArgumentException {
         if (PASSWORD_LENGTH_MIN <= length && length <= PASSWORD_LENGTH_MAX) {
             this.length = length;
-            setPasswordQuality();
         } else {
             throw new IllegalArgumentException("Length must be between " +
                     PASSWORD_LENGTH_MIN + " and " + PASSWORD_LENGTH_MAX + " character");
@@ -142,56 +120,34 @@ public class PasswordGenerator {
 
     public void setLowerCaseLetters(boolean lowerCaseLetters) {
         this.lowerCaseLetters = lowerCaseLetters;
-        setPasswordQuality();
     }
 
     public void setUpperCaseLetters(boolean upperCaseLetters) {
         this.upperCaseLetters = upperCaseLetters;
-        setPasswordQuality();
     }
 
     public void setNumbers(boolean numbers) {
         this.numbers = numbers;
-        setPasswordQuality();
     }
 
     public void setSpecialChars(boolean specialChars) {
         this.specialChars = specialChars;
-        setPasswordQuality();
     }
 
-    private void setPasswordQuality() {
-        int numOfDifferentChars = getNumOfDifferentChars();
-
-        // Very strong password if length is greater than 15 and all types are selected
-        if (numOfDifferentChars >= 4 && this.length >= 15) {
-            passwordStrength = PasswordStrength.VERY_STRONG;
-        } else if (numOfDifferentChars >= 3 && this.length >= 12) { // Strong password if length is greater 12 and a least 3 types are selected
-            passwordStrength = PasswordStrength.STRONG;
-        } else { // Weak password if length is
-            passwordStrength = PasswordStrength.WEAK;
-        }
+    public boolean isLowerCaseLetters() {
+        return lowerCaseLetters;
     }
 
-    public PasswordStrength getPasswordStrength(){
-        return passwordStrength;
+    public boolean isUpperCaseLetters() {
+        return upperCaseLetters;
     }
 
-    private int getNumOfDifferentChars() {
-        int i = 0;
-        if (lowerCaseLetters) {
-            i++;
-        }
-        if (upperCaseLetters) {
-            i++;
-        }
-        if (numbers) {
-            i++;
-        }
-        if (specialChars) {
-            i++;
-        }
-        return i;
+    public boolean isNumbers() {
+        return numbers;
+    }
+
+    public boolean isSpecialChars() {
+        return specialChars;
     }
 
     public int getPASSWORD_LENGTH_MIN() {
