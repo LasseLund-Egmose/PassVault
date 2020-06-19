@@ -25,6 +25,18 @@ public class AutoFillDialogActivity extends BaseActivity {
     public static final String LOG_TAG = "AutoFillDialogDebugging";
 
     protected AutoFillService.AutoFillCommunicator receiver = null;
+    protected ServiceConnection emptyServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            // Do nothing
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            // Do nothing
+        }
+    };
+    protected boolean hasBound = false;
 
     @Override
     protected boolean allowNoKey() {
@@ -36,17 +48,8 @@ public class AutoFillDialogActivity extends BaseActivity {
         // Keep service alive while dialog is shown
         Intent serviceIntent = new Intent(AutoFillDialogActivity.this, AutoFillService.class);
         serviceIntent.setAction(AutoFillService.SERVICE_INTERFACE);
-        AutoFillDialogActivity.this.bindService(serviceIntent, new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                // Do nothing
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                // Do nothing
-            }
-        }, Context.BIND_AUTO_CREATE);
+        AutoFillDialogActivity.this.bindService(serviceIntent, this.emptyServiceConnection, Context.BIND_AUTO_CREATE);
+        this.hasBound = true;
     }
 
     protected void setupReceiver() {
@@ -109,6 +112,10 @@ public class AutoFillDialogActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        if(this.hasBound) {
+            unbindService(this.emptyServiceConnection);
+        }
+
         if (this.receiver != null) {
             unregisterReceiver(this.receiver);
         }
