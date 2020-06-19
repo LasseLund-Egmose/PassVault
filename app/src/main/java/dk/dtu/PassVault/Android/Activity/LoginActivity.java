@@ -1,14 +1,9 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Android.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
-import android.view.autofill.AutofillManager;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,11 +12,11 @@ import androidx.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
 
+import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.Credential;
-import dk.dtu.PassVault.Business.Service.AutoFillService;
-import dk.dtu.PassVault.Business.Util.IconExtractor;
+import dk.dtu.PassVault.R;
 
 public class LoginActivity extends BaseActivity {
 
@@ -132,7 +127,7 @@ public class LoginActivity extends BaseActivity {
 
 
         registerButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterMasterActivty.class);
+            Intent intent = new Intent(LoginActivity.this, RegisterMasterActivity.class);
             startActivityForResult(intent, REQUEST_CODE_BUTTONS);
 
             /*this.getCrypto().hash(password.getText().toString(), new Crypto.CryptoResponse() {

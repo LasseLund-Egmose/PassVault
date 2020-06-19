@@ -1,4 +1,4 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Business.Enum;
 
 public enum PasswordStrength {
         WEAK,

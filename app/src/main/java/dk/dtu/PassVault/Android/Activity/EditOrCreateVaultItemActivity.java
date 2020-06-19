@@ -1,23 +1,21 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Android.Activity;
 
-import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
 import dk.dtu.PassVault.Business.Util.IconExtractor;
+import dk.dtu.PassVault.Android.Dialog.PlatformDialog;
+import dk.dtu.PassVault.R;
 
 
 public class EditOrCreateVaultItemActivity extends BaseActivity implements PlatformDialog.Listener {

@@ -1,4 +1,4 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Android.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.lang.ref.WeakReference;
-
-import dk.dtu.PassVault.Business.Crypto.Crypto;
-import dk.dtu.PassVault.Business.Service.AutoFillService;
+import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
+import dk.dtu.PassVault.R;
+import dk.dtu.PassVault.Android.Service.AutoFillService;
 
 public class AutoFillDialogActivity extends BaseActivity {
 

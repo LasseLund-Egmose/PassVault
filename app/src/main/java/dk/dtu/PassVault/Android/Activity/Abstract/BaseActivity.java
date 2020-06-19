@@ -1,13 +1,15 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Android.Activity.Abstract;
 
 import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import dk.dtu.PassVault.Android.Activity.LoginActivity;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
+import dk.dtu.PassVault.R;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected boolean allowNoKey() {
         return false;

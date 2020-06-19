@@ -1,4 +1,4 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Android.Activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -20,10 +20,13 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import dk.dtu.PassVault.Business.Adapter.VaultItemAdapter;
+import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
+import dk.dtu.PassVault.Android.Adapter.VaultItemAdapter;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
+import dk.dtu.PassVault.Android.Dialog.SingleVaultItemDialog;
+import dk.dtu.PassVault.R;
 
 public class VaultActivity extends BaseActivity {
 
@@ -156,17 +159,6 @@ public class VaultActivity extends BaseActivity {
         }
     }
 
-    protected void refreshList() {
-        if(this.vaultItemAdapter == null) {
-            return;
-        }
-
-        Database.dispatch(
-            getApplicationContext(),
-            new GetVaultItemsTransaction(new WeakReference<>(this.vaultItemAdapter), new WeakReference<>(vaultItems))
-        );
-    }
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vault);
@@ -234,5 +226,16 @@ public class VaultActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    public void refreshList() {
+        if(this.vaultItemAdapter == null) {
+            return;
+        }
+
+        Database.dispatch(
+                getApplicationContext(),
+                new GetVaultItemsTransaction(new WeakReference<>(this.vaultItemAdapter), new WeakReference<>(vaultItems))
+        );
     }
 }

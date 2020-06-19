@@ -1,8 +1,7 @@
-package dk.dtu.PassVault.Business.Adapter;
+package dk.dtu.PassVault.Android.Adapter;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
 import dk.dtu.PassVault.Business.Util.IconExtractor;
 import dk.dtu.PassVault.R;
 

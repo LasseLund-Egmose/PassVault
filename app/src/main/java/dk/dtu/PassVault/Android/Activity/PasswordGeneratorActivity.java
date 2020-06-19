@@ -1,7 +1,6 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Android.Activity;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -19,8 +18,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
+import dk.dtu.PassVault.Business.Util.PasswordGenerator;
+import dk.dtu.PassVault.Business.Enum.PasswordStrength;
+import dk.dtu.PassVault.R;
+
 import static android.widget.Toast.LENGTH_LONG;
-import static dk.dtu.PassVault.R.layout.activity_password_generator;
 import static dk.dtu.PassVault.R.layout.pass_generate;
 
 

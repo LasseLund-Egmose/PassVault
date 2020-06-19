@@ -11,27 +11,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Android.Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PasswordGeneratorActivity" />
-        <activity android:name=".EditOrCreateVaultItemActivity"
+        <activity android:name=".Android.Activity.PasswordGeneratorActivity" />
+        <activity android:name=".Android.Activity.EditOrCreateVaultItemActivity"
             android:windowSoftInputMode="adjustNothing"
             />
-        <activity android:name=".VaultActivity" />
-        <activity android:name=".RegisterMasterActivty" />
+        <activity android:name=".Android.Activity.VaultActivity" />
+        <activity android:name=".Android.Activity.RegisterMasterActivity" />
         <activity
-            android:name=".AutoFillDialogActivity"
+            android:name=".Android.Activity.AutoFillDialogActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <service
-            android:name=".Business.Service.AutoFillService"
+            android:name=".Android.Service.AutoFillService"
             android:label="PassVault Password Manager"
             android:permission="android.permission.BIND_AUTOFILL_SERVICE">
 

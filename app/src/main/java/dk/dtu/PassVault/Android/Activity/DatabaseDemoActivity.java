@@ -1,16 +1,13 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Android.Activity;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import java.lang.ref.WeakReference;
 
+import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
 import dk.dtu.PassVault.Business.Database.Database;
-import dk.dtu.PassVault.Business.Database.Entities.Credential;
+import dk.dtu.PassVault.R;
 
 public class DatabaseDemoActivity extends BaseActivity {
 

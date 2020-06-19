@@ -1,4 +1,4 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Business.Struct;
 
 import android.view.autofill.AutofillId;
 
