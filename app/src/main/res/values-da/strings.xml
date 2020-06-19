@@ -1,5 +1,5 @@
 <resources>
-    <string name="welcome_text">Velkommen til PassVault. Angiv dit hoved-adgangskode nedenfor, eller tryk Opret Konto for at komme igang.</string>
+    <string name="welcome_text">Velkommen til PassVault. Angiv din master-adgangskode nedenfor, eller tryk \"Opret Konto\" for at komme igang.</string>
     <string name="app_name">PassVault</string>
     <string name="generate_button">Generer</string>
     <string name="copy_button">Kopier</string>
@@ -22,7 +22,7 @@
     <string name="create_profile">Opret</string>
 
     <string name="delete_account">Slet konto</string>
-    <string name="change_master_password">Ændre hoved-adgangskode</string>
+    <string name="change_master_password">Ændr hoved-adgangskode</string>
 
     <string name="register_master_password_warning">
     Vær venlig at huske din adgangskode, og gemme den et sikkert sted. Du vil ikke have mulighed for at gendanne den, i tilfælde af at den bliver glemt</string>
@@ -41,7 +41,7 @@
     <string name="wrong_password_or_something_wrong">Forkert adgangskode indtastet (eller noget andet gik galt).</string>
     <string name="success">Succes</string>
     <string name="something_went_wrong">Noget gik galt!</string>
-    <string name="master_password_created">Hoved-adgangskode lavet!</string>
+    <string name="master_password_created">Hoved-adgangskode oprettet!</string>
     <string name="turn_on_settings">Vær venlig at vælge nogle indstillinger</string>
 
     <string name="strength_weak">SVAG</string>
@@ -84,5 +84,10 @@
     <string name="copy_password_text">Kopier adgangskode</string>
     <string name="delete_btn">Slet</string>
     <string name="setup_vault">Opsæt Konto</string>
+    <string name="master_password_too_short">Adgangskoden er for kort. Det skal være 8 tegn som minimum.</string>
+    <string name="must_specify_platform">Du skal angive en platform</string>
+    <string name="must_specify_title">Du skal angive en titel</string>
+    <string name="must_specify_username">Du skal angive et brugernavn</string>
+    <string name="must_specify_password">Du skal angive et password</string>
 
 </resources>
