@@ -3,6 +3,7 @@ package dk.dtu.PassVault.Android.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -78,6 +79,8 @@ public class RegisterMasterActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_register_master_new);
+        PasswordEvaluator passwordEvaluator = new PasswordEvaluator();
+        final String TAG = "Strength_bar";
 
         final ProgressBar progressBar = findViewById(R.id.strength_progressbar);
         EditText password = findViewById(R.id.reg_master_password_editText1);
@@ -91,8 +94,8 @@ public class RegisterMasterActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                PasswordEvaluator pwe = new PasswordEvaluator();
-                pwe.updatePasswordStrength(
+
+                    passwordEvaluator.updatePasswordStrength(
                     passwordStrengthView,
                     password,
                     progressBar,

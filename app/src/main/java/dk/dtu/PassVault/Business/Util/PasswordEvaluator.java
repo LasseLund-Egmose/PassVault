@@ -48,11 +48,11 @@ public class PasswordEvaluator {
 
         strengthView.setText(baseMsg);
         if(this.passwordStrength.equals(PasswordStrength.WEAK)) {
-            strengthView.append(" " + R.string.strength_weak);
+            strengthView.append(" "+context.getString(R.string.strength_weak));
         }else if(this.passwordStrength.equals(PasswordStrength.STRONG)){
-            strengthView.append(" " + R.string.strength_strong);
+            strengthView.append(" "+context.getString(R.string.strength_strong));
         }else if (this.passwordStrength.equals(PasswordStrength.VERY_STRONG)){
-            strengthView.append(" " + R.string.strength_very_strong);
+            strengthView.append(" "+context.getString(R.string.strength_very_strong));
         }
 
         this.updateProgressBar(progressBar, context);
@@ -68,7 +68,13 @@ public class PasswordEvaluator {
         );
         this.evalPasswordStrength(passwordScore);
 
-        strengthView.setText(" " + this.passwordStrength.toString().replace('_', ' '));
+        if(this.passwordStrength.equals(PasswordStrength.WEAK)) {
+            strengthView.setText(" "+context.getString(R.string.strength_weak));
+        }else if(this.passwordStrength.equals(PasswordStrength.STRONG)){
+            strengthView.setText(" "+context.getString(R.string.strength_strong));
+        }else if (this.passwordStrength.equals(PasswordStrength.VERY_STRONG)){
+            strengthView.setText(" "+context.getString(R.string.strength_very_strong));
+        }
 
         this.updateProgressBar(progressBar, context);
     }
