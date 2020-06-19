@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import dk.dtu.PassVault.Android.Activity.EditOrCreateVaultItemActivity;
+import dk.dtu.PassVault.Android.Activity.CreateVaultItemActivity;
 import dk.dtu.PassVault.Android.Adapter.AppListAdapter;
 import dk.dtu.PassVault.R;
 
@@ -142,7 +142,7 @@ public class PlatformDialog extends DialogFragment {
     public void onStop() {
         super.onStop();
 
-        EditOrCreateVaultItemActivity activity = (EditOrCreateVaultItemActivity) this.getActivity();
+        CreateVaultItemActivity activity = (CreateVaultItemActivity) this.getActivity();
         if (activity == null) return;
 
         EditText platformField = (EditText) activity.findViewById(R.id.platform);

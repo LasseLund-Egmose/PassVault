@@ -4,7 +4,7 @@
     <string name="generate_button">Generate</string>
     <string name="copy_button">Copy</string>
     <string name="press_generate">PRESS GENERATE</string>
-    <string name="password_length">Length:</string>
+    <string name="password_length">Length</string>
     <string name="password_length_num"></string>
     <string name="password_lowercases">Lowercases</string>
     <string name="password_uppercases">Uppercases</string>
@@ -62,6 +62,7 @@
     <string name="autofill_title">PassVault AutoFill</string>
     <string name="autofill_prompt">Do you want to use PassVault as your primary AutoFill application?</string>
     <string name="select_passvault">Please select \"PassVault Password Manager\"</string>
+    <string name="select_passvault_long">Please select \"PassVault Password Manager\" under \"Advanced\" -> \"Autofill service\"</string>
 
     <string name="invalid_url">Invalid URL provided</string>
 
@@ -81,9 +82,21 @@
     <string name="app_text">App</string>
     <string name="website_text">Website</string>
     <string name="example_website_hint">https://www.example.com</string>
-    <string name="loading_text">Loading...</string>
+    <string name="loading_text">Loading…</string>
     <string name="copy_username_text">Copy Username</string>
     <string name="copy_password_text">Copy password</string>
     <string name="delete_btn">Delete</string>
+
+    <string name="master_password_too_short">The password is too short. It must be at minimum 8 characters.</string>
+
+    <string name="must_specify_platform">You need to specify a platform</string>
+    <string name="must_specify_title">You need to specify a title</string>
+    <string name="must_specify_username">You need to specify a username</string>
+    <string name="must_specify_password">You need to specify a password</string>
+
+    <string name="vault_empty">Vault is empty</string>
+
+    <string name="welcome_dialog_title">Welcome to PassVault!</string>
+    <string name="welcome_dialog_content">It\'s time to upgrade your password security!\n\nStart by creating a secure master password.\n\nThen access your Vault and add your credentials (make sure to generate a secure password) from the services/platforms you use on daily basis.\n\nAfter this step, the setup is complete!</string>
 
 </resources>

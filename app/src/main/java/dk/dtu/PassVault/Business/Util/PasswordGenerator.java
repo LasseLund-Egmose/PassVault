@@ -25,7 +25,7 @@ public class PasswordGenerator {
     private final int SPECIAL_ASCII_LOW = 33;
     private final int SPECIAL_ASCII_HIGH = 47;
 
-    private final int PASSWORD_LENGTH_MIN = 1;
+    private final int PASSWORD_LENGTH_MIN = 8;
     private final int PASSWORD_LENGTH_MAX = 32;
 
     private int length = 16;

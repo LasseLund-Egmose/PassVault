@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -80,11 +81,15 @@ public class PasswordGeneratorActivity extends BaseActivity {
     }
 
     protected void setupLengthBar() {
-        this.lengthBar.setMax(passwordGenerator.getPASSWORD_LENGTH_MAX());
         this.lengthBar.setProgress(passwordGenerator.getLength());
         this.lengthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(progress < passwordGenerator.getPASSWORD_LENGTH_MIN()) {
+                    seekBar.setProgress(passwordGenerator.getPASSWORD_LENGTH_MIN());
+                    return;
+                }
+
                 passwordGenerator.setLength(progress);
 
                 String spacedLength = " " + progress;

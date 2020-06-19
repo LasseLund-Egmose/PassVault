@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
@@ -78,10 +79,10 @@ public class RegisterMasterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_register_master_new);
 
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.strength_progressbar);
-        EditText password = (EditText) findViewById(R.id.reg_master_password_editText1);
-        EditText password2 = ((EditText) findViewById(R.id.reg_master_password_editText2));
-        TextView passwordStrengthView = (TextView) findViewById(R.id.password_strength_textView);
+        final ProgressBar progressBar = findViewById(R.id.strength_progressbar);
+        EditText password = findViewById(R.id.reg_master_password_editText1);
+        EditText password2 = findViewById(R.id.reg_master_password_editText2);
+        TextView passwordStrengthView = findViewById(R.id.password_strength_textView);
 
         password.addTextChangedListener(new TextWatcher() {
             @Override
@@ -92,11 +93,11 @@ public class RegisterMasterActivity extends BaseActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 PasswordEvaluator pwe = new PasswordEvaluator();
                 pwe.updatePasswordStrength(
-                        passwordStrengthView,
-                        password,
-                        progressBar,
-                        getApplicationContext(),
-                        getString(R.string.password_strength_indicator));
+                    passwordStrengthView,
+                    password,
+                    progressBar,
+                    getApplicationContext(),
+                    getString(R.string.password_strength_indicator));
             }
 
             @Override
@@ -105,13 +106,19 @@ public class RegisterMasterActivity extends BaseActivity {
         });
 
 
-        Button saveButton = (Button) findViewById(R.id.save_registration);
+        Button saveButton = findViewById(R.id.save_registration);
         saveButton.setOnClickListener(v -> {
             String pw = password.getText().toString();
             String pw2 = password2.getText().toString();
 
             if (!pw.equals(pw2)) {
                 this.toastShort(R.string.passwords_not_identical);
+                return;
+            }
+
+            if (pw.length() < 8) {
+                this.toastShort(R.string.master_password_too_short);
+                return;
             }
 
             this.setMasterPassword(pw);
