@@ -22,12 +22,12 @@
     <string name="create_profile">Opret</string>
 
     <string name="delete_account">Slet konto</string>
-    <string name="change_master_password">Ændr hoved-adgangskode</string>
+    <string name="change_master_password">Ændr master-adgangskode</string>
 
     <string name="register_master_password_warning">
     Vær venlig at huske din adgangskode, og gemme den et sikkert sted. Du vil ikke have mulighed for at gendanne den, i tilfælde af at den bliver glemt</string>
-    <string name="add_input_master_password">Hoved-adgangskode:</string>
-    <string name="add_input_master_password_again">Hoved-adgangskode igen:</string>
+    <string name="add_input_master_password">Master-adgangskode:</string>
+    <string name="add_input_master_password_again">Master-adgangskode igen:</string>
     <string name="reset_input">Nulstil</string>
     <string name="save_registration">Gem</string>
     <string name="password_length_indicator">12</string>
@@ -41,7 +41,7 @@
     <string name="wrong_password_or_something_wrong">Forkert adgangskode indtastet (eller noget andet gik galt).</string>
     <string name="success">Succes</string>
     <string name="something_went_wrong">Noget gik galt!</string>
-    <string name="master_password_created">Hoved-adgangskode oprettet!</string>
+    <string name="master_password_created">Master-adgangskode oprettet!</string>
     <string name="turn_on_settings">Vær venlig at vælge nogle indstillinger</string>
 
     <string name="strength_weak">SVAG</string>
@@ -74,7 +74,7 @@
     <string name="settings_header">INDSTILLINGER:</string>
     <string name="ok_btn">OK</string>
     <string name="copy_btn">KOPIER</string>
-    <string name="masster_password_autofill_text">Angiv hoved-adgangskode for at bruge auto-udfyld funktionen</string>
+    <string name="masster_password_autofill_text">Angiv master-adgangskode for at bruge auto-udfyld funktionen</string>
     <string name="autofill_btn">Auto-udfyld</string>
     <string name="app_text">Applikation</string>
     <string name="website_text">Hjemmeside</string>
