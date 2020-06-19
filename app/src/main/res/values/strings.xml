@@ -82,7 +82,7 @@
     <string name="app_text">App</string>
     <string name="website_text">Website</string>
     <string name="example_website_hint">https://www.example.com</string>
-    <string name="loading_text">Loading...</string>
+    <string name="loading_text">Loading…</string>
     <string name="copy_username_text">Copy Username</string>
     <string name="copy_password_text">Copy password</string>
     <string name="delete_btn">Delete</string>
