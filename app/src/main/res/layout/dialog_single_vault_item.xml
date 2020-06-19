@@ -69,7 +69,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="11"
                         android:editable="false"
-                        android:text="Loading..." />
+                        android:text="@string/loading_text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,7 +107,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="11"
                         android:editable="false"
-                        android:text="Loading..." />
+                        android:text="@string/loading_text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,7 +149,7 @@
                         android:focusable="false"
                         android:inputType="textPassword"
                         android:maxWidth="200dp"
-                        android:text="Loading..." />
+                        android:text="@string/loading_text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -172,7 +172,7 @@
                     android:layout_weight="7"
                     android:gravity="center_vertical"
                     android:singleLine="true"
-                    android:text="Platform: "
+                    android:text="@string/platform"
                     android:textColor="@color/DTU"
                     android:textSize="18dp" />
 
@@ -189,7 +189,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="11"
                         android:editable="false"
-                        android:text="Loading..." />
+                        android:text="@string/loading_text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -211,7 +211,7 @@
                     android:layout_marginRight="4dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/DTU"
-                    android:text="Copy username"
+                    android:text="@string/copy_username_text"
                     android:textColor="@color/white" />
 
                 <Button
@@ -221,7 +221,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/DTU"
-                    android:text="Copy password"
+                    android:text="@string/copy_password_text"
                     android:textColor="@color/white" />
             </LinearLayout>
 
@@ -231,7 +231,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:backgroundTint="@color/white"
-                android:text="Delete"
+                android:text="@string/delete_btn"
                 android:textColor="@color/DTU"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

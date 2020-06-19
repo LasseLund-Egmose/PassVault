@@ -61,7 +61,7 @@ public class AutoFillDialogActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.setContentView(R.layout.autofill_dialog);
+        this.setContentView(R.layout.dialog_autofill);
 
         EditText masterPassword = this.findViewById(R.id.autoFillInput);
         Button btn = this.findViewById(R.id.autoFillBtn);

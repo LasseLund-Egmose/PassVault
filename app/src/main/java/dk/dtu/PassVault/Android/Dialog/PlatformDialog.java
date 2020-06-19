@@ -97,7 +97,7 @@ public class PlatformDialog extends DialogFragment {
 
         dialog.setOnCancelListener(dialog1 -> listener.onDialogTouchOutsideClick(PlatformDialog.this));
 
-        appList.setAdapter(new AppListAdapter(this.context, R.layout.app_list_single, this.packages));
+        appList.setAdapter(new AppListAdapter(this.context, R.layout.single_app_list, this.packages));
 
         radioGroup.setOnCheckedChangeListener((radioGroup1, i) -> {
             boolean showTabApp = radioButtonApp.isChecked();
@@ -159,7 +159,7 @@ public class PlatformDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
 
-        builder.setView(inflater.inflate(R.layout.platform_dialog, null))
+        builder.setView(inflater.inflate(R.layout.dialog_platform, null))
             .setPositiveButton("Add", (dialog, id) -> {
 
             })

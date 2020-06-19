@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center_horizontal"
-            android:text="PASSWORD GENERATOR"
+            android:text="@string/password_generator_title"
             android:textColor="@color/DTU"
             android:textSize="30sp" />
 
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="GENERATED PASSWORD"
+            android:text="@string/password_generated_settings_header"
             android:textColor="#939393" />
 
         <LinearLayout
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="SETTINGS"
+            android:text="@string/settings_header"
             android:textColor="#939393" />
 
         <LinearLayout
@@ -335,7 +335,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/DTU"
-                android:text="OK"
+                android:text="@string/ok_btn"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp" />
 
@@ -350,7 +350,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                android:text="COPY"
+                android:text="@string/copy_btn"
                 android:textColor="@color/DTU"
                 android:textSize="20sp" />
 

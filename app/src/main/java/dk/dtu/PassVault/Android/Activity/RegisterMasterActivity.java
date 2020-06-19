@@ -90,7 +90,13 @@ public class RegisterMasterActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                updatePasswordStrength(passwordStrengthView, password, progressBar);
+                PasswordEvaluator pwe = new PasswordEvaluator();
+                pwe.updatePasswordStrength(
+                        passwordStrengthView,
+                        password,
+                        progressBar,
+                        getApplicationContext(),
+                        getString(R.string.password_strength_indicator));
             }
 
             @Override
@@ -113,26 +119,6 @@ public class RegisterMasterActivity extends BaseActivity {
             this.setResult(RESULT_OK);
             this.finish();
         });
-    }
-
-    // TODO: Update this so there's no duplicate code
-    public void updatePasswordStrength(TextView strengthView, EditText passwordEditText, ProgressBar progressBar) {
-        PasswordEvaluator pwe = new PasswordEvaluator();
-        PasswordStrength passwordStrength = pwe.getPasswordStrength(passwordEditText.getText().toString());
-
-        if (passwordStrength.equals(PasswordStrength.WEAK)) {
-            strengthView.setText(getString(R.string.password_strength_indicator) +" WEAK");
-            progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_red));
-            progressBar.setProgress(33);
-        } else if (passwordStrength.equals(PasswordStrength.STRONG)) {
-            strengthView.setText(getString(R.string.password_strength_indicator)+" STRONG");
-            progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_yellow));
-            progressBar.setProgress(66);
-        } else {
-            strengthView.setText(getString(R.string.password_strength_indicator)+" VERY STRONG");
-            progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_green));
-            progressBar.setProgress(100);
-        }
     }
 }
 
