@@ -6,8 +6,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
 import android.view.autofill.AutofillManager;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -63,10 +65,12 @@ public class VaultActivity extends BaseActivity {
 
     protected static class GetVaultItemsTransaction extends Database.Transaction<VaultItem[]> {
 
+        protected WeakReference<VaultActivity> vaultActivityRef;
         protected WeakReference<VaultItemAdapter> vaultItemAdapterRef;
         protected WeakReference<ArrayList<VaultItem>> vaultItemsRef;
 
-        public GetVaultItemsTransaction(WeakReference<VaultItemAdapter> vaultItemAdapterRef, WeakReference<ArrayList<VaultItem>> vaultItemsRef) {
+        public GetVaultItemsTransaction(WeakReference<VaultActivity> vaultActivityRef, WeakReference<VaultItemAdapter> vaultItemAdapterRef, WeakReference<ArrayList<VaultItem>> vaultItemsRef) {
+            this.vaultActivityRef = vaultActivityRef;
             this.vaultItemAdapterRef = vaultItemAdapterRef;
             this.vaultItemsRef = vaultItemsRef;
         }
@@ -83,6 +87,12 @@ public class VaultActivity extends BaseActivity {
             vaultItems.addAll(Arrays.asList(items));
 
             this.vaultItemAdapterRef.get().notifyDataSetChanged();
+
+            VaultActivity activity = this.vaultActivityRef.get();
+            if(activity == null) return;
+
+            activity.findViewById(R.id.vault_empty)
+                .setVisibility(vaultItems.size() == 0 ? View.VISIBLE : View.INVISIBLE);
         }
     }
 
@@ -246,7 +256,11 @@ public class VaultActivity extends BaseActivity {
 
         Database.dispatch(
             getApplicationContext(),
-            new GetVaultItemsTransaction(new WeakReference<>(this.vaultItemAdapter), new WeakReference<>(vaultItems))
+            new GetVaultItemsTransaction(
+                new WeakReference<>(this),
+                new WeakReference<>(this.vaultItemAdapter),
+                new WeakReference<>(vaultItems)
+            )
         );
     }
 }

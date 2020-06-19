@@ -90,4 +90,6 @@
     <string name="must_specify_username">Du skal angive et brugernavn</string>
     <string name="must_specify_password">Du skal angive et password</string>
 
+    <string name="vault_empty">Ingen elementer</string>
+
 </resources>
