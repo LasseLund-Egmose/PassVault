@@ -1,17 +1,12 @@
 package dk.dtu.PassVault.Android.Activity;
 
-import androidx.annotation.RequiresApi;
-
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -23,172 +18,157 @@ import dk.dtu.PassVault.Business.Util.PasswordGenerator;
 import dk.dtu.PassVault.Business.Enum.PasswordStrength;
 import dk.dtu.PassVault.R;
 
-import static android.widget.Toast.LENGTH_LONG;
-import static dk.dtu.PassVault.R.layout.pass_generate;
-
-
 public class PasswordGeneratorActivity extends BaseActivity {
 
-    private final static String TAG = "pgActivity";
-    private boolean passwordGenerated = false;
+    protected PasswordGenerator passwordGenerator;
+    protected TextView generatedPassword = (TextView) findViewById(R.id.generatedPassword);
+    protected ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+    protected ProgressBar progressBar = (ProgressBar) findViewById(R.id.strength_progressbar);
+    protected TextView passwordStrength;
+    protected TextView passwordLength;
+    protected SeekBar lengthBar;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(pass_generate);
-        getSupportActionBar().hide();
+    protected boolean passwordGenerated = false;
 
-        final PasswordGenerator passwordGenerator = new PasswordGenerator();
-        final TextView generatedPassword = (TextView) findViewById(R.id.generatedPassword);
-        final ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.strength_progressbar);
+    protected String getStringWithSpace(int id) {
+        return " " + this.getResources().getString(id);
+    }
 
-        final TextView passwordStrength = (TextView) findViewById(R.id.passwordStrengthVar);
-        updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
-
-        final TextView passwordLength = (TextView) findViewById(R.id.passwordLengthNum);
-        passwordLength.setText(" " + String.valueOf(passwordGenerator.getLength()));
-
+    protected void setupButtons() {
         Button generateButton = (Button) findViewById(R.id.generateButton);
-        generateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (passwordGenerator.canGenerate()) {
-                    generatedPassword.setText(passwordGenerator.getNewPassword());
-                    passwordGenerated = true;
-                } else {
-                    Toast.makeText(PasswordGeneratorActivity.this, "Please turn on some of the settings", LENGTH_LONG).show();
-                }
+        generateButton.setOnClickListener(v -> {
+            if (this.passwordGenerator.canGenerate()) {
+                generatedPassword.setText(passwordGenerator.getNewPassword());
+                passwordGenerated = true;
+            } else {
+                this.toastShort(R.string.turn_on_settings);
             }
         });
 
-        SeekBar lengthBar = (SeekBar) findViewById(R.id.lengthBar);
-        lengthBar.setMax(passwordGenerator.getPASSWORD_LENGTH_MAX());
-        //lengthBar.setMin(passwordGenerator.getPASSWORD_LENGTH_MIN());
-        lengthBar.setProgress(passwordGenerator.getLength());
-        lengthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        Button okButton = (Button) findViewById(R.id.okButton);
+        okButton.setOnClickListener(v -> {
+            if (this.passwordGenerated) {
+                Intent result = new Intent();
+                result.setData(Uri.parse(generatedPassword.getText().toString()));
+
+                this.setResult(RESULT_OK, result);
+                this.toastShort(R.string.generated_successfully);
+            }
+            else {
+                this.toastShort(R.string.no_password_generated);
+            }
+
+            finish();
+        });
+
+        Button copyButton = (Button) findViewById(R.id.copyButton);
+        copyButton.setOnClickListener(v -> {
+            if (this.passwordGenerated) {
+                this.clipboardManager.setPrimaryClip(
+                    ClipData.newPlainText("Generated password", generatedPassword.getText())
+                );
+            }
+
+            this.toastShort(
+                this.passwordGenerated
+                    ? R.string.pass_copied_to_clipboard
+                    : R.string.please_generate_password
+            );
+        });
+    }
+
+    protected void setupLengthBar() {
+        this.lengthBar.setMax(passwordGenerator.getPASSWORD_LENGTH_MAX());
+        this.lengthBar.setProgress(passwordGenerator.getLength());
+        this.lengthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 passwordGenerator.setLength(progress);
-                passwordLength.setText(" " + String.valueOf(progress));
+
+                String spacedLength = " " + progress;
+                passwordLength.setText(spacedLength);
+
                 updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                // Do nothing
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                // Do nothing
             }
         });
+    }
 
-
+    protected void setupSwitches() {
         Switch lowerCasesSwitch = (Switch) findViewById(R.id.lowercasesSwitch);
-        lowerCasesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    passwordGenerator.setLowerCaseLetters(true);
-                } else {
-                    passwordGenerator.setLowerCaseLetters(false);
-                }
-                updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
-            }
+        lowerCasesSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            this.passwordGenerator.setLowerCaseLetters(isChecked);
+            this.updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
         });
 
         Switch upperCasesSwitch = (Switch) findViewById(R.id.uppercasesSwitch);
-        upperCasesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    passwordGenerator.setUpperCaseLetters(true);
-                } else {
-                    passwordGenerator.setUpperCaseLetters(false);
-                }
-                updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
-            }
+        upperCasesSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            this.passwordGenerator.setUpperCaseLetters(isChecked);
+            this.updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
         });
 
         Switch numbersSwitch = (Switch) findViewById(R.id.numbersSwitch);
-        numbersSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    passwordGenerator.setNumbers(true);
-                } else {
-                    passwordGenerator.setNumbers(false);
-                }
-                updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
-            }
+        numbersSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            this.passwordGenerator.setNumbers(isChecked);
+            this.updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
         });
-
 
         Switch specialSwitch = (Switch) findViewById(R.id.specialSwitch);
-        specialSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    passwordGenerator.setSpecialChars(true);
-                } else {
-                    passwordGenerator.setSpecialChars(false);
-                }
-                updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
-            }
+        specialSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            this.passwordGenerator.setSpecialChars(isChecked);
+            this.updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
         });
-
-
-        Button okButton = (Button) findViewById(R.id.okButton);
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (passwordGenerated) {
-                    Intent result = new Intent();
-                    result.setData(Uri.parse(generatedPassword.getText().toString()));
-                    setResult(RESULT_OK, result);
-                    Toast.makeText(PasswordGeneratorActivity.this, "Password generated successfully", LENGTH_LONG).show();
-                    finish();
-                }
-                else {
-                    Toast.makeText(PasswordGeneratorActivity.this, "No password generated", LENGTH_LONG).show();
-                    finish();
-                }
-            }
-        });
-
-        Button copyButton = (Button) findViewById(R.id.copyButton);
-        copyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (passwordGenerated) {
-                    ClipData clipData = ClipData.newPlainText("Generated password", generatedPassword.getText());
-                    clipboardManager.setPrimaryClip(clipData);
-                    Toast.makeText(PasswordGeneratorActivity.this, "Generated password copied to clipboard", LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(PasswordGeneratorActivity.this, "Please generate a password", LENGTH_LONG).show();
-                }
-            }
-        });
-
     }
 
-    public void updatePasswordStrength(TextView passwordStrength, PasswordGenerator passwordGenerator, ProgressBar progressBar) {
-        if (passwordGenerator.getPasswordStrength().equals(PasswordStrength.WEAK)) {
-            passwordStrength.setText(" WEAK");
+    protected void updatePasswordStrength(TextView passwordStrength, PasswordGenerator passwordGenerator, ProgressBar progressBar) {
+        PasswordStrength strength = passwordGenerator.getPasswordStrength();
+
+        if (strength.equals(PasswordStrength.WEAK)) {
+            passwordStrength.setText(this.getStringWithSpace(R.string.strength_weak));
             progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_red));
             progressBar.setProgress(33);
-        } else if (passwordGenerator.getPasswordStrength().equals(PasswordStrength.STRONG)) {
-            passwordStrength.setText(" STRONG");
+        } else if (strength.equals(PasswordStrength.STRONG)) {
+            passwordStrength.setText(this.getStringWithSpace(R.string.strength_strong));
             progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_yellow));
             progressBar.setProgress(66);
         } else {
-            passwordStrength.setText(" VERY STRONG");
+            passwordStrength.setText(this.getStringWithSpace(R.string.strength_very_strong));
             progressBar.setProgressDrawable(getDrawable(R.drawable.pb_drawable_green));
             progressBar.setProgress(100);
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.pass_generate);
+
+        this.passwordGenerator = new PasswordGenerator();
+        this.generatedPassword = this.findViewById(R.id.generatedPassword);
+        this.clipboardManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
+        this.progressBar = this.findViewById(R.id.strength_progressbar);
+        this.passwordStrength = this.findViewById(R.id.passwordStrengthVar);
+        this.passwordLength = this.findViewById(R.id.passwordLengthNum);
+        this.lengthBar = this.findViewById(R.id.lengthBar);
+
+        this.updatePasswordStrength(passwordStrength, passwordGenerator, progressBar);
+
+        String passLength = " " + passwordGenerator.getLength();
+        this.passwordLength.setText(passLength);
+
+        this.setupLengthBar();
+        this.setupSwitches();
+        this.setupButtons();
+
     }
 
 

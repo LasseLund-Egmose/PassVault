@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -27,9 +28,7 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_add_new);
-
 
         this.platform = findViewById(R.id.platform);
         this.title = findViewById(R.id.title);
@@ -85,32 +84,30 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == REQUEST_CODE_PASSWORD && resultCode == RESULT_OK) {
-            password.setText(intent.getData().toString());
+
+        Uri uri = intent.getData();
+        if (requestCode == REQUEST_CODE_PASSWORD && resultCode == RESULT_OK && uri != null) {
+            password.setText(uri.toString());
         }
     }
 
     @Override
     public void onDialogAddClick(DialogFragment dialog, String result) {
-        Log.i("Dialog", result);
-        this.platform.setText(result);
-        Context context = getApplicationContext();
-        Drawable iconSrc = IconExtractor.extractIcon(context, result);
+        Drawable iconSrc = IconExtractor.extractIcon(getApplicationContext(), result);
         this.icon.setImageDrawable(iconSrc);
+
+        this.platform.setText(result);
         this.platform.clearFocus();
     }
 
     @Override
     public void onDialogCancelClick(DialogFragment dialog) {
-        Log.i("Dialog", "Negative");
-        platform.clearFocus();
-
-
+        this.platform.clearFocus();
     }
 
     @Override
     public void onDialogTouchOutsideClick(DialogFragment dialog) {
-        platform.clearFocus();
+        this.platform.clearFocus();
     }
 
 }

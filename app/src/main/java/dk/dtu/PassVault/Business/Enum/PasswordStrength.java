@@ -1,8 +1,7 @@
 package dk.dtu.PassVault.Business.Enum;
 
 public enum PasswordStrength {
-        WEAK,
-        STRONG,
-        VERY_STRONG
-
+    WEAK,
+    STRONG,
+    VERY_STRONG
 }
