@@ -3,7 +3,7 @@
     <string name="generate_button">Generate</string>
     <string name="copy_button">Copy</string>
     <string name="press_generate">PRESS GENERATE</string>
-    <string name="password_length">Length:</string>
+    <string name="password_length">Length</string>
     <string name="password_length_num"></string>
     <string name="password_lowercases">Lowercases</string>
     <string name="password_uppercases">Uppercases</string>

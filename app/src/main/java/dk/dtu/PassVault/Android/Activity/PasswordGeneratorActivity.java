@@ -80,7 +80,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
     }
 
     protected void setupLengthBar() {
-        this.lengthBar.setMax(passwordGenerator.getPASSWORD_LENGTH_MAX());
+        // this.lengthBar.setMax(passwordGenerator.getPASSWORD_LENGTH_MAX());
         this.lengthBar.setProgress(passwordGenerator.getLength());
         this.lengthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
