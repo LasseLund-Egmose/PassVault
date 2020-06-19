@@ -99,4 +99,6 @@
     <string name="welcome_dialog_title">Welcome to PassVault!</string>
     <string name="welcome_dialog_content">It\'s time to upgrade your password security!\n\nStart by creating a secure master password.\n\nThen access your Vault and add your credentials (make sure to generate a secure password) from the services/platforms you use on daily basis.\n\nAfter this step, the setup is complete!</string>
 
+    <string name="vault_item_created">Vault item created</string>
+
 </resources>

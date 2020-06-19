@@ -58,7 +58,7 @@ public class VaultActivity extends BaseActivity {
         public void onResult(Void result) {
             VaultActivity activity = this.activityRef.get();
 
-            Toast.makeText(activity, "Vault item created", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, R.string.vault_item_created, Toast.LENGTH_LONG).show();
             activity.refreshList();
         }
     }

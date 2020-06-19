@@ -96,4 +96,5 @@
     <string name="welcome_dialog_title">Velkommen til PassVault!</string>
     <string name="welcome_dialog_content">Det er blevet tid at opgradere din password-sikkerhed!\n\nStart med at oprette en sikker master-adgangskode.\n\nTilføj efterfølgende dine logins (vær opmærksom på at generere en sikker adgangskode) fra de platforme du bruger i dagligdagen.\n\nEfter dette trin er opsætningen gennemført, og du kan begynde at bruge appen.</string>
 
+    <string name="vault_item_created">Elementet blev oprettet!</string>
 </resources>
