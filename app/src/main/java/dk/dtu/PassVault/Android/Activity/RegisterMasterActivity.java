@@ -80,7 +80,6 @@ public class RegisterMasterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_register_master_new);
         PasswordEvaluator passwordEvaluator = new PasswordEvaluator();
-        final String TAG = "Strength_bar";
 
         final ProgressBar progressBar = findViewById(R.id.strength_progressbar);
         EditText password = findViewById(R.id.reg_master_password_editText1);
@@ -101,7 +100,6 @@ public class RegisterMasterActivity extends BaseActivity {
                     progressBar,
                     getApplicationContext(),
                     getString(R.string.password_strength_indicator));
-                    Log.i(TAG,"" + getString(R.string.password_strength_indicator));
             }
 
             @Override
