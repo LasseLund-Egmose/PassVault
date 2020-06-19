@@ -90,6 +90,11 @@ public class PasswordGeneratorActivity extends BaseActivity {
                     return;
                 }
 
+                if(progress > passwordGenerator.getPASSWORD_LENGTH_MAX()) {
+                    seekBar.setProgress(passwordGenerator.getPASSWORD_LENGTH_MAX());
+                    return;
+                }
+
                 passwordGenerator.setLength(progress);
 
                 String spacedLength = " " + progress;
