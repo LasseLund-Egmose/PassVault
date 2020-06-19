@@ -12,6 +12,9 @@ public interface VaultItemDao {
     @Query("SELECT * FROM vault_item")
     List<VaultItem> getAll();
 
+    @Query("SELECT * FROM vault_item WHERE uri = :URI LIMIT 1")
+    VaultItem getByURI(String URI);
+
     @Insert
     void insertAll(VaultItem... vaultItems);
 }

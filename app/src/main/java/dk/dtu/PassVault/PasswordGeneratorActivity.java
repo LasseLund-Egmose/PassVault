@@ -34,6 +34,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(pass_generate);
+        getSupportActionBar().hide();
 
         final PasswordGenerator passwordGenerator = new PasswordGenerator();
         final TextView generatedPassword = (TextView) findViewById(R.id.generatedPassword);

@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,8 +49,8 @@ public class PlatformDialog extends DialogFragment {
 
     public interface Listener {
         void onDialogAddClick(DialogFragment dialog, String result);
-
         void onDialogCancelClick(DialogFragment dialog);
+        void onDialogTouchOutsideClick(DialogFragment dialog);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class PlatformDialog extends DialogFragment {
 
             ApplicationInfo appInfo = info.activityInfo.applicationInfo;
 
-            if (appInfo.packageName != null) {
+            if (appInfo.packageName != null && !appInfo.packageName.equals("dk.dtu.PassVault")) {
                 this.packages.add(appInfo);
             }
         }
@@ -98,33 +99,10 @@ public class PlatformDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
 
+        setRetainInstance(true);
+
         builder.setView(inflater.inflate(R.layout.platform_dialog, null))
                 .setPositiveButton("Add", (dialog, id) -> {
-                    AlertDialog ad = (AlertDialog) dialog;
-                    RadioGroup radioGroup = (RadioGroup) ad.findViewById(R.id.radioGroup);
-                    Spinner spinner = (Spinner) ad.findViewById(R.id.appList);
-                    TextView webSiteText = (TextView) ad.findViewById(R.id.webSiteText);
-
-                    String result = "";
-                    if (radioGroup.getCheckedRadioButtonId() == R.id.app) {
-                        ApplicationInfo ai = (ApplicationInfo) spinner.getSelectedItem();
-
-                        if (ai != null) {
-                            result = "app://" + ai.packageName;
-                        }
-                    } else {
-                        String input = webSiteText.getText().toString();
-                        try {
-                            String scheme = URI.create(input).getScheme();
-                            if (scheme != null && (scheme.equals("http") || scheme.equals("https"))) {
-                                result = input;
-                            } else {
-                                Toast.makeText(getContext(), "No URL provided", LENGTH_LONG).show();
-                            }
-                        } catch (IllegalArgumentException e) {
-                        }
-                    }
-                    listener.onDialogAddClick(PlatformDialog.this, result);
 
                 })
                 .setNegativeButton("Cancel", (dialog, id) -> {
@@ -135,11 +113,39 @@ public class PlatformDialog extends DialogFragment {
 
         ad.setOnShowListener(dialogInterface -> {
             AlertDialog dialog = (AlertDialog) dialogInterface;
+            Button addBtn = (Button) dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            RadioGroup radioGroup = (RadioGroup) ad.findViewById(R.id.radioGroup);
+            Spinner spinner = (Spinner) ad.findViewById(R.id.appList);
+            TextView webSiteText = (TextView) ad.findViewById(R.id.webSiteText);
 
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                    .setTextColor(getResources().getColor(R.color.DTU));
-            dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-                    .setTextColor(getResources().getColor(R.color.greyed));
+            addBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String result = "";
+                    if (radioGroup.getCheckedRadioButtonId() == R.id.app) {
+                        ApplicationInfo ai = (ApplicationInfo) spinner.getSelectedItem();
+                        if (ai != null) {
+                            result = "app://" + ai.packageName;
+                            dialog.dismiss();
+                        }
+                    } else {
+                        String input = webSiteText.getText().toString();
+                        try {
+                            String scheme = URI.create(input).getScheme();
+                            if (scheme != null && (scheme.equals("http") || scheme.equals("https"))) {
+                                result = input;
+                                dialog.dismiss();
+                            } else {
+                                Toast.makeText(getContext(), "No URL provided", LENGTH_LONG).show();
+                            }
+                        } catch (IllegalArgumentException e) {
+                        }
+                    }
+                    listener.onDialogAddClick(PlatformDialog.this, result);
+                }
+            });
+
+            dialog.setOnCancelListener(dialog1 -> listener.onDialogTouchOutsideClick(PlatformDialog.this));
 
             Spinner appList = (Spinner) dialog.findViewById(R.id.appList);
 
@@ -147,7 +153,6 @@ public class PlatformDialog extends DialogFragment {
                 appList.setAdapter(new AppListAdapter(this.context, R.layout.app_list_single, this.packages));
             }
 
-            RadioGroup radioGroup = (RadioGroup) ad.findViewById(R.id.radioGroup);
             RadioButton radioButtonApp = (RadioButton) ad.findViewById(R.id.app);
 
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -163,9 +168,7 @@ public class PlatformDialog extends DialogFragment {
                 }
             });
 
-
         });
-
 
         return ad;
     }

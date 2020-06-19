@@ -82,29 +82,26 @@
                 android:textColor="@color/DTU"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/passwordLengthNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/password_length_num"
-                android:textColor="@color/DTU"
-                android:textSize="18sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
             <SeekBar
                 android:id="@+id/lengthBar"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
                 android:layout_marginEnd="15dp"
                 android:scrollbarSize="10dp"
                 android:theme="@style/SwitchTheme" />
+
+
+            <TextView
+                android:id="@+id/passwordLengthNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/password_length_num"
+                android:textColor="@color/DTU"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
