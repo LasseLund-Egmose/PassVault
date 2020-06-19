@@ -47,7 +47,13 @@ public class PasswordEvaluator {
         this.evalPasswordStrength(passwordScore);
 
         strengthView.setText(baseMsg);
-        strengthView.append(" " + this.passwordStrength.toString().replace('_', ' '));
+        if(this.passwordStrength.equals(PasswordStrength.WEAK)) {
+            strengthView.append(" " + R.string.strength_weak);
+        }else if(this.passwordStrength.equals(PasswordStrength.STRONG)){
+            strengthView.append(" " + R.string.strength_strong);
+        }else if (this.passwordStrength.equals(PasswordStrength.VERY_STRONG)){
+            strengthView.append(" " + R.string.strength_very_strong);
+        }
 
         this.updateProgressBar(progressBar, context);
     }
