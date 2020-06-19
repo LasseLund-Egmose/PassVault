@@ -94,4 +94,6 @@
     <string name="must_specify_username">You need to specify a username</string>
     <string name="must_specify_password">You need to specify a password</string>
 
+    <string name="vault_empty">Vault is empty</string>
+
 </resources>
