@@ -59,6 +59,7 @@
     <string name="autofill_title">PassVault Auto-udfyldning</string>
     <string name="autofill_prompt">Vil du bruge PassVault som din primære auto-udfyldnings applikation?</string>
     <string name="select_passvault">Vælg venligst \"PassVault Password Manager\"</string>
+    <string name="select_passvault_long">Vælg venligst \"PassVault Password Manager\" under \"Avanceret\" -> \"Autofill service\"</string>
 
     <string name="invalid_url">Ugyldigt URL givet</string>
 
@@ -79,7 +80,7 @@
     <string name="app_text">Applikation</string>
     <string name="website_text">Hjemmeside</string>
     <string name="example_website_hint">https://www.eksempel.dk</string>
-    <string name="loading_text">Indlæser...</string>
+    <string name="loading_text">Indlæser…</string>
     <string name="copy_username_text">Kopier brugernavn</string>
     <string name="copy_password_text">Kopier adgangskode</string>
     <string name="delete_btn">Slet</string>
