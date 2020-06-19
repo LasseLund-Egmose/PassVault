@@ -61,7 +61,7 @@ public class CreateVaultItemActivity extends BaseActivity implements PlatformDia
             startActivityForResult(intent, REQUEST_CODE_PASSWORD);
         });
 
-        Button createButton = findViewById(R.id.button5);
+        Button createButton = findViewById(R.id.create_vault_item);
         createButton.setOnClickListener(v -> createClicked());
     }
 
@@ -134,4 +134,12 @@ public class CreateVaultItemActivity extends BaseActivity implements PlatformDia
         this.platform.clearFocus();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        this.icon.setImageDrawable(
+            IconExtractor.extractIcon(getApplicationContext(), this.platform.getText().toString())
+        );
+    }
 }
