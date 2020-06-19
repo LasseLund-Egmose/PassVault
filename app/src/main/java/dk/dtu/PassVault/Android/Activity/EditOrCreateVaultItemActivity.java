@@ -85,6 +85,10 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
+        if(intent == null) {
+            return;
+        }
+
         Uri uri = intent.getData();
         if (requestCode == REQUEST_CODE_PASSWORD && resultCode == RESULT_OK && uri != null) {
             password.setText(uri.toString());

@@ -154,7 +154,7 @@ public class SingleVaultItemDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
 
-        builder.setView(inflater.inflate(R.layout.single_vault_item_dialog, null));
+        builder.setView(inflater.inflate(R.layout.dialog_single_vault_item, null));
 
         AlertDialog ad = builder.create();
 

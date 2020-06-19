@@ -169,7 +169,7 @@ public class VaultActivity extends BaseActivity {
         });
 
 
-        this.vaultItemAdapter = new VaultItemAdapter(this, R.layout.vault_item_single, vaultItems);
+        this.vaultItemAdapter = new VaultItemAdapter(this, R.layout.single_vault_item, vaultItems);
 
         GridView vaultContainer = (GridView) findViewById(R.id.vault_item_container);
         vaultContainer.setAdapter(this.vaultItemAdapter);

@@ -211,31 +211,21 @@ public class Crypto {
     protected static Crypto instance = null;
 
     public static Crypto getInstance() {
-        long timestamp = (new Date()).getTime();
-
-        // Check if instance is null or has expired - expires after 5 minutes
-        if(instance == null || timestamp - instance.getCreatedAt() > 30000) {
+        if(instance == null) {
             instance = new Crypto();
         }
-
-        instance.renew();
 
         return instance;
     }
 
     protected Cipher cipherDecryptInstance = null;
     protected Cipher cipherEncryptInstance = null;
-    protected long createdAt;
     protected KeyGenerator keyGenInstance = null;
     protected Key key = null;
     protected MessageDigest SHA256Digester = null;
 
     public boolean hasKey() {
         return this.key != null;
-    }
-
-    public long getCreatedAt() {
-        return this.createdAt;
     }
 
     public boolean init(boolean allowNoKey) {
@@ -325,12 +315,6 @@ public class Crypto {
         (new HashingHandler(this.SHA256Digester, cr, str.getBytes())).execute();
     }
 
-    public void renew() {
-        this.createdAt = (new Date()).getTime();
-    }
-
-    protected Crypto() {
-        this.renew();
-    }
+    protected Crypto() {}
 
 }
