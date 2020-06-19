@@ -1,5 +1,5 @@
 <resources>
-    <string name="welcome_text">Velkommen til PassVault. Angiv dit hoved-adgangskode nedenfor, eller tryk Opret Konto for at komme igang.</string>
+    <string name="welcome_text">Velkommen til PassVault. Angiv din master-adgangskode nedenfor, eller tryk \"Opret Konto\" for at komme igang.</string>
     <string name="app_name">PassVault</string>
     <string name="generate_button">Generer</string>
     <string name="copy_button">Kopier</string>
@@ -15,19 +15,19 @@
     <string name="add_input_title">Titel:</string>
     <string name="add_input_url">URL (valgfrit):</string>
     <string name="add_input_username">Brugernavn:</string>
-    <string name="add_input_password">Adgangskode:</string>
+    <string name="add_input_password">Adg.-kode:</string>
 
     <string name="generate_password">Generer adgangskode</string>
     <string name="edit_logo">Ændre logo</string>
     <string name="create_profile">Opret</string>
 
     <string name="delete_account">Slet konto</string>
-    <string name="change_master_password">Ændre hoved-adgangskode</string>
+    <string name="change_master_password">Ændr master-adgangskode</string>
 
     <string name="register_master_password_warning">
     Vær venlig at huske din adgangskode, og gemme den et sikkert sted. Du vil ikke have mulighed for at gendanne den, i tilfælde af at den bliver glemt</string>
-    <string name="add_input_master_password">Hoved-adgangskode:</string>
-    <string name="add_input_master_password_again">Hoved-adgangskode igen:</string>
+    <string name="add_input_master_password">Master-adgangskode:</string>
+    <string name="add_input_master_password_again">Master-adgangskode igen:</string>
     <string name="reset_input">Nulstil</string>
     <string name="save_registration">Gem</string>
     <string name="password_length_indicator">12</string>
@@ -41,7 +41,7 @@
     <string name="wrong_password_or_something_wrong">Forkert adgangskode indtastet (eller noget andet gik galt).</string>
     <string name="success">Succes</string>
     <string name="something_went_wrong">Noget gik galt!</string>
-    <string name="master_password_created">Hoved-adgangskode lavet!</string>
+    <string name="master_password_created">Master-adgangskode oprettet!</string>
     <string name="turn_on_settings">Vær venlig at vælge nogle indstillinger</string>
 
     <string name="strength_weak">SVAG</string>
@@ -67,14 +67,14 @@
     <string name="no_username_to_copy">Intet brugernavn som kan kopieres</string>
     <string name="no_password_to_copy">Intet brugernavn som kan kopieres</string>
     <string name="open_vault">Åben Konto</string>
-    <string name="new_item_title">Angiv ny konto-information</string>
+    <string name="new_item_title">Opret nyt element</string>
     <string name="platform">Platform:</string>
     <string name="password_generator_title">ADGANGSKODE GENERATOR</string>
     <string name="password_generated_settings_header">Genereret adgangskode:</string>
     <string name="settings_header">INDSTILLINGER:</string>
     <string name="ok_btn">OK</string>
     <string name="copy_btn">KOPIER</string>
-    <string name="masster_password_autofill_text">Angiv hoved-adgangskode for at bruge auto-udfyld funktionen</string>
+    <string name="masster_password_autofill_text">Angiv master-adgangskode for at bruge auto-udfyld funktionen</string>
     <string name="autofill_btn">Auto-udfyld</string>
     <string name="app_text">Applikation</string>
     <string name="website_text">Hjemmeside</string>
@@ -84,5 +84,15 @@
     <string name="copy_password_text">Kopier adgangskode</string>
     <string name="delete_btn">Slet</string>
     <string name="setup_vault">Opsæt Konto</string>
+    <string name="master_password_too_short">Adgangskoden er for kort. Det skal være 8 tegn som minimum.</string>
+    <string name="must_specify_platform">Du skal angive en platform</string>
+    <string name="must_specify_title">Du skal angive en titel</string>
+    <string name="must_specify_username">Du skal angive et brugernavn</string>
+    <string name="must_specify_password">Du skal angive et password</string>
+
+    <string name="vault_empty">Ingen elementer</string>
+
+    <string name="welcome_dialog_title">Velkommen til PassVault!</string>
+    <string name="welcome_dialog_content">Det er blevet tid at opgradere din password-sikkerhed!\n\nStart med at oprette en sikker master-adgangskode.\n\nTilføj efterfølgende dine logins (vær opmærksom på at generere en sikker adgangskode) fra de platforme du bruger i dagligdagen.\n\nEfter dette trin er opsætningen gennemført, og du kan begynde at bruge appen.</string>
 
 </resources>

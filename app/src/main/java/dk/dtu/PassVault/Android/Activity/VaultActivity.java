@@ -1,12 +1,15 @@
 package dk.dtu.PassVault.Android.Activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
 import android.view.autofill.AutofillManager;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -62,10 +65,12 @@ public class VaultActivity extends BaseActivity {
 
     protected static class GetVaultItemsTransaction extends Database.Transaction<VaultItem[]> {
 
+        protected WeakReference<VaultActivity> vaultActivityRef;
         protected WeakReference<VaultItemAdapter> vaultItemAdapterRef;
         protected WeakReference<ArrayList<VaultItem>> vaultItemsRef;
 
-        public GetVaultItemsTransaction(WeakReference<VaultItemAdapter> vaultItemAdapterRef, WeakReference<ArrayList<VaultItem>> vaultItemsRef) {
+        public GetVaultItemsTransaction(WeakReference<VaultActivity> vaultActivityRef, WeakReference<VaultItemAdapter> vaultItemAdapterRef, WeakReference<ArrayList<VaultItem>> vaultItemsRef) {
+            this.vaultActivityRef = vaultActivityRef;
             this.vaultItemAdapterRef = vaultItemAdapterRef;
             this.vaultItemsRef = vaultItemsRef;
         }
@@ -82,6 +87,12 @@ public class VaultActivity extends BaseActivity {
             vaultItems.addAll(Arrays.asList(items));
 
             this.vaultItemAdapterRef.get().notifyDataSetChanged();
+
+            VaultActivity activity = this.vaultActivityRef.get();
+            if(activity == null) return;
+
+            activity.findViewById(R.id.vault_empty)
+                .setVisibility(vaultItems.size() == 0 ? View.VISIBLE : View.INVISIBLE);
         }
     }
 
@@ -113,6 +124,23 @@ public class VaultActivity extends BaseActivity {
             this.ref = ref;
         }
 
+        protected void openSettings(VaultActivity activity) {
+            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+                Intent intent = new Intent();
+                intent.setComponent( new ComponentName("com.android.settings","com.android.settings.Settings$LanguageAndInputSettingsActivity" ));
+                activity.startActivity(intent);
+
+                Toast.makeText(activity, R.string.select_passvault_long, Toast.LENGTH_LONG).show();
+            } else {
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                intent.setData(Uri.parse("package:dk.dtu.PassVault"));
+                activity.startActivity(intent);
+
+                Toast.makeText(activity, R.string.select_passvault, Toast.LENGTH_LONG).show();
+            }
+        }
+
         @Override
         public Boolean doRequest(Database db) {
             return db.getSetting(SETTING_HAS_SHOWN_AUTO_FILL_DIALOG) == null;
@@ -129,12 +157,7 @@ public class VaultActivity extends BaseActivity {
                 .setTitle(R.string.autofill_title)
                 .setMessage(R.string.autofill_prompt)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                    intent.setData(Uri.parse("package:dk.dtu.PassVault"));
-                    activity.startActivity(intent);
-
-                    Toast.makeText(activity, R.string.select_passvault, Toast.LENGTH_LONG).show();
+                    openSettings(activity);
 
                     Database.dispatch(activity, new UpdateAutoFillDialogSetting(true));
                 })
@@ -164,7 +187,7 @@ public class VaultActivity extends BaseActivity {
 
         FloatingActionButton addButton = findViewById(R.id.addBtn);
         addButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), EditOrCreateVaultItemActivity.class);
+            Intent intent = new Intent(getApplicationContext(), CreateVaultItemActivity.class);
             startActivityForResult(intent, ADD_PROFILE_CODE);
         });
 
@@ -233,7 +256,11 @@ public class VaultActivity extends BaseActivity {
 
         Database.dispatch(
             getApplicationContext(),
-            new GetVaultItemsTransaction(new WeakReference<>(this.vaultItemAdapter), new WeakReference<>(vaultItems))
+            new GetVaultItemsTransaction(
+                new WeakReference<>(this),
+                new WeakReference<>(this.vaultItemAdapter),
+                new WeakReference<>(vaultItems)
+            )
         );
     }
 }

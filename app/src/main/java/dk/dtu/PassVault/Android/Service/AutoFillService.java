@@ -55,13 +55,13 @@ public class AutoFillService extends android.service.autofill.AutofillService {
         protected VaultItem vaultItem;
 
         public ValidateMasterPasswordAndDecryptVaultItem(
-                FillCallback callback,
-                Crypto crypto,
-                AutoFillFieldSet fields,
-                String hashedMasterPassword,
-                String packageName,
-                WeakReference<AutoFillService> serviceRef,
-                VaultItem vaultItem
+            FillCallback callback,
+            Crypto crypto,
+            AutoFillFieldSet fields,
+            String hashedMasterPassword,
+            String packageName,
+            WeakReference<AutoFillService> serviceRef,
+            VaultItem vaultItem
         ) {
             this.callback = callback;
             this.crypto = crypto;
@@ -84,7 +84,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
             Dataset.Builder dataSetBuilder = new Dataset.Builder();
 
             Log.i(LOG_TAG, "Build response: " + this.fields);
-            if(this.fields.username != null) {
+            if (this.fields.username != null) {
                 dataSetBuilder.setValue(
                     this.fields.username,
                     AutofillValue.forText(vaultItem.username),
@@ -92,7 +92,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
                 );
             }
 
-            if(this.fields.password != null) {
+            if (this.fields.password != null) {
                 dataSetBuilder.setValue(
                     this.fields.password,
                     AutofillValue.forText(decryptedPassword),
@@ -100,10 +100,10 @@ public class AutoFillService extends android.service.autofill.AutofillService {
                 );
             }
 
-            if(callback != null) {
+            if (callback != null) {
                 FillResponse response = new FillResponse.Builder()
-                        .addDataset(dataSetBuilder.build())
-                        .build();
+                    .addDataset(dataSetBuilder.build())
+                    .build();
 
                 callback.onSuccess(response); // Send response
             } else {
@@ -114,7 +114,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
         @Override
         public void onResult(Boolean result) {
             AutoFillService service = this.serviceRef.get();
-            if(service == null) {
+            if (service == null) {
                 return;
             }
 
@@ -125,7 +125,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
 
             service.setRequestLock(false);
 
-            if(!result) {
+            if (!result) {
                 return;
             }
 
@@ -134,7 +134,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
             this.crypto.decrypt(this.vaultItem.password, new Crypto.CryptoResponse() {
                 @Override
                 public void run() {
-                    if(!this.isSuccessful) {
+                    if (!this.isSuccessful) {
                         return;
                     }
 
@@ -167,7 +167,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
         @Override
         public void onResult(VaultItem result) {
             AutoFillService service = this.ref.get();
-            if(result != null && service != null) {
+            if (result != null && service != null) {
                 service.setupPrompt(this.callback, result);
             }
         }
@@ -179,7 +179,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
     protected AutoFillFieldSet fields = new AutoFillFieldSet();
 
     protected void setupPrompt(FillCallback callback, VaultItem item) {
-        if(this.receiver != null) {
+        if (this.receiver != null) {
             unregisterReceiver(this.receiver);
             this.receiver = null;
         }
@@ -190,8 +190,8 @@ public class AutoFillService extends android.service.autofill.AutofillService {
 
             protected void dispatchVaultItemDecryption(Crypto crypto, String hashedMasterPassword) {
                 ValidateMasterPasswordAndDecryptVaultItem transaction = new ValidateMasterPasswordAndDecryptVaultItem(
-                        callback, crypto, fields, hashedMasterPassword, selfPkgName,
-                        new WeakReference<>(AutoFillService.this), item
+                    callback, crypto, fields, hashedMasterPassword, selfPkgName,
+                    new WeakReference<>(AutoFillService.this), item
                 );
 
                 Database.dispatch(getApplicationContext(), transaction);
@@ -215,19 +215,19 @@ public class AutoFillService extends android.service.autofill.AutofillService {
 
             @Override
             public void onReceive(Context context, Intent intent) {
-                if(!AutoFillCommunicator.ACTION_RECEIVED_MASTER_PASSWORD.equals(intent.getAction())) {
+                if (!AutoFillCommunicator.ACTION_RECEIVED_MASTER_PASSWORD.equals(intent.getAction())) {
                     return;
                 }
 
                 Log.i(LOG_TAG, "Received broadcast" + intent.getExtras());
 
                 Bundle extras = intent.getExtras();
-                if(extras == null) {
+                if (extras == null) {
                     return;
                 }
 
                 String password = extras.getString("password");
-                if(password == null) {
+                if (password == null) {
                     return;
                 }
 
@@ -265,20 +265,20 @@ public class AutoFillService extends android.service.autofill.AutofillService {
 
     protected void traverseNode(AssistStructure.ViewNode viewNode) {
         String className = viewNode.getClassName();
-        if(className != null && className.equals("android.widget.EditText")) {
+        if (className != null && className.equals("android.widget.EditText")) {
             boolean noUsername = this.fields.username == null;
             boolean noPassword = this.fields.password == null;
 
-            if(noPassword && (viewNode.getText() + viewNode.getHint()).toLowerCase().contains("password")) {
+            if (noPassword && (viewNode.getText() + viewNode.getHint()).toLowerCase().contains("password")) {
                 this.fields.password = viewNode.getAutofillId();
-            } else if(noUsername) {
+            } else if (noUsername) {
                 this.fields.username = viewNode.getAutofillId();
-            } else if(noPassword) {
+            } else if (noPassword) {
                 this.fields.password = viewNode.getAutofillId();
             }
         }
 
-        for(int i = 0; i < viewNode.getChildCount(); i++) {
+        for (int i = 0; i < viewNode.getChildCount(); i++) {
             AssistStructure.ViewNode childNode = viewNode.getChildAt(i);
             traverseNode(childNode);
         }
@@ -292,7 +292,7 @@ public class AutoFillService extends android.service.autofill.AutofillService {
     public void onFillRequest(@NonNull FillRequest request, @NonNull CancellationSignal signal, @NonNull FillCallback callback) {
         Log.i(LOG_TAG, "Autofill request!");
 
-        if(this.requestLock) {
+        if (this.requestLock) {
             return;
         }
 
@@ -309,8 +309,8 @@ public class AutoFillService extends android.service.autofill.AutofillService {
         String URI = "app://" + pkgName;
 
         Database.dispatch(
-                getApplicationContext(),
-                new GetVaultItemByURI(new WeakReference<>(this), callback, URI)
+            getApplicationContext(),
+            new GetVaultItemByURI(new WeakReference<>(this), callback, URI)
         );
 
     }
@@ -321,10 +321,19 @@ public class AutoFillService extends android.service.autofill.AutofillService {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+
+        Log.i(LOG_TAG, "Create");
+    }
+
+    @Override
     public void onDestroy() {
-        if(this.receiver != null) {
+        if (this.receiver != null) {
             unregisterReceiver(this.receiver);
         }
+
+        Log.i(LOG_TAG, "Destroy");
 
         super.onDestroy();
     }

@@ -63,6 +63,8 @@ public class SingleVaultItemDialog extends DialogFragment {
 
             VaultActivity vaultActivity = (VaultActivity) activity.getActivity();
             if(vaultActivity == null) return;
+            vaultActivity.refreshList();
+
             activity.dismiss();
         }
     }
