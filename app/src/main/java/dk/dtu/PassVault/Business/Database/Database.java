@@ -70,7 +70,10 @@ public class Database {
         return this.roomInstance.credentialDao().get();
     }
 
-    // TODO: Do not only return first!
+    public String getSetting(String key) {
+        return this.roomInstance.settingDao().get(key);
+    }
+
     public VaultItem getVaultItemByURI(String URI) {
         return this.roomInstance.vaultItemDao().getByURI(URI);
     }
@@ -79,8 +82,16 @@ public class Database {
         return this.roomInstance.vaultItemDao().getAll().toArray(new VaultItem[0]);
     }
 
+    public void deleteVaultItem(VaultItem vaultItem) {
+        this.roomInstance.vaultItemDao().delete(vaultItem);
+    }
+
     public void setCredential(Credential cred) {
         this.roomInstance.credentialDao().set(cred);
+    }
+
+    public void setSetting(String key, String value) {
+        this.roomInstance.settingDao().set(key, value);
     }
 
 }

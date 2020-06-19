@@ -1,7 +1,9 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Business.Util;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import dk.dtu.PassVault.Business.Enum.PasswordStrength;
 
 public class PasswordGenerator {
     /*

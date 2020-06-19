@@ -1,4 +1,6 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Business.Util;
+
+import dk.dtu.PassVault.Business.Enum.PasswordStrength;
 
 public class PasswordEvaluator {
 

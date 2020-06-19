@@ -1,37 +1,39 @@
-package dk.dtu.PassVault;
+package dk.dtu.PassVault.Android.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
+import android.provider.Settings;
+import android.view.autofill.AutofillManager;
 import android.widget.GridView;
 import android.widget.Toast;
-import androidx.constraintlayout.widget.ConstraintLayout;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 
 import androidx.fragment.app.DialogFragment;
 
-
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import dk.dtu.PassVault.Business.Adapter.VaultItemAdapter;
+import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
+import dk.dtu.PassVault.Android.Adapter.VaultItemAdapter;
 import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.VaultItem;
+import dk.dtu.PassVault.Android.Dialog.SingleVaultItemDialog;
+import dk.dtu.PassVault.R;
 
 public class VaultActivity extends BaseActivity {
     private final String TAG = "Pass_Vault";
 
     public static final int ADD_PROFILE_CODE = 1;
 
-    boolean isOpen = false;
+    protected static final String SETTING_HAS_SHOWN_AUTO_FILL_DIALOG = "hasShownAutoFillDialog";
 
     protected static class AddVaultItemTransaction extends Database.Transaction<Void> {
 
@@ -83,38 +85,88 @@ public class VaultActivity extends BaseActivity {
         }
     }
 
+    protected static class UpdateAutoFillDialogSetting extends Database.Transaction<Void> {
+
+        protected boolean hasShown;
+
+        public UpdateAutoFillDialogSetting(boolean hasShown) {
+            this.hasShown = hasShown;
+        }
+
+        @Override
+        public Void doRequest(Database db) {
+            db.setSetting(SETTING_HAS_SHOWN_AUTO_FILL_DIALOG, String.valueOf(this.hasShown));
+            return null;
+        }
+
+        @Override
+        public void onResult(Void result) {
+            // Do nothing
+        }
+    }
+
+    protected static class ShowAutoFillDialogIfRelevant extends Database.Transaction<Boolean> {
+
+        protected WeakReference<VaultActivity> ref;
+
+        public ShowAutoFillDialogIfRelevant(WeakReference<VaultActivity> ref) {
+            this.ref = ref;
+        }
+
+        @Override
+        public Boolean doRequest(Database db) {
+            return db.getSetting(SETTING_HAS_SHOWN_AUTO_FILL_DIALOG) == null;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public void onResult(Boolean result) {
+            VaultActivity activity = this.ref.get();
+
+            if (activity == null || !result) return;
+
+            new AlertDialog.Builder(activity)
+                .setTitle(R.string.autofill_title)
+                .setMessage(R.string.autofill_prompt)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    intent.setData(Uri.parse("package:dk.dtu.PassVault"));
+                    activity.startActivity(intent);
+
+                    Toast.makeText(activity, R.string.select_passvault, Toast.LENGTH_LONG).show();
+
+                    Database.dispatch(activity, new UpdateAutoFillDialogSetting(true));
+                })
+                .setNegativeButton(android.R.string.no, ((dialog, which) -> Database.dispatch(activity, new UpdateAutoFillDialogSetting(false))))
+                .setIcon(R.drawable.logo_icon)
+                .show();
+        }
+    }
+
     protected VaultItemAdapter vaultItemAdapter = null;
     protected ArrayList<VaultItem> vaultItems = new ArrayList<>();
 
-    protected void refreshList() {
-        if(this.vaultItemAdapter == null) {
+    protected void promptAutoFill() {
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return;
         }
 
-        Database.dispatch(
-            getApplicationContext(),
-            new GetVaultItemsTransaction(new WeakReference<>(this.vaultItemAdapter), new WeakReference<>(vaultItems))
-        );
+        AutofillManager afm = getApplicationContext().getSystemService(AutofillManager.class);
+        if (afm.isAutofillSupported() && !afm.hasEnabledAutofillServices()) {
+            Database.dispatch(getApplicationContext(), new ShowAutoFillDialogIfRelevant(new WeakReference<>(this)));
+        }
     }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vault);
-        getSupportActionBar().hide();
-
-
 
         FloatingActionButton addButton = findViewById(R.id.addBtn);
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), EditOrCreateVaultItemActivity.class);
             startActivityForResult(intent, ADD_PROFILE_CODE);
         });
-
-
-
-
-
-
 
 
         this.vaultItemAdapter = new VaultItemAdapter(this, R.layout.vault_item_single, vaultItems);
@@ -129,14 +181,12 @@ public class VaultActivity extends BaseActivity {
         });
 
         this.refreshList();
+        this.promptAutoFill();
     }
-
-
 
     @Override
     protected void onResume() {
         super.onResume();
-
         this.refreshList();
     }
 
@@ -165,7 +215,7 @@ public class VaultActivity extends BaseActivity {
                 @Override
                 public void run() {
                     if (!this.isSuccessful) {
-                        Toast.makeText(getApplicationContext(), "An error occurred!", Toast.LENGTH_LONG).show();
+                        toastShort(R.string.error_occurred);
                         return;
                     }
 
@@ -174,5 +224,16 @@ public class VaultActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    public void refreshList() {
+        if (this.vaultItemAdapter == null) {
+            return;
+        }
+
+        Database.dispatch(
+            getApplicationContext(),
+            new GetVaultItemsTransaction(new WeakReference<>(this.vaultItemAdapter), new WeakReference<>(vaultItems))
+        );
     }
 }

@@ -2,7 +2,7 @@
     <string name="app_name">PassVault</string>
     <string name="generate_button">Generate</string>
     <string name="copy_button">Copy</string>
-    <string name="generated_password">PRESS GENERATE</string>
+    <string name="press_generate">PRESS GENERATE</string>
     <string name="password_length">Length:</string>
     <string name="password_length_num"></string>
     <string name="password_lowercases">Lowercases</string>
@@ -34,5 +34,35 @@
     <string name="needs_relogin">You need to login again.</string>
     <string name="password_strength">PASSWORD STRENGTH:</string>
     <string name="password_strength_var"></string>
+
+    <string name="wrong_password">Wrong password entered</string>
+    <string name="wrong_password_or_something_wrong">Wrong password entered (or something else went wrong).</string>
+    <string name="success">Success</string>
+    <string name="something_went_wrong">Something went wrong!</string>
+    <string name="master_password_created">Master password created!</string>
+    <string name="turn_on_settings">Please turn on some of the settings</string>
+
+    <string name="strength_weak">WEAK</string>
+    <string name="strength_strong">STRONG</string>
+    <string name="strength_very_strong">VERY STRONG</string>
+
+    <string name="generated_successfully">Password generated successfully</string>
+    <string name="no_password_generated">No password generated</string>
+    <string name="pass_copied_to_clipboard">Generated password copied to clipboard</string>
+    <string name="please_generate_password">Please generate a password</string>
+
+    <string name="error_occurred">An error occurred!</string>
+    <string name="passwords_not_identical">The passwords are not identical</string>
+
+    <string name="autofill_title">PassVault AutoFill</string>
+    <string name="autofill_prompt">Do you want to use PassVault as your primary AutoFill application?</string>
+    <string name="select_passvault">Please select \"PassVault Password Manager\"</string>
+
+    <string name="invalid_url">Invalid URL provided</string>
+
+    <string name="username_copied">Username copied to clipboard</string>
+    <string name="password_copied">Password copied to clipboard</string>
+    <string name="no_username_to_copy">No username to copy</string>
+    <string name="no_password_to_copy">No password to copy</string>
 
 </resources>

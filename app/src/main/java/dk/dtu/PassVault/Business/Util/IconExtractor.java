@@ -3,7 +3,6 @@ package dk.dtu.PassVault.Business.Util;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
@@ -22,7 +21,7 @@ public class IconExtractor {
     }
 
     protected static Drawable extractWebIcon(Context context, String domain) {
-        // TODO: Implement fetching icon through domain
+        // TODO: Implement fetching icon through domain in future version
         return ContextCompat.getDrawable(context, R.drawable.ic_baseline_web_24);
     }
 
