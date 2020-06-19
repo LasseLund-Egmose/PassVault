@@ -29,22 +29,6 @@ public class PasswordEvaluator {
 
     private PasswordStrength passwordStrength;
 
-    private String password = "";
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    private void setPasswordStrength(String password) {
-        int passwordScore = this.passwordScore(password);
-        this.evalPasswordStrength(passwordScore);
-    }
-
-    private void setPasswordStrength(int passwordLength, boolean containsLower, boolean containsUpper, boolean containsNums, boolean containsSpecial) {
-        int passwordScore = this.passwordScore(passwordLength, containsLower, containsUpper, containsNums, containsSpecial);
-        this.evalPasswordStrength(passwordScore);
-    }
-
     protected void evalPasswordStrength(int passwordScore) {
         // Very strong password if length is greater than 15 and all types are selected
         if (passwordScore > 35) {
@@ -58,8 +42,9 @@ public class PasswordEvaluator {
 
     public void updatePasswordStrength(TextView strengthView, EditText passwordEditText, ProgressBar progressBar, Context context, String baseMsg) {
         String password = passwordEditText.getText().toString();
-        this.setPassword(password);
-        this.setPasswordStrength(password);
+
+        int passwordScore = this.passwordScore(password);
+        this.evalPasswordStrength(passwordScore);
 
         strengthView.setText(baseMsg);
         strengthView.append(" " + this.passwordStrength.toString().replace('_', ' '));
@@ -68,13 +53,14 @@ public class PasswordEvaluator {
     }
 
     public void updatePasswordStrength(TextView strengthView, ProgressBar progressBar, Context context, PasswordGenerator passwordGenerator) {
-        this.setPasswordStrength(
+        int passwordScore = this.passwordScore(
                 passwordGenerator.getLength(),
                 passwordGenerator.isLowerCaseLetters(),
                 passwordGenerator.isUpperCaseLetters(),
                 passwordGenerator.isNumbers(),
                 passwordGenerator.isSpecialChars()
         );
+        this.evalPasswordStrength(passwordScore);
 
         strengthView.setText(this.passwordStrength.toString().replace('_', ' '));
 
