@@ -19,7 +19,7 @@ import dk.dtu.PassVault.Android.Dialog.PlatformDialog;
 import dk.dtu.PassVault.R;
 
 
-public class EditOrCreateVaultItemActivity extends BaseActivity implements PlatformDialog.Listener {
+public class CreateVaultItemActivity extends BaseActivity implements PlatformDialog.Listener {
 
     protected EditText title, platform, username, password;
     private final static int REQUEST_CODE_PASSWORD = 0;
@@ -71,14 +71,34 @@ public class EditOrCreateVaultItemActivity extends BaseActivity implements Platf
         String username = this.username.getText().toString();
         String password = this.password.getText().toString();
 
+        if(platform.isEmpty()) {
+            this.toastShort(R.string.must_specify_platform);
+            return;
+        }
+
+        if(title.isEmpty()) {
+            this.toastShort(R.string.must_specify_title);
+            return;
+        }
+
+        if(username.isEmpty()) {
+            this.toastShort(R.string.must_specify_username);
+            return;
+        }
+
+        if(password.isEmpty()) {
+            this.toastShort(R.string.must_specify_password);
+            return;
+        }
+
         Intent i = new Intent(getApplicationContext(), VaultActivity.class);
         i.putExtra("URI", platform);
         i.putExtra("displayName", title);
         i.putExtra("username", username);
         i.putExtra("password", password);
 
-        setResult(RESULT_OK, i);
-        finish();
+        this.setResult(RESULT_OK, i);
+        this.finish();
     }
 
     @Override

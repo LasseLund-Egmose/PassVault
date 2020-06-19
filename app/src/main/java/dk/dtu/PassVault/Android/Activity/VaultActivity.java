@@ -176,7 +176,7 @@ public class VaultActivity extends BaseActivity {
 
         FloatingActionButton addButton = findViewById(R.id.addBtn);
         addButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), EditOrCreateVaultItemActivity.class);
+            Intent intent = new Intent(getApplicationContext(), CreateVaultItemActivity.class);
             startActivityForResult(intent, ADD_PROFILE_CODE);
         });
 
