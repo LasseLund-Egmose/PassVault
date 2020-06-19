@@ -45,21 +45,28 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="0dp"
+                android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="60dp"
-                android:layout_weight="7"
                 android:gravity="center_vertical"
                 android:text="@string/add_input_username"
                 android:textColor="@color/DTU"
                 android:textSize="18dp" />
 
-            <EditText
-                android:id="@+id/username"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="350dp"
                 android:layout_height="match_parent"
-                android:layout_weight="11"
-                android:singleLine="true" />
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView3">
+
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="11" />
+
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -67,27 +74,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:weightSum="20"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_marginStart="60dp"
-                android:layout_weight="7"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/add_input_password"
                 android:textColor="@color/DTU"
+                android:layout_width="150dp"
                 android:textSize="18dp" />
 
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="350dp"
                 android:layout_height="match_parent"
-                android:layout_weight="11"
-                android:inputType="textPassword"
-                android:singleLine="true" />
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:passwordToggleEnabled="true"
+                app:layout_constraintStart_toEndOf="@+id/textView4">
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textPassword"
+                    android:layout_weight="11" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -144,22 +159,28 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="0dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:layout_marginStart="60dp"
-            android:layout_weight="7"
             android:gravity="center_vertical"
             android:text="@string/add_input_title"
             android:textColor="@color/DTU"
             android:textSize="18dp" />
 
-
-        <EditText
-            android:id="@+id/title"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="350dp"
             android:layout_height="match_parent"
-            android:layout_weight="11"
-            android:singleLine="true" />
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView">
+
+            <EditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="11" />
+
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -173,10 +194,9 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="0dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:layout_marginStart="60dp"
-            android:layout_weight="7"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="@string/platform"
@@ -184,14 +204,21 @@
             android:textSize="18dp" />
 
 
-        <EditText
-            android:id="@+id/platform"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="350dp"
             android:layout_height="match_parent"
-            android:layout_weight="11"
-            android:editable="false"
-            android:maxLines="2"
-            android:singleLine="true" />
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView2">
+
+            <EditText
+                android:id="@+id/platform"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="11"
+                android:editable="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
     </LinearLayout>
