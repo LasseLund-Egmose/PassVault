@@ -66,4 +66,11 @@
     <string name="no_username_to_copy">No username to copy</string>
     <string name="no_password_to_copy">No password to copy</string>
 
+    <string name="master_password_too_short">The password is too short. It must be at minimum 8 characters.</string>
+
+    <string name="must_specify_platform">You need to specify a platform</string>
+    <string name="must_specify_title">You need to specify a title</string>
+    <string name="must_specify_username">You need to specify a username</string>
+    <string name="must_specify_password">You need to specify a password</string>
+
 </resources>

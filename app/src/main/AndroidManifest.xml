@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Android.Activity.PasswordGeneratorActivity" />
-        <activity android:name=".Android.Activity.EditOrCreateVaultItemActivity"
+        <activity android:name=".Android.Activity.CreateVaultItemActivity"
             android:windowSoftInputMode="adjustNothing"
             />
         <activity android:name=".Android.Activity.VaultActivity" />
