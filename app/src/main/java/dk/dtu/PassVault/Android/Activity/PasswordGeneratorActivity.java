@@ -11,7 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
 import dk.dtu.PassVault.Business.Util.PasswordGenerator;
@@ -20,10 +19,10 @@ import dk.dtu.PassVault.R;
 
 public class PasswordGeneratorActivity extends BaseActivity {
 
+    protected ClipboardManager clipboardManager;
     protected PasswordGenerator passwordGenerator;
-    protected TextView generatedPassword = (TextView) findViewById(R.id.generatedPassword);
-    protected ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-    protected ProgressBar progressBar = (ProgressBar) findViewById(R.id.strength_progressbar);
+    protected TextView generatedPassword;
+    protected ProgressBar progressBar;
     protected TextView passwordStrength;
     protected TextView passwordLength;
     protected SeekBar lengthBar;
@@ -152,6 +151,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pass_generate);
 
+        this.clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         this.passwordGenerator = new PasswordGenerator();
         this.generatedPassword = this.findViewById(R.id.generatedPassword);
         this.clipboardManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
