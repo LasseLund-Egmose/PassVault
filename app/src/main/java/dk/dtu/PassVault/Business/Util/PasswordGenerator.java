@@ -1,6 +1,9 @@
 package dk.dtu.PassVault.Business.Util;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import dk.dtu.PassVault.Business.Enum.PasswordStrength;
@@ -88,26 +91,9 @@ public class PasswordGenerator {
     }
 
     private boolean passwordIsValid() {
-
-        boolean hasLower = false, hasUpper = false, hasNumber = false, hasSpecial = false;
-
-        for (int i = 0; i < this.password.length(); i++) {
-            if (!hasLower && LOWER_CASE_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= LOWER_CASE_ASCII_HIGH) {
-                hasLower = true;
-            }
-            if (!hasUpper && UPPER_CASE_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= UPPER_CASE_ASCII_HIGH
-            ) {
-                hasUpper = true;
-            }
-            if (!hasNumber && NUMBERS_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= NUMBERS_ASCII_HIGH) {
-                hasNumber = true;
-            }
-            if (!hasSpecial && SPECIAL_ASCII_LOW <= this.password.charAt(i) && this.password.charAt(i) <= SPECIAL_ASCII_HIGH) {
-                hasSpecial = true;
-            }
-        }
-
-        return hasLower == lowerCaseLetters && hasUpper == upperCaseLetters && hasNumber == numbers && hasSpecial == specialChars;
+        PasswordEvaluator pwe = new PasswordEvaluator();
+        boolean[] diversity = pwe.evaluateCharacterDiversity(this.password);
+        return diversity[0] == lowerCaseLetters && diversity[1] == upperCaseLetters && diversity[2] == numbers && diversity[3] == specialChars;
     }
 
     // Getters and setters
