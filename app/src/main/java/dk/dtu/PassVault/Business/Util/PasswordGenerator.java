@@ -93,9 +93,6 @@ public class PasswordGenerator {
     private boolean passwordIsValid() {
         PasswordEvaluator pwe = new PasswordEvaluator();
         boolean[] diversity = pwe.evaluateCharacterDiversity(this.password);
-
-        Log.i("Password Eval", Arrays.toString(diversity));
-
         return diversity[0] == lowerCaseLetters && diversity[1] == upperCaseLetters && diversity[2] == numbers && diversity[3] == specialChars;
     }
 
