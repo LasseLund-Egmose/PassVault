@@ -2,13 +2,11 @@ package dk.dtu.PassVault.Android.Activity;
 
 import androidx.fragment.app.DialogFragment;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,7 +20,7 @@ import dk.dtu.PassVault.R;
 public class CreateVaultItemActivity extends BaseActivity implements PlatformDialog.Listener {
 
     protected EditText title, platform, username, password;
-    private final static int REQUEST_CODE_PASSWORD = 0;
+    protected final static int REQUEST_CODE_PASSWORD = 0;
     protected ImageView icon;
 
     @Override
@@ -65,7 +63,7 @@ public class CreateVaultItemActivity extends BaseActivity implements PlatformDia
         createButton.setOnClickListener(v -> createClicked());
     }
 
-    private void createClicked() {
+    protected void createClicked() {
         String title = this.title.getText().toString();
         String platform = this.platform.getText().toString();
         String username = this.username.getText().toString();

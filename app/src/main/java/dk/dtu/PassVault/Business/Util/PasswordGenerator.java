@@ -16,29 +16,29 @@ public class PasswordGenerator {
      * Ascii values for specialChars ! " # $ % & ' ( ) * + , - . / is 33-47
      * */
 
-    private final int LOWER_CASE_ASCII_LOW = 97;
-    private final int LOWER_CASE_ASCII_HIGH = 122;
-    private final int UPPER_CASE_ASCII_LOW = 65;
-    private final int UPPER_CASE_ASCII_HIGH = 90;
-    private final int NUMBERS_ASCII_LOW = 48;
-    private final int NUMBERS_ASCII_HIGH = 57;
-    private final int SPECIAL_ASCII_LOW = 33;
-    private final int SPECIAL_ASCII_HIGH = 47;
+    protected final int LOWER_CASE_ASCII_LOW = 97;
+    protected final int LOWER_CASE_ASCII_HIGH = 122;
+    protected final int UPPER_CASE_ASCII_LOW = 65;
+    protected final int UPPER_CASE_ASCII_HIGH = 90;
+    protected final int NUMBERS_ASCII_LOW = 48;
+    protected final int NUMBERS_ASCII_HIGH = 57;
+    protected final int SPECIAL_ASCII_LOW = 33;
+    protected final int SPECIAL_ASCII_HIGH = 47;
 
-    private final int PASSWORD_LENGTH_MIN = 8;
-    private final int PASSWORD_LENGTH_MAX = 32;
+    protected final int PASSWORD_LENGTH_MIN = 8;
+    protected final int PASSWORD_LENGTH_MAX = 32;
 
-    private int length = 16;
+    protected int length = 16;
 
-    private boolean lowerCaseLetters = true;
-    private boolean upperCaseLetters = true;
-    private boolean numbers = true;
-    private boolean specialChars = true;
+    protected boolean lowerCaseLetters = true;
+    protected boolean upperCaseLetters = true;
+    protected boolean numbers = true;
+    protected boolean specialChars = true;
 
-    private String password = "";
+    protected String password = "";
 
     // Generates a new password based on input
-    private void generateNewPassword() {
+    protected void generateNewPassword() {
         if (!canGenerate()) {
             throw new IllegalArgumentException("The password must consist of at least one type of character");
         } else {
@@ -51,7 +51,7 @@ public class PasswordGenerator {
     }
 
     // Choose random from list
-    private char chooseRandom() {
+    protected char chooseRandom() {
         ArrayList<Character> chars = makeRandomCharList();
         Random r = new Random();
         int result = r.nextInt(chars.size());
@@ -59,7 +59,7 @@ public class PasswordGenerator {
     }
 
     // Makes a random list of chars, based on input
-    private ArrayList<Character> makeRandomCharList() {
+    protected ArrayList<Character> makeRandomCharList() {
 
         ArrayList<Character> chars = new ArrayList<>();
 
@@ -79,7 +79,7 @@ public class PasswordGenerator {
     }
 
     // Generate a random Ascii value between to values.
-    private char getRandomBetweenTwoNum(int low, int high) {
+    protected char getRandomBetweenTwoNum(int low, int high) {
         Random r = new Random();
         int result = r.nextInt(high - low) + low;
         return (char) result;
@@ -90,7 +90,7 @@ public class PasswordGenerator {
         return lowerCaseLetters || upperCaseLetters || numbers || specialChars;
     }
 
-    private boolean passwordIsValid() {
+    protected boolean passwordIsValid() {
         PasswordEvaluator pwe = new PasswordEvaluator();
         boolean[] diversity = pwe.evaluateCharacterDiversity(this.password);
         return diversity[0] == lowerCaseLetters && diversity[1] == upperCaseLetters && diversity[2] == numbers && diversity[3] == specialChars;

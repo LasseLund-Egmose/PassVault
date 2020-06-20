@@ -18,16 +18,16 @@ public class PasswordEvaluator {
      * Ascii values for specialChars ! " # $ % & ' ( ) * + , - . / is 33-47
      * */
 
-    private final int LOWER_CASE_ASCII_LOW = 97;
-    private final int LOWER_CASE_ASCII_HIGH = 122;
-    private final int UPPER_CASE_ASCII_LOW = 65;
-    private final int UPPER_CASE_ASCII_HIGH = 90;
-    private final int NUMBERS_ASCII_LOW = 48;
-    private final int NUMBERS_ASCII_HIGH = 57;
-    private final int SPECIAL_ASCII_LOW = 33;
-    private final int SPECIAL_ASCII_HIGH = 47;
+    protected final int LOWER_CASE_ASCII_LOW = 97;
+    protected final int LOWER_CASE_ASCII_HIGH = 122;
+    protected final int UPPER_CASE_ASCII_LOW = 65;
+    protected final int UPPER_CASE_ASCII_HIGH = 90;
+    protected final int NUMBERS_ASCII_LOW = 48;
+    protected final int NUMBERS_ASCII_HIGH = 57;
+    protected final int SPECIAL_ASCII_LOW = 33;
+    protected final int SPECIAL_ASCII_HIGH = 47;
 
-    private PasswordStrength passwordStrength;
+    protected PasswordStrength passwordStrength;
 
     protected void evalPasswordStrength(int passwordScore) {
         // Very strong password if length is greater than 15 and all types are selected
@@ -47,12 +47,12 @@ public class PasswordEvaluator {
         this.evalPasswordStrength(passwordScore);
 
         strengthView.setText(baseMsg);
-        if(this.passwordStrength.equals(PasswordStrength.WEAK)) {
-            strengthView.append(" "+context.getString(R.string.strength_weak));
-        }else if(this.passwordStrength.equals(PasswordStrength.STRONG)){
-            strengthView.append(" "+context.getString(R.string.strength_strong));
-        }else if (this.passwordStrength.equals(PasswordStrength.VERY_STRONG)){
-            strengthView.append(" "+context.getString(R.string.strength_very_strong));
+        if (this.passwordStrength.equals(PasswordStrength.WEAK)) {
+            strengthView.append(" " + context.getString(R.string.strength_weak));
+        } else if (this.passwordStrength.equals(PasswordStrength.STRONG)) {
+            strengthView.append(" " + context.getString(R.string.strength_strong));
+        } else if (this.passwordStrength.equals(PasswordStrength.VERY_STRONG)) {
+            strengthView.append(" " + context.getString(R.string.strength_very_strong));
         }
 
         this.updateProgressBar(progressBar, context);
@@ -60,21 +60,25 @@ public class PasswordEvaluator {
 
     public void updatePasswordStrength(TextView strengthView, ProgressBar progressBar, Context context, PasswordGenerator passwordGenerator) {
         int passwordScore = this.passwordScore(
-                passwordGenerator.getLength(),
-                passwordGenerator.isLowerCaseLetters(),
-                passwordGenerator.isUpperCaseLetters(),
-                passwordGenerator.isNumbers(),
-                passwordGenerator.isSpecialChars()
+            passwordGenerator.getLength(),
+            passwordGenerator.isLowerCaseLetters(),
+            passwordGenerator.isUpperCaseLetters(),
+            passwordGenerator.isNumbers(),
+            passwordGenerator.isSpecialChars()
         );
+
         this.evalPasswordStrength(passwordScore);
 
-        if(this.passwordStrength.equals(PasswordStrength.WEAK)) {
-            strengthView.setText(" "+context.getString(R.string.strength_weak));
-        }else if(this.passwordStrength.equals(PasswordStrength.STRONG)){
-            strengthView.setText(" "+context.getString(R.string.strength_strong));
-        }else if (this.passwordStrength.equals(PasswordStrength.VERY_STRONG)){
-            strengthView.setText(" "+context.getString(R.string.strength_very_strong));
+        String strengthText = "";
+        if (this.passwordStrength.equals(PasswordStrength.WEAK)) {
+            strengthText = " " + context.getString(R.string.strength_weak);
+        } else if (this.passwordStrength.equals(PasswordStrength.STRONG)) {
+            strengthText = " " + context.getString(R.string.strength_strong);
+        } else if (this.passwordStrength.equals(PasswordStrength.VERY_STRONG)) {
+            strengthText = " " + context.getString(R.string.strength_very_strong);
         }
+
+        strengthView.setText(strengthText);
 
         this.updateProgressBar(progressBar, context);
     }
@@ -107,10 +111,18 @@ public class PasswordEvaluator {
     public int passwordScore(int passwordLength, boolean containsLower, boolean containsUpper, boolean containsNums, boolean containsSpecial) {
         int score = passwordLength;
 
-        if (containsLower) { score += 5; }
-        if (containsUpper) { score += 5; }
-        if (containsNums) { score += 5; }
-        if (containsSpecial) { score += 5; }
+        if (containsLower) {
+            score += 5;
+        }
+        if (containsUpper) {
+            score += 5;
+        }
+        if (containsNums) {
+            score += 5;
+        }
+        if (containsSpecial) {
+            score += 5;
+        }
 
         return score;
     }
@@ -134,6 +146,6 @@ public class PasswordEvaluator {
             }
         }
 
-        return new boolean[]{ hasLower, hasUpper, hasNumber, hasSpecial };
+        return new boolean[]{hasLower, hasUpper, hasNumber, hasSpecial};
     }
 }
