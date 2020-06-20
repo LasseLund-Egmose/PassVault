@@ -3,12 +3,10 @@ package dk.dtu.PassVault.Android.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
@@ -17,7 +15,6 @@ import dk.dtu.PassVault.Business.Crypto.Crypto;
 import dk.dtu.PassVault.Business.Database.Database;
 import dk.dtu.PassVault.Business.Database.Entities.Credential;
 import dk.dtu.PassVault.Business.Util.PasswordEvaluator;
-import dk.dtu.PassVault.Business.Enum.PasswordStrength;
 import dk.dtu.PassVault.R;
 
 public class RegisterMasterActivity extends BaseActivity {

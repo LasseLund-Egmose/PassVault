@@ -33,12 +33,8 @@ public class PasswordGeneratorActivity extends BaseActivity {
 
     protected boolean passwordGenerated = false;
 
-    protected String getStringWithSpace(int id) {
-        return " " + this.getResources().getString(id);
-    }
-
     protected void setupButtons() {
-        Button generateButton = (Button) findViewById(R.id.generateButton);
+        Button generateButton = findViewById(R.id.generateButton);
         generateButton.setOnClickListener(v -> {
             if (this.passwordGenerator.canGenerate()) {
                 generatedPassword.setText(passwordGenerator.getNewPassword());
@@ -48,7 +44,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
             }
         });
 
-        Button okButton = (Button) findViewById(R.id.okButton);
+        Button okButton = findViewById(R.id.okButton);
         okButton.setOnClickListener(v -> {
             if (this.passwordGenerated) {
                 Intent result = new Intent();
@@ -64,7 +60,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
             finish();
         });
 
-        Button copyButton = (Button) findViewById(R.id.copyButton);
+        Button copyButton = findViewById(R.id.copyButton);
         copyButton.setOnClickListener(v -> {
             if (this.passwordGenerated) {
                 this.clipboardManager.setPrimaryClip(
@@ -121,25 +117,25 @@ public class PasswordGeneratorActivity extends BaseActivity {
     }
 
     protected void setupSwitches() {
-        Switch lowerCasesSwitch = (Switch) findViewById(R.id.lowercasesSwitch);
+        Switch lowerCasesSwitch = findViewById(R.id.lowercasesSwitch);
         lowerCasesSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setLowerCaseLetters(isChecked);
             this.updatePasswordStrength();
         });
 
-        Switch upperCasesSwitch = (Switch) findViewById(R.id.uppercasesSwitch);
+        Switch upperCasesSwitch = findViewById(R.id.uppercasesSwitch);
         upperCasesSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setUpperCaseLetters(isChecked);
             this.updatePasswordStrength();
         });
 
-        Switch numbersSwitch = (Switch) findViewById(R.id.numbersSwitch);
+        Switch numbersSwitch = findViewById(R.id.numbersSwitch);
         numbersSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setNumbers(isChecked);
             this.updatePasswordStrength();
         });
 
-        Switch specialSwitch = (Switch) findViewById(R.id.specialSwitch);
+        Switch specialSwitch = findViewById(R.id.specialSwitch);
         specialSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setSpecialChars(isChecked);
             this.updatePasswordStrength();

@@ -17,4 +17,4 @@ public abstract class Transaction<ResultType> extends AsyncTask<RoomDatabase, Vo
         this.onResult(result);
     }
 
-};
+}

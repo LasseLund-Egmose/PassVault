@@ -9,7 +9,6 @@ import android.provider.Settings;
 import android.view.View;
 import android.view.autofill.AutofillManager;
 import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -193,7 +192,7 @@ public class VaultActivity extends BaseActivity {
 
         this.vaultItemAdapter = new VaultItemAdapter(this, R.layout.single_vault_item, vaultItems);
 
-        GridView vaultContainer = (GridView) findViewById(R.id.vault_item_container);
+        GridView vaultContainer = findViewById(R.id.vault_item_container);
         vaultContainer.setAdapter(this.vaultItemAdapter);
         vaultContainer.setOnItemClickListener((parent, view, position, id) -> {
             VaultItem item = this.vaultItemAdapter.getItem(position);

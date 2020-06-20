@@ -1,12 +1,7 @@
 package dk.dtu.PassVault.Business.Util;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
-
-import dk.dtu.PassVault.Business.Enum.PasswordStrength;
 
 public class PasswordGenerator {
     /*
