@@ -29,7 +29,6 @@ public class LoginActivity extends BaseActivity {
     protected static int REQUEST_CODE_BUTTONS = 2;
 
     protected static class ShowApplicableButtonsTransaction extends Database.Transaction<Boolean> {
-
         protected WeakReference<LoginActivity> ref;
 
         public ShowApplicableButtonsTransaction(WeakReference<LoginActivity> ref) {

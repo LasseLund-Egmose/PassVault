@@ -167,6 +167,10 @@ public class VaultActivity extends BaseActivity {
         }
     }
 
+    /*
+    VAULT ACTIVITY CODE
+     */
+
     protected VaultItemAdapter vaultItemAdapter = null;
     protected ArrayList<VaultItem> vaultItems = new ArrayList<>();
 
