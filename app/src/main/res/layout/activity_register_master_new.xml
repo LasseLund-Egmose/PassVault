@@ -70,7 +70,7 @@
         android:layout_marginEnd="10dp"
         android:layout_weight="2"
         android:text="@string/password_strength"
-        android:textSize="20dp"
+        android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reg_master_password_editText2"></TextView>
