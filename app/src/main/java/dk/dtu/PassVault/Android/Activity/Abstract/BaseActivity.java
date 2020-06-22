@@ -19,10 +19,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         return Crypto.getInstance();
     }
 
-    protected void toastLong(int message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
     protected void toastShort(int message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }

@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 

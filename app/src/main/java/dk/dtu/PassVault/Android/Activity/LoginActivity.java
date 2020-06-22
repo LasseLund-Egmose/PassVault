@@ -1,16 +1,10 @@
 package dk.dtu.PassVault.Android.Activity;
 
-import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -146,7 +140,7 @@ public class LoginActivity extends BaseActivity {
         Button registerButton = findViewById(R.id.register_btn);
 
         signInButton.setOnClickListener(v -> {
-            final EditText password = (EditText) findViewById(R.id.password);
+            final EditText password = findViewById(R.id.password);
             this.validateMasterPassword(password.getText().toString());
         });
 

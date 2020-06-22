@@ -5,8 +5,8 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -16,8 +16,8 @@ import android.widget.TextView;
 import dk.dtu.PassVault.Android.Activity.Abstract.BaseActivity;
 import dk.dtu.PassVault.Business.Util.PasswordEvaluator;
 import dk.dtu.PassVault.Business.Util.PasswordGenerator;
-import dk.dtu.PassVault.Business.Enum.PasswordStrength;
 import dk.dtu.PassVault.R;
+
 
 public class PasswordGeneratorActivity extends BaseActivity {
 
@@ -33,12 +33,8 @@ public class PasswordGeneratorActivity extends BaseActivity {
 
     protected boolean passwordGenerated = false;
 
-    protected String getStringWithSpace(int id) {
-        return " " + this.getResources().getString(id);
-    }
-
     protected void setupButtons() {
-        Button generateButton = (Button) findViewById(R.id.generateButton);
+        Button generateButton = findViewById(R.id.generateButton);
         generateButton.setOnClickListener(v -> {
             if (this.passwordGenerator.canGenerate()) {
                 generatedPassword.setText(passwordGenerator.getNewPassword());
@@ -48,7 +44,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
             }
         });
 
-        Button okButton = (Button) findViewById(R.id.okButton);
+        Button okButton = findViewById(R.id.okButton);
         okButton.setOnClickListener(v -> {
             if (this.passwordGenerated) {
                 Intent result = new Intent();
@@ -64,7 +60,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
             finish();
         });
 
-        Button copyButton = (Button) findViewById(R.id.copyButton);
+        Button copyButton = findViewById(R.id.copyButton);
         copyButton.setOnClickListener(v -> {
             if (this.passwordGenerated) {
                 this.clipboardManager.setPrimaryClip(
@@ -82,9 +78,14 @@ public class PasswordGeneratorActivity extends BaseActivity {
 
     protected void setupLengthBar() {
         this.lengthBar.setProgress(passwordGenerator.getLength());
+
+        if (Build.VERSION.SDK_INT > 26) {
+            this.lengthBar.setMin(passwordGenerator.getPASSWORD_LENGTH_MIN());
+        }
         this.lengthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
                 if(progress < passwordGenerator.getPASSWORD_LENGTH_MIN()) {
                     seekBar.setProgress(passwordGenerator.getPASSWORD_LENGTH_MIN());
                     return;
@@ -105,7 +106,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // Do nothing
+
             }
 
             @Override
@@ -116,25 +117,25 @@ public class PasswordGeneratorActivity extends BaseActivity {
     }
 
     protected void setupSwitches() {
-        Switch lowerCasesSwitch = (Switch) findViewById(R.id.lowercasesSwitch);
+        Switch lowerCasesSwitch = findViewById(R.id.lowercasesSwitch);
         lowerCasesSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setLowerCaseLetters(isChecked);
             this.updatePasswordStrength();
         });
 
-        Switch upperCasesSwitch = (Switch) findViewById(R.id.uppercasesSwitch);
+        Switch upperCasesSwitch = findViewById(R.id.uppercasesSwitch);
         upperCasesSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setUpperCaseLetters(isChecked);
             this.updatePasswordStrength();
         });
 
-        Switch numbersSwitch = (Switch) findViewById(R.id.numbersSwitch);
+        Switch numbersSwitch = findViewById(R.id.numbersSwitch);
         numbersSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setNumbers(isChecked);
             this.updatePasswordStrength();
         });
 
-        Switch specialSwitch = (Switch) findViewById(R.id.specialSwitch);
+        Switch specialSwitch = findViewById(R.id.specialSwitch);
         specialSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             this.passwordGenerator.setSpecialChars(isChecked);
             this.updatePasswordStrength();

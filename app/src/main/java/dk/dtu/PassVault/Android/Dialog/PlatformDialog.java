@@ -73,11 +73,11 @@ public class PlatformDialog extends DialogFragment {
     }
 
     protected void onShow(AlertDialog dialog) {
-        Button addBtn = (Button) dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGroup);
-        Spinner appList = (Spinner) dialog.findViewById(R.id.appList);
-        TextView webSiteText = (TextView) dialog.findViewById(R.id.webSiteText);
-        RadioButton radioButtonApp = (RadioButton) dialog.findViewById(R.id.app);
+        Button addBtn = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        RadioGroup radioGroup = dialog.findViewById(R.id.radioGroup);
+        Spinner appList = dialog.findViewById(R.id.appList);
+        TextView webSiteText = dialog.findViewById(R.id.webSiteText);
+        RadioButton radioButtonApp = dialog.findViewById(R.id.app);
         ConstraintLayout tabApp = dialog.findViewById(R.id.tabApp);
         ConstraintLayout tabWeb = dialog.findViewById(R.id.tabWeb);
 
@@ -145,7 +145,7 @@ public class PlatformDialog extends DialogFragment {
         CreateVaultItemActivity activity = (CreateVaultItemActivity) this.getActivity();
         if (activity == null) return;
 
-        EditText platformField = (EditText) activity.findViewById(R.id.platform);
+        EditText platformField = activity.findViewById(R.id.platform);
         platformField.clearFocus();
     }
 

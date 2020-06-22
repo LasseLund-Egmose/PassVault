@@ -28,15 +28,4 @@ public class VaultItem {
         this.username = username;
         this.password = password;
     }
-
-    @Override
-    public String toString() {
-        return "VaultItem{" +
-                "id=" + id +
-                ", URI='" + URI + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }
